@@ -1,0 +1,16 @@
+{
+  "login-page": {
+    "title": "تسجيل الدخول",
+    "description": "ادخل اسم المستخدم وكلمة المرور",
+    "username": "اسم المستخدم",
+    "username-placeholder": "ماريان رضوان",
+    "username-required": "اسم المستخدم مطلوب",
+    "password": "كلمة المرور",
+    "password-placeholder": "••••••••",
+    "password-required": "كلمة المرور مطلوبة",
+    "forgot-password": "نسيت كلمة المرور؟",
+    "submit": "تسجيل الدخول",
+    "submitting": "جارٍ التحقق...",
+    "invalid-credentials": "اسم المستخدم أو كلمة المرور غير صحيحة"
+  }
+}

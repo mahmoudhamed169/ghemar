@@ -1,0 +1,16 @@
+{
+  "login-page": {
+    "title": "Sign In",
+    "description": "Enter your username and password",
+    "username": "Username",
+    "username-placeholder": "John Doe",
+    "username-required": "Username is required",
+    "password": "Password",
+    "password-placeholder": "••••••••",
+    "password-required": "Password is required",
+    "forgot-password": "Forgot password?",
+    "submit": "Sign In",
+    "submitting": "Verifying...",
+    "invalid-credentials": "Invalid username or password"
+  }
+}
