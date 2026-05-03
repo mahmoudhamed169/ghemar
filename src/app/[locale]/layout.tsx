@@ -26,13 +26,11 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-// export async function generateMetadata({
-//   params,
-// }: Pick<Props, "params">): Promise<Metadata> {
-//   const { locale } = await params;
-//   const t = await getTranslations({ locale, namespace: "Metadata" });
-//   return { title: t("title") };
-// }
+
+export const metadata: Metadata = {
+  title: "غِمار",
+};
+
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -53,7 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <DirectionProvider locale={locale}>
       <div
         dir={isArabic ? "rtl" : "ltr"}
-        className={`${cairo.variable} ${ibmPlex.variable} ${
+        className={` bg-[#f3f3f3] ${cairo.variable} ${ibmPlex.variable} ${
           isArabic ? "lang-ar" : "lang-en"
         }`}
       >
