@@ -14,11 +14,11 @@ export default function AddDriverModal({
 }) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-full rounded-2xl p-6" dir="rtl">
+      <DialogContent className="max-w-md w-full rounded-2xl p-6" >
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-right">
-            اضافة سائق
-          </DialogTitle>
+         <h1 className="text-2xl font-bold text-[#000709] my-5 ">
+             اضافة سائق جديد
+          </h1>
         </DialogHeader>
         <AddDriverForm onClose={onClose} onSuccess={onSuccess} />
       </DialogContent>
