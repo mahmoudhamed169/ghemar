@@ -1,3 +1,5 @@
+// nav-items.ts
+
 import {
   LayoutDashboard,
   Users,
@@ -18,17 +20,24 @@ export interface NavItemType {
   label: string;
   href: string;
   icon: LucideIcon;
+  children?: Omit<NavItemType, "icon" | "children">[];
 }
 
 export const navItems: NavItemType[] = [
   { label: "لوحة التحكم", href: "/overview", icon: LayoutDashboard },
-
   { label: "العملاء", href: "/customers", icon: Users },
   { label: "السائقين", href: "/drivers", icon: Home },
-  { label: "الطلبات", href: "/orders", icon: ClipboardList },
+  {
+    label: "الطلبات",
+    href: "/orders",
+    icon: ClipboardList,
+    children: [
+      { label: "طلبات عادية", href: "/orders/regular" },
+      { label: "طلبات العملاء الجدد", href: "/orders/new-customers" },
+    ],
+  },
   { label: "الباقات", href: "/packages", icon: CreditCard },
   { label: "الحقائب / الباركود", href: "/bags", icon: Tag },
-
   { label: "العروض", href: "/offers", icon: Percent },
   { label: "المسارات", href: "/routes", icon: Map },
   { label: "التتبع المباشر", href: "/tracking", icon: MapPin },
