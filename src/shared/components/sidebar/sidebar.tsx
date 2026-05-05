@@ -25,18 +25,17 @@ export default function Sidebar() {
       {/* User */}
       <div className="border-t border-white/20 p-4">
         <div className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3">
+          {/* الأفاتار على اليسار */}
           <div className="w-11 h-11 rounded-full bg-[#F5A623] flex items-center justify-center text-white font-bold text-lg shrink-0">
             أ
           </div>
-          {/* النص على اليمين */}
+          {/*  النص على  */}
           <div className="flex-1 min-w-0 text-right">
             <p className="text-white text-base font-bold truncate">
               أحمد المنصور
             </p>
             <p className="text-white/50 text-sm truncate">مدير النظام</p>
           </div>
-
-          {/* الأفاتار على اليسار */}
         </div>
       </div>
     </aside>
