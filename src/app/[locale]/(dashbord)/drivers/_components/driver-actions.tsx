@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
 
 import BlockUserModal from "@/shared/components/block-user-modal";
+import DriverDetailsModal from "./driver-details/driver-details-modal";
 
 interface DriverActionsProps {
   driver: string;
@@ -61,11 +62,11 @@ export default function DriverActions({ driver }: DriverActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* <CustomerDetailsModal
+      <DriverDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        customerName={customerName}
-      /> */}
+        driverName={driver}
+      />
 
       <BlockUserModal
         open={blockOpen}

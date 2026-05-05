@@ -26,9 +26,9 @@ export default function DriverStatusToggle({
   return (
     <div className="flex justify-center items-center w-full">
       <Select defaultValue={currentStatus}>
-        <SelectTrigger className="w-fit border-none shadow-none focus:ring-0 flex-row-reverse gap-1">
+        <SelectTrigger className="w-fit border-none shadow-none focus:ring-0 flex-row-reverse gap-1 hover:cursor-pointer">
           <SelectValue>
-            <span className={`text-sm font-medium ${statusColors[currentStatus]}`}>
+            <span className={`text-sm font-medium ${statusColors[currentStatus]} `}>
               {currentStatus}
             </span>
           </SelectValue>
