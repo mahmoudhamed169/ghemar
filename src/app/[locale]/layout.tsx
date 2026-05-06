@@ -51,7 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <DirectionProvider locale={locale}>
       <div
         dir={isArabic ? "rtl" : "ltr"}
-        className={` bg-[#f3f3f3] ${cairo.variable} ${ibmPlex.variable} ${
+        className={` bg-[#F7F8FA] ${cairo.variable} ${ibmPlex.variable} ${
           isArabic ? "lang-ar" : "lang-en"
         }`}
       >
