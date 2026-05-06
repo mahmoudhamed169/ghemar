@@ -1,5 +1,3 @@
-// nav-items.ts
-
 import {
   LayoutDashboard,
   Users,
@@ -43,5 +41,16 @@ export const navItems: NavItemType[] = [
   { label: "التتبع المباشر", href: "/tracking", icon: MapPin },
   { label: "التقارير", href: "/reports", icon: BarChart2 },
   { label: "الاشعارات", href: "/alerts", icon: AlertCircle },
-  { label: "الاعدادات", href: "/settings", icon: Settings },
+  {
+    label: "الاعدادات",
+    href: "/settings",
+    icon: Settings,
+    children: [
+      { label: "الاعدادات العامة", href: "/settings/general" },
+      { label: "اعدادات التشغيل", href: "/settings/operations" },
+      { label: "المشرفين والأدوار", href: "/settings/admins" },
+      { label: "الشروط والأحكام", href: "/settings/terms" },
+      { label: "مناطق التوصيل", href: "/settings/zones" },
+    ],
+  },
 ];

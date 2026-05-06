@@ -7,7 +7,11 @@ import type { NavItemType } from "./nav-items";
 
 export default function NavItem({ label, href, icon: Icon, children }: NavItemType) {
   const pathname = usePathname();
-  const isActive = pathname === href || pathname.startsWith(href + "/");
+
+  const isActive = children
+    ? pathname === href || pathname.startsWith(href + "/")
+    : pathname === href || pathname.startsWith(href + "/");
+
   const [open, setOpen] = useState(isActive);
 
   if (children) {
@@ -34,7 +38,8 @@ export default function NavItem({ label, href, icon: Icon, children }: NavItemTy
         {open && (
           <ul className="mt-0.5 mr-6 border-r border-white/20 pr-3 space-y-0.5">
             {children.map((child) => {
-              const isChildActive = pathname === child.href || pathname.startsWith(child.href + "/");
+              const isChildActive =
+                pathname === child.href || pathname.startsWith(child.href + "/");
               return (
                 <li key={child.href}>
                   <Link
@@ -45,7 +50,9 @@ export default function NavItem({ label, href, icon: Icon, children }: NavItemTy
                         : "text-white/55 hover:text-white hover:bg-white/10"
                     }`}
                   >
-                    {isChildActive && <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623]" />}
+                    {isChildActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623]" />
+                    )}
                     <span>{child.label}</span>
                   </Link>
                 </li>
