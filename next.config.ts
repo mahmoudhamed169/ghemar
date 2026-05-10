@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   experimental: {
     trustHostHeader: true,
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default withNextIntl(nextConfig);
