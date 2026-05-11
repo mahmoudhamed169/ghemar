@@ -35,7 +35,7 @@ export const navItems: NavItemType[] = [
     ],
   },
   { label: "الباقات", href: "/packages", icon: CreditCard },
-  { label: "أكواد الخصم", href: "/offers", icon: Percent },
+  { label: "أكواد الخصم", href: "/promo-codes", icon: Percent },
   { label: " الباركود", href: "/bags", icon: Tag },
   { label: "الفواتير والتقارير المالية", href: "/reports", icon: BarChart2 },
   { label: " المكافئات والنقاط", href: "/bounes", icon: Map },
