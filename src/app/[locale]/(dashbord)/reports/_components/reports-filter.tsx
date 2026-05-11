@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { Suspense, useState, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search, CalendarDays, Printer, ChevronDown } from "lucide-react";
 
@@ -75,9 +75,9 @@ function DatePickerButton({
   );
 }
 
-// ─── ReportsFilters ───────────────────────────────────────────────────────────
+// ─── ReportsFiltersContent ────────────────────────────────────────────────────
 
-export default function ReportsFilters() {
+function ReportsFiltersContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -152,5 +152,15 @@ export default function ReportsFilters() {
         طباعة
       </Button>
     </div>
+  );
+}
+
+// ─── ReportsFilters (export) ──────────────────────────────────────────────────
+
+export default function ReportsFilters() {
+  return (
+    <Suspense fallback={null}>
+      <ReportsFiltersContent />
+    </Suspense>
   );
 }
