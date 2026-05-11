@@ -3,9 +3,9 @@ import PackagesHeaderPage from "./_components/packages-header-page";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <main>
       <PackagesHeaderPage />
       {children}
-    </div>
+    </main>
   );
 }
