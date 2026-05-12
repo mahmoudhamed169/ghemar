@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import PageTitle from "./_components/page-title";
 import OrdersFilters from "../_components/orders-filter";
 import OrdersTable from "../_components/orders-table";
@@ -9,7 +9,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
     <main className="space-y-6">
       <PageTitle />
       <OrdersFilters />
-      <OrdersStatusFilter />
+       <Suspense fallback={null}>
+        <OrdersStatusFilter />
+      </Suspense>
 
       {children}
     </main>
