@@ -18,13 +18,13 @@ export default function PackagesHeaderPage() {
   };
 
   return (
-    <div className="space-y-6 mt-1">
+    <>
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">ادارة الباقات</h1>
         <AddPackageButton />
       </div>
 
-      <PackagesStats />
+    
 
       <PackageModal
         open={editOpen}
@@ -38,6 +38,6 @@ export default function PackagesHeaderPage() {
         onClose={() => setSuccessOpen(false)}
         mode="edit"
       />
-    </div>
+    </>
   );
 }

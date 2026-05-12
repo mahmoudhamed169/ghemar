@@ -1,9 +1,6 @@
 import React from "react";
+import OrdersTable from "../_components/orders-table";
 
 export default function page() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold"> الطلبات العادية</h1>
-    </div>
-  );
+  return <OrdersTable />;
 }
