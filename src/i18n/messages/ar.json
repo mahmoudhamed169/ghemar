@@ -78,5 +78,46 @@
     "settingsAdmins": "المشرفين والأدوار",
     "settingsTerms": "الشروط والأحكام",
     "settingsZones": "مناطق التوصيل"
+  },
+  "pagination": {
+    "prev": "السابق",
+    "next": "التالي"
+  },
+  "customers": {
+    "title": "إدارة العملاء",
+    "search": "ابحث عن عميل",
+    "filterByPackage": "فلتر حسب نوع الباقة",
+    "basicPackage": "الحقيبة الأساسية",
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "الاسم",
+      "phone": "رقم الهاتف",
+      "packageType": "نوع الباقة",
+      "actions": "إجراءات",
+      "bags": "أكياس"
+    },
+    "actions": {
+      "sendNotification": "ارسال اشعار",
+      "viewDetails": "عرض التفاصيل",
+      "orderHistory": "سجل الأوردرات",
+      "blockUser": "حظر المستخدم",
+      "detailsTitle": "تفاصيل العميل",
+      "blockTitle": "حظر المستخدم",
+      "blockDescription": "هل أنت متأكد من حظر المستخدم",
+      "blockWarning": "لا يمكن التراجع عن هذا الإجراء.",
+      "confirmBlock": "نعم، احظر",
+      "cancel": "إلغاء"
+    },
+    "details": {
+      "joinDate": "تاريخ الانضمام",
+      "lastOrder": "تاريخ آخر أوردر",
+      "totalBags": "عدد الأكياس الكلية",
+      "remainingBags": "عدد الأكياس المتبقية",
+      "usedBags": "عدد الأكياس المستخدمة",
+      "guaranteeBags": "عدد أكياس الكفالات",
+      "totalAgreement": "اجمالي الاتفاق",
+      "location": "الموقع"
+    }
   }
 }

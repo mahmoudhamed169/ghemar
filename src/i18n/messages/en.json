@@ -78,5 +78,46 @@
     "settingsAdmins": "Admins & Roles",
     "settingsTerms": "Terms & Conditions",
     "settingsZones": "Delivery Zones"
+  },
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "customers": {
+    "title": "Customers Management",
+    "search": "Search for a customer",
+    "filterByPackage": "Filter by Package Type",
+    "basicPackage": "Basic Package",
+    "table": {
+      "serial": "Serial",
+      "id": "ID",
+      "name": "Name",
+      "phone": "Phone Number",
+      "packageType": "Package Type",
+      "actions": "Actions",
+      "bags": "bags"
+    },
+    "actions": {
+      "sendNotification": "Send Notification",
+      "viewDetails": "View Details",
+      "orderHistory": "Order History",
+      "blockUser": "Block User",
+      "detailsTitle": "Customer Details",
+      "blockTitle": "Block User",
+      "blockDescription": "Are you sure you want to block",
+      "blockWarning": "This action cannot be undone.",
+      "confirmBlock": "Yes, Block",
+      "cancel": "Cancel"
+    },
+    "details": {
+      "joinDate": "Join Date",
+      "lastOrder": "Last Order Date",
+      "totalBags": "Total Bags",
+      "remainingBags": "Remaining Bags",
+      "usedBags": "Used Bags",
+      "guaranteeBags": "Guarantee Bags",
+      "totalAgreement": "Total Agreement",
+      "location": "Location"
+    }
   }
 }

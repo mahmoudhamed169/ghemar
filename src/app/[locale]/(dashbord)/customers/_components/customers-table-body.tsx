@@ -1,59 +1,63 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
-import CustomerActions from "./customer-actions";
+import { getTranslations } from "next-intl/server";
 
-async function getCustomers() {
-  return Array.from({ length: 7 }, (_, i) => ({
-    id: 66788,
-    serial: i + 1,
-    name: "ماريهان رضوان",
-    phone: "+966512345678",
-    package: "الحقيبة الأساسية",
-    bags: 4,
-    active: i < 4,
-  }));
+import CustomerActions from "./customer-actions";
+import { getCustomers } from "@/shared/lib/services/customers/get-customers";
+import { Customer } from "@/shared/lib/types/customers";
+
+interface Props {
+  page: number;
+  search: string;
 }
 
-export default async function CustomersTableBody() {
-  const customers = await getCustomers();
+export default async function CustomersTableBody({ page, search }: Props) {
+  const [{ data: customers }, t] = await Promise.all([
+    getCustomers({ page, search }),
+    getTranslations("customers.table"),
+  ]);
 
   return (
     <TableBody>
-      {customers.map((customer) => (
+      {customers.map((customer: Customer, index: number) => (
         <TableRow
-          key={customer.serial}
+          key={customer._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
           <TableCell className="text-center text-sm text-gray-500">
-            {customer.serial}
+            {(page - 1) * 20 + index + 1}
+          </TableCell>
+          <TableCell className="text-center font-medium text-sm">
+            {customer._id.slice(-6).toUpperCase()}
           </TableCell>
           <TableCell className="text-center font-medium">
-            {customer.id}
-          </TableCell>
-          <TableCell className="text-center font-medium">
-            {customer.name}
+            {customer.name ?? "—"}
           </TableCell>
           <TableCell className="text-center" dir="ltr">
             {customer.phone}
           </TableCell>
           <TableCell className="text-center">
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="font-semibold text-lg">{customer.package}</span>
-              <span className="text-xs text-gray-400">
-                ({customer.bags} أكياس)
-              </span>
-            </div>
+            {customer.currentPackage ? (
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="font-semibold">
+                  {customer.currentPackage.nameAr}
+                </span>
+                <span className="text-xs text-gray-400">
+                  ({customer.availableBags} {t("bags")})
+                </span>
+              </div>
+            ) : (
+              <span className="text-gray-400 text-sm">—</span>
+            )}
           </TableCell>
           <TableCell className="text-center">
             <Switch
-              checked={customer.active}
+              checked={customer.isActive}
               className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300"
             />
           </TableCell>
           <TableCell className="text-center">
-            <CustomerActions customerName="ماريهان رضوان"  />
+            <CustomerActions customer={customer} />
           </TableCell>
         </TableRow>
       ))}

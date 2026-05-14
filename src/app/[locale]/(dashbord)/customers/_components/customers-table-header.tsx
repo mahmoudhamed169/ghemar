@@ -1,27 +1,31 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
-export default function CustomersTableHeader() {
+export default async function CustomersTableHeader() {
+  const t = await getTranslations("customers.table");
   return (
     <TableHeader>
-      <TableRow className=" h-15">
+      <TableRow className="h-15">
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الرقم التسلسلي
+          {t("serial")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          ID
+          {t("id")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الاسم
+          {t("name")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          رقم الهاتف
+          {t("phone")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          نوع الباقة
+          {t("packageType")}
         </TableHead>
-        <TableHead className="text-center font-semibold text-[#6A7282]"></TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          إجراءات
+         
+        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]">
+          {t("actions")}
         </TableHead>
       </TableRow>
     </TableHeader>
