@@ -1,10 +1,17 @@
-import React from "react";
 import CustomersTable from "./_components/customers-table";
 
-export default function page() {
+interface Props {
+  searchParams: Promise<{ page?: string; search?: string }>;
+}
+
+export default async function CustomersPage({ searchParams }: Props) {
+  const { page, search } = await searchParams;
+  const currentPage = Number(page) || 1;
+  const currentSearch = search ?? "";
+
   return (
-    <main className=" mt-6 ">
-      <CustomersTable />
+    <main className="mt-6">
+      <CustomersTable page={currentPage} search={currentSearch} />
     </main>
   );
 }

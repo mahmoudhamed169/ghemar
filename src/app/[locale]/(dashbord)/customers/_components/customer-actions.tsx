@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -9,34 +8,43 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
+import { useTranslations } from "next-intl";
 import CustomerDetailsModal from "./customer-details/customer-details-modal";
 import BlockUserModal from "@/shared/components/block-user-modal";
-
-
+import { Customer } from "@/shared/lib/types/customers";
 
 interface CustomerActionsProps {
-  customerName: string;
+  customer: Customer;
 }
 
-export default function CustomerActions({ customerName }: CustomerActionsProps) {
+export default function CustomerActions({ customer }: CustomerActionsProps) {
+  const t = useTranslations("customers.actions");
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
+
+  const menuItems = [
+    { label: t("sendNotification"), onClick: () => {} },
+    { label: t("viewDetails"), onClick: () => setDetailsOpen(true) },
+    { label: t("orderHistory"), onClick: () => {} },
+  ];
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-gray-100 rounded-full"
+          >
             <MoreVertical size={25} />
           </Button>
         </DropdownMenuTrigger>
-
-        <DropdownMenuContent align="center" className="w-56 rounded-xl p-0 overflow-hidden">
-          {[
-            { label: "ارسال اشعار", onClick: () => {} },
-            { label: "عرض التفاصيل", onClick: () => setDetailsOpen(true) },
-            { label: "سجل الأوردرات", onClick: () => {} },
-          ].map((item, i, arr) => (
+        <DropdownMenuContent
+          align="center"
+          className="w-48 rounded-xl p-0 overflow-hidden"
+        >
+          {menuItems.map((item, i, arr) => (
             <DropdownMenuItem
               key={item.label}
               onClick={item.onClick}
@@ -51,7 +59,7 @@ export default function CustomerActions({ customerName }: CustomerActionsProps) 
             onClick={() => setBlockOpen(true)}
             className="justify-center cursor-pointer py-3 rounded-none border-t border-[#00000014] text-red-500 focus:text-red-500 focus:bg-red-50"
           >
-            حظر المستخدم
+            {t("blockUser")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -59,17 +67,13 @@ export default function CustomerActions({ customerName }: CustomerActionsProps) 
       <CustomerDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        customerName={customerName}
+        customer={customer}
       />
-
       <BlockUserModal
         open={blockOpen}
         onOpenChange={setBlockOpen}
-        userName={customerName}
-        onConfirm={() => {
-          // call API هنا
-          setBlockOpen(false);
-        }}
+        userName={customer.name ?? customer.phone}
+        onConfirm={() => setBlockOpen(false)}
       />
     </>
   );
