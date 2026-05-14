@@ -8,18 +8,23 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-const data = [
-  { month: "يناير", value: 28000 },
-  { month: "فبراير", value: 32000 },
-  { month: "مارس", value: 29000 },
-  { month: "أبريل", value: 46000 },
-];
+import { useTranslations, useLocale } from "next-intl";
 
 export default function MonthlyRevenue() {
+  const t = useTranslations("overview.charts");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+
+  const data = [
+    { monthKey: "jan", value: 28000 },
+    { monthKey: "feb", value: 32000 },
+    { monthKey: "mar", value: 29000 },
+    { monthKey: "apr", value: 46000 },
+  ].map((d) => ({ ...d, label: t(d.monthKey) }));
+
   return (
     <div
-      className="bg-white flex flex-col flex-1"
+      className="bg-white flex flex-col h-full"
       style={{
         borderRadius: "12px",
         padding: "21px",
@@ -27,7 +32,9 @@ export default function MonthlyRevenue() {
         gap: "12px",
       }}
     >
-      <p className="font-bold text-gray-900 mb-5">الإيرادات الشهرية (ر.س)</p>
+      <p className="font-bold text-gray-900 mb-5" dir={isRtl ? "rtl" : "ltr"}>
+        {t("monthlyRevenue")}
+      </p>
 
       <ResponsiveContainer width="100%" height={220}>
         <BarChart
@@ -41,10 +48,11 @@ export default function MonthlyRevenue() {
             vertical={false}
           />
           <XAxis
-            dataKey="month"
+            dataKey="label"
             tick={{ fontSize: 11, fill: "#9ca3af" }}
             axisLine={false}
             tickLine={false}
+            reversed={isRtl}
           />
           <YAxis
             tick={{ fontSize: 11, fill: "#9ca3af" }}
@@ -54,6 +62,7 @@ export default function MonthlyRevenue() {
             domain={[0, 60000]}
             tickFormatter={(v) => v.toLocaleString()}
             width={55}
+            orientation={isRtl ? "right" : "left"}
           />
           <Tooltip
             contentStyle={{
@@ -61,10 +70,11 @@ export default function MonthlyRevenue() {
               border: "none",
               boxShadow: "0 4px 12px #0000001A",
               fontSize: "12px",
+              direction: isRtl ? "rtl" : "ltr",
             }}
             formatter={(value: number) => [
-              value.toLocaleString() + " ر.س",
-              "الإيرادات",
+              value.toLocaleString() + (isRtl ? " ر.س" : " SAR"),
+              t("revenue"),
             ]}
           />
           <Bar
