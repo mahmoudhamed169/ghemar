@@ -1,29 +1,36 @@
 "use client";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
-
-const data = [
-  { name: "مكتمل", value: 68, color: "#22c55e" },
-  { name: "جارٍ", value: 18, color: "#3b82f6" },
-  { name: "قيد الانتظار", value: 10, color: "#f59e0b" },
-  { name: "مشكلة", value: 4, color: "#ef4444" },
-];
+import { useTranslations, useLocale } from "next-intl";
 
 export default function OrdersDistribution() {
+  const t = useTranslations("overview.charts");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+
+  const data = [
+    { key: "completed", value: 68, color: "#22c55e" },
+    { key: "inProgress", value: 18, color: "#3b82f6" },
+    { key: "pending",    value: 10, color: "#f59e0b" },
+    { key: "issue",      value: 4,  color: "#ef4444" },
+  ];
+
   return (
     <div
-      className="bg-white flex flex-col flex-1"
+      className="bg-white flex flex-col h-full"
       style={{
         borderRadius: "12px",
-        paddingTop: "21px",
-        paddingRight: "20px",
-        paddingBottom: "21px",
-        paddingLeft: "20px",
+        padding: "21px",
         border: "0.67px solid #0000001F",
         gap: "12px",
       }}
     >
       {/* Header */}
-      <p className="font-bold text-gray-900 mb-5">توزيع الطلبات</p>
+      <p
+        className="font-bold text-gray-900 mb-5"
+        dir={isRtl ? "rtl" : "ltr"}
+      >
+        {t("ordersDistribution")}
+      </p>
 
       {/* Chart */}
       <div className="flex justify-center">
@@ -47,23 +54,26 @@ export default function OrdersDistribution() {
               border: "none",
               boxShadow: "0 4px 12px #0000001A",
               fontSize: "12px",
+              direction: isRtl ? "rtl" : "ltr",
             }}
           />
         </PieChart>
       </div>
 
       {/* Legend */}
-      <div className="flex flex-col gap-2 mt-3">
+      <div
+        className="flex flex-col gap-2 mt-3"
+        dir={isRtl ? "rtl" : "ltr"}
+      >
         {data.map((item) => (
-          <div key={item.name} className="flex items-center justify-between">
+          <div key={item.key} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span
-                className="w-2.5 h-2.5 rounded-full"
+                className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-gray-500">{item.name}</span>
+              <span className="text-sm text-gray-500">{t(item.key)}</span>
             </div>
-
             <span className="text-sm font-semibold text-gray-700">
               {item.value}%
             </span>

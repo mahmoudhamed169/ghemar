@@ -1,16 +1,82 @@
 {
   "login-page": {
-    "title": "Sign In",
-    "description": "Enter your username and password",
-    "username": "Username",
-    "username-placeholder": "John Doe",
-    "username-required": "Username is required",
-    "password": "Password",
-    "password-placeholder": "••••••••",
-    "password-required": "Password is required",
-    "forgot-password": "Forgot password?",
-    "submit": "Sign In",
-    "submitting": "Verifying...",
-    "invalid-credentials": "Invalid username or password"
+    "phone": {
+      "title": "Sign In",
+      "description": "Enter your phone number and we'll send you a verification code",
+      "phone-label": "Phone Number",
+      "phone-placeholder": "5X XXX XXXX",
+      "submit": "Send Verification Code",
+      "submitting": "Sending..."
+    },
+    "otp": {
+      "title": "Verification Code",
+      "description": "A 6-digit code has been sent to",
+      "submit": "Verify",
+      "submitting": "Verifying...",
+      "change-phone": "← Change phone number",
+      "resend-timer": "Resend in",
+      "resend-prompt": "Didn't receive the code?",
+      "resend-action": "Resend",
+      "resending": "Sending..."
+    },
+    "validation": {
+      "phone-min": "Phone number is too short",
+      "phone-max": "Phone number is too long",
+      "phone-numeric": "Must contain numbers only",
+      "phone-start": "Number must start with 5",
+      "otp-length": "Code must be 6 digits",
+      "otp-numeric": "Must contain numbers only"
+    }
+  },
+  "overview": {
+    "stats": {
+      "totalOrders": "Total Orders",
+      "activeOrders": "Active Orders",
+      "revenue": "Revenue",
+      "activeDrivers": "Active Drivers",
+      "thisMonth": "This Month",
+      "now": "Now",
+      "ofTotal": "Of Total Drivers"
+    },
+    "charts": {
+      "ordersAndRevenue": "Orders & Revenue",
+      "last7Days": "Last 7 days",
+      "ordersDistribution": "Orders Distribution",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "issue": "Issue",
+      "monthlyRevenue": "Monthly Revenue (SAR)",
+      "revenue": "Revenue",
+      "packagesDistribution": "Packages Distribution",
+      "basic": "Basic",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum",
+      "jan": "January",
+      "feb": "February",
+      "mar": "March",
+      "apr": "April"
+    }
+  },
+  "sidebar": {
+    "overview": "Dashboard",
+    "customers": "Customers",
+    "drivers": "Drivers",
+    "orders": "Orders",
+    "ordersRegular": "Regular Orders",
+    "ordersNewCustomers": "New Customer Orders",
+    "packages": "Packages",
+    "promoCodes": "Promo Codes",
+    "bags": "Barcode",
+    "reports": "Invoices & Financial Reports",
+    "bonuses": "Rewards & Points",
+    "alerts": "Notifications",
+    "settings": "Settings",
+    "settingsGeneral": "General Settings",
+    "settingsOperations": "Operation Settings",
+    "settingsAdmins": "Admins & Roles",
+    "settingsTerms": "Terms & Conditions",
+    "settingsZones": "Delivery Zones"
   }
 }
