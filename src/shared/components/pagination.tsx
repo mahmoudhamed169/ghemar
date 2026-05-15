@@ -2,17 +2,14 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { Suspense } from "react";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
 }
 
-export default function Pagination({
-  currentPage,
-  totalPages,
-}: PaginationProps) {
+function PaginationInner({ currentPage, totalPages }: PaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -43,7 +40,6 @@ export default function Pagination({
 
   return (
     <div className="flex items-center justify-center gap-1 py-4" dir="rtl">
-      {/* السابق */}
       <Button
         variant="outline"
         className="h-10 px-4 rounded-lg text-sm"
@@ -53,7 +49,6 @@ export default function Pagination({
         {t("prev")}
       </Button>
 
-      {/* Pages */}
       {getPages().map((page, i) =>
         page === "..." ? (
           <span
@@ -78,7 +73,6 @@ export default function Pagination({
         ),
       )}
 
-      {/* التالي */}
       <Button
         variant="outline"
         className="h-10 px-4 rounded-lg text-sm"
@@ -88,5 +82,13 @@ export default function Pagination({
         {t("next")}
       </Button>
     </div>
+  );
+}
+
+export default function Pagination(props: PaginationProps) {
+  return (
+    <Suspense fallback={null}>
+      <PaginationInner {...props} />
+    </Suspense>
   );
 }
