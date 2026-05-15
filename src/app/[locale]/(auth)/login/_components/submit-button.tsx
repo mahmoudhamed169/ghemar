@@ -1,8 +1,8 @@
 type Props = {
-  isSubmitting: boolean;
-  label?: string;
-  loadingLabel?: string;
-};
+  isSubmitting: boolean
+  label?: string
+  loadingLabel?: string
+}
 
 export default function SubmitButton({
   isSubmitting,
@@ -17,5 +17,5 @@ export default function SubmitButton({
     >
       {isSubmitting ? loadingLabel : label}
     </button>
-  );
+  )
 }

@@ -1,17 +1,23 @@
-"use client"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useTranslations } from "next-intl"
-import { phoneSchema, PhoneSchema } from "@/shared/lib/schemas/login/phone.schema"
-import PhoneField from "./fields/phone-field"
-import SubmitButton from "./submit-button"
+"use client";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import {
+  phoneSchema,
+  PhoneSchema,
+} from "@/shared/lib/schemas/login/phone.schema";
+
+import PhoneField from "./fields/phone-field";
+import SubmitButton from "./submit-button";
+import { sendOtpAction } from "@/shared/lib/actions/auth.actions";
 
 type Props = {
-  onSuccess: (phone: string) => void
-}
+  onSuccess: (phone: string) => void;
+};
 
 export default function PhoneStep({ onSuccess }: Props) {
-  const t = useTranslations("login-page.phone")
+  const t = useTranslations("login-page.phone");
 
   const {
     register,
@@ -19,13 +25,18 @@ export default function PhoneStep({ onSuccess }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<PhoneSchema>({
     resolver: zodResolver(phoneSchema),
-  })
+  });
 
   async function onSubmit(data: PhoneSchema) {
-    // TODO: استبدل بـ API call لإرسال OTP
-    // await sendOtp({ phone: `966${data.phone}` })
-    await new Promise((r) => setTimeout(r, 800))
-    onSuccess(data.phone)
+    const result = await sendOtpAction(data.phone);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    toast.success(result.message);
+    onSuccess(data.phone);
   }
 
   return (
@@ -37,5 +48,5 @@ export default function PhoneStep({ onSuccess }: Props) {
         loadingLabel={t("submitting")}
       />
     </form>
-  )
+  );
 }

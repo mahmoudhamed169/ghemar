@@ -1,38 +1,100 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { loginSchema } from "./shared/lib/schemas/auth.schema";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const authOptions = {
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        phone: { label: "Phone", type: "text" },
+        code: { label: "OTP Code", type: "text" },
       },
       async authorize(credentials) {
-        const parsed = loginSchema.safeParse(credentials);
-        if (!parsed.success) return null;
-
-        const { email, password } = parsed.data;
-
-        // TODO: Replace with real DB/API call
-        if (email === "admin@ghomar.com" && password === "password") {
-          return { id: "1", name: "Admin", email };
+        if (!credentials?.phone || !credentials?.code) {
+          console.log("❌ Missing credentials");
+          return null;
         }
-        return null;
+
+        console.log("🔐 Authorizing:", credentials.phone, credentials.code);
+
+        try {
+          const url = `${API_URL}/api/auth/verify-otp`;
+          console.log("📡 Calling:", url);
+
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              phone: credentials.phone,
+              code: credentials.code,
+            }),
+          });
+
+          const json = await res.json();
+          console.log("📦 Response:", res.status, JSON.stringify(json));
+
+          if (!res.ok || !json.success) {
+            console.log("❌ Auth failed:", json?.message);
+            return null;
+          }
+
+          const { token, refreshToken, role, isProfileComplete, user } =
+            json.data;
+
+          return {
+            id: user.id,
+            name: user.name,
+            phone: user.phone,
+            role,
+            accessToken: token,
+            refreshToken,
+            isProfileComplete,
+          };
+        } catch (err) {
+          console.log("💥 Error:", err);
+          return null;
+        }
       },
     }),
   ],
-  session: { strategy: "jwt" },
-  pages: { signIn: "/ar/login" },
+
+  session: { strategy: "jwt" as const },
+
+  pages: {
+    signIn: "/ar/login",
+    error: "/ar/login", // ← بدل /api/auth/error نرجع للـ login
+  },
+
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id;
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.phone = user.phone;
+        token.role = user.role;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        token.isProfileComplete = user.isProfileComplete;
+      }
       return token;
     },
-    async session({ session, token }) {
-      if (token && session.user) session.user.id = token.id as string;
+
+    async session({ session, token }: any) {
+      session.user = {
+        id: token.id,
+        name: token.name,
+        phone: token.phone,
+        role: token.role,
+      };
+      session.accessToken = token.accessToken;
+      session.refreshToken = token.refreshToken;
+      session.isProfileComplete = token.isProfileComplete;
       return session;
     },
   },
-});
+
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);

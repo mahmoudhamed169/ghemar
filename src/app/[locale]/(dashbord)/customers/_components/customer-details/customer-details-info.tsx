@@ -13,12 +13,12 @@ export default function CustomerDetailsInfo({ customer }: Props) {
   const fields = [
     {
       key: "joinDate",
-      value: new Date(customer.createdAt).toLocaleDateString("ar-EG"),
+      value: new Date(customer.createdAt).toLocaleDateString("EN"),
     },
     {
       key: "lastOrder",
       value: customer.updatedAt
-        ? new Date(customer.updatedAt).toLocaleDateString("ar-EG")
+        ? new Date(customer.updatedAt).toLocaleDateString("EN")
         : "-",
     },
     {
