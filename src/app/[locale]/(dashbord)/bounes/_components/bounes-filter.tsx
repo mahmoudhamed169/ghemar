@@ -1,12 +1,12 @@
 "use client";
 
+import { Suspense, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function BounesFilter() {
+function BounesFilterInner() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -32,13 +32,8 @@ export default function BounesFilter() {
 
   const hasFilters = search || from || to;
 
-  const handleClear = () => {
-    router.replace(pathname);
-  };
-
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      {/* Search */}
       <div className="relative flex-1">
         <Search
           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
@@ -52,13 +47,10 @@ export default function BounesFilter() {
         />
       </div>
 
-      {/* Filter */}
       <div className="flex flex-row items-center gap-3 shrink-0">
         <p className="text-[#000709] font-medium text-[18px] whitespace-nowrap">
           فلتر حسب النقط
         </p>
-
-        {/* From */}
         <Input
           type="number"
           placeholder="من"
@@ -66,10 +58,7 @@ export default function BounesFilter() {
           onChange={(e) => updateParams({ from: e.target.value })}
           className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
-
         <span className="text-gray-400 text-sm">الى</span>
-
-        {/* To */}
         <Input
           type="number"
           placeholder="الى"
@@ -77,13 +66,11 @@ export default function BounesFilter() {
           onChange={(e) => updateParams({ to: e.target.value })}
           className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
-
-        {/* Clear */}
         {hasFilters && (
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleClear}
+            onClick={() => router.replace(pathname)}
             className="text-red-500 hover:text-red-600 hover:bg-red-50 gap-1 px-3 h-[55px] rounded-xl"
           >
             <X size={15} />
@@ -92,5 +79,13 @@ export default function BounesFilter() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BounesFilter() {
+  return (
+    <Suspense fallback={null}>
+      <BounesFilterInner />
+    </Suspense>
   );
 }

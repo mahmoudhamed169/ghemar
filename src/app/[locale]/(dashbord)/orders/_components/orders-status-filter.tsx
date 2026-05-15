@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { type OrderStatus } from "./order-status-badge";
 
@@ -15,7 +16,7 @@ const filters: FilterStatus[] = [
   "الملغية",
 ];
 
-export default function OrdersStatusFilter() {
+function OrdersStatusFilterInner() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -24,13 +25,11 @@ export default function OrdersStatusFilter() {
 
   const handleSelect = (status: FilterStatus) => {
     const params = new URLSearchParams(searchParams.toString());
-
     if (status === "الكل") {
       params.delete("status");
     } else {
       params.set("status", status);
     }
-
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -51,5 +50,13 @@ export default function OrdersStatusFilter() {
         </button>
       ))}
     </div>
+  );
+}
+
+export default function OrdersStatusFilter() {
+  return (
+    <Suspense fallback={null}>
+      <OrdersStatusFilterInner />
+    </Suspense>
   );
 }
