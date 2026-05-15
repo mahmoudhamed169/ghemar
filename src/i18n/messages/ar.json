@@ -1,16 +1,123 @@
 {
   "login-page": {
-    "title": "تسجيل الدخول",
-    "description": "ادخل اسم المستخدم وكلمة المرور",
-    "username": "اسم المستخدم",
-    "username-placeholder": "ماريان رضوان",
-    "username-required": "اسم المستخدم مطلوب",
-    "password": "كلمة المرور",
-    "password-placeholder": "••••••••",
-    "password-required": "كلمة المرور مطلوبة",
-    "forgot-password": "نسيت كلمة المرور؟",
-    "submit": "تسجيل الدخول",
-    "submitting": "جارٍ التحقق...",
-    "invalid-credentials": "اسم المستخدم أو كلمة المرور غير صحيحة"
+    "phone": {
+      "title": "تسجيل الدخول",
+      "description": "أدخل رقم جوالك وسنرسل لك رمز التحقق",
+      "phone-label": "رقم الجوال",
+      "phone-placeholder": "5X XXX XXXX",
+      "submit": "إرسال رمز التحقق",
+      "submitting": "جارٍ الإرسال..."
+    },
+    "otp": {
+      "title": "رمز التحقق",
+      "description": "تم إرسال رمز مكون من 6 أرقام إلى",
+      "submit": "تحقق",
+      "submitting": "جارٍ التحقق...",
+      "change-phone": "← تغيير رقم الجوال",
+      "resend-timer": "إعادة الإرسال خلال",
+      "resend-prompt": "لم تستلم الرمز؟",
+      "resend-action": "إعادة الإرسال",
+      "resending": "جارٍ الإرسال..."
+    },
+    "validation": {
+      "phone-min": "رقم الجوال قصير جداً",
+      "phone-max": "رقم الجوال طويل جداً",
+      "phone-numeric": "يجب أن يحتوي على أرقام فقط",
+      "phone-start": "يجب أن يبدأ الرقم بـ 5",
+      "otp-length": "الرمز يجب أن يكون 6 أرقام",
+      "otp-numeric": "يجب أن يحتوي على أرقام فقط"
+    }
+  },
+  "overview": {
+    "stats": {
+      "totalOrders": "إجمالي الطلبات",
+      "activeOrders": "الطلبات النشطة",
+      "revenue": "الإيرادات",
+      "activeDrivers": "السائقون النشطون",
+      "thisMonth": "هذا الشهر",
+      "now": "الآن",
+      "ofTotal": "من إجمالي السائقين"
+    },
+    "charts": {
+      "ordersAndRevenue": "الطلبات والإيرادات",
+      "last7Days": "آخر 7 أيام",
+      "ordersDistribution": "توزيع الطلبات",
+      "completed": "مكتمل",
+      "inProgress": "جارٍ",
+      "pending": "قيد الانتظار",
+      "issue": "مشكلة",
+      "monthlyRevenue": "الإيرادات الشهرية (ر.س)",
+      "revenue": "الإيرادات",
+      "packagesDistribution": "توزيع الباقات",
+      "basic": "الأساسية",
+      "silver": "الفضية",
+      "gold": "الذهبية",
+      "platinum": "البلاتية",
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل"
+    }
+  },
+  "sidebar": {
+    "overview": "لوحة التحكم",
+    "customers": "العملاء",
+    "drivers": "السائقين",
+    "orders": "الطلبات",
+    "ordersRegular": "طلبات عادية",
+    "ordersNewCustomers": "طلبات العملاء الجدد",
+    "packages": "الباقات",
+    "promoCodes": "أكواد الخصم",
+    "bags": "الباركود",
+    "reports": "الفواتير والتقارير المالية",
+    "bonuses": "المكافآت والنقاط",
+    "alerts": "الاشعارات",
+    "settings": "الاعدادات",
+    "settingsGeneral": "الاعدادات العامة",
+    "settingsOperations": "اعدادات التشغيل",
+    "settingsAdmins": "المشرفين والأدوار",
+    "settingsTerms": "الشروط والأحكام",
+    "settingsZones": "مناطق التوصيل"
+  },
+  "pagination": {
+    "prev": "السابق",
+    "next": "التالي"
+  },
+  "customers": {
+    "title": "إدارة العملاء",
+    "search": "ابحث عن عميل",
+    "filterByPackage": "فلتر حسب نوع الباقة",
+    "basicPackage": "الحقيبة الأساسية",
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "الاسم",
+      "phone": "رقم الهاتف",
+      "packageType": "نوع الباقة",
+      "actions": "إجراءات",
+      "bags": "أكياس"
+    },
+    "actions": {
+      "sendNotification": "ارسال اشعار",
+      "viewDetails": "عرض التفاصيل",
+      "orderHistory": "سجل الأوردرات",
+      "blockUser": "حظر المستخدم",
+      "detailsTitle": "تفاصيل العميل",
+      "blockTitle": "حظر المستخدم",
+      "blockDescription": "هل أنت متأكد من حظر المستخدم",
+      "blockWarning": "لا يمكن التراجع عن هذا الإجراء.",
+      "confirmBlock": "نعم، احظر",
+      "cancel": "إلغاء"
+    },
+    "details": {
+      "joinDate": "تاريخ الانضمام",
+      "lastOrder": "تاريخ آخر أوردر",
+      "totalBags": "عدد الأكياس الكلية",
+      "remainingBags": "عدد الأكياس المتبقية",
+      "usedBags": "عدد الأكياس المستخدمة",
+      "guaranteeBags": "عدد أكياس الكفالات",
+      "totalAgreement": "اجمالي الاتفاق",
+      "location": "الموقع"
+    }
   }
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   BarChart,
   Bar,
@@ -10,21 +9,15 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-
-const data = [
-  { name: "الأساسية", value: 35, color: "#0C6175" },
-  { name: "الفضية", value: 105, color: "#9ca3af" },
-  { name: "الذهبية", value: 140, color: "#22c55e" },
-  { name: "البلاتية", value: 25, color: "#111827" },
-];
+import { useTranslations, useLocale } from "next-intl";
 
 const CustomTick = (props: any) => {
-  const { x, y, payload } = props;
+  const { x, y, payload, isRtl } = props;
   return (
     <text
-      x={x - 10}
+      x={isRtl ? x + 10 : x - 10}
       y={y}
-      textAnchor="start"
+      textAnchor={isRtl ? "end" : "start"}
       dominantBaseline="middle"
       fontSize={13}
       fill="#6b7280"
@@ -35,9 +28,20 @@ const CustomTick = (props: any) => {
 };
 
 export default function PackagesDistribution() {
+  const t = useTranslations("overview.charts");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+
+  const data = [
+    { key: "basic", value: 35, color: "#0C6175" },
+    { key: "silver", value: 105, color: "#9ca3af" },
+    { key: "gold", value: 140, color: "#22c55e" },
+    { key: "platinum", value: 25, color: "#111827" },
+  ].map((d) => ({ ...d, name: t(d.key) }));
+
   return (
     <div
-      className="bg-white flex flex-col flex-1"
+      className="bg-white flex flex-col h-full"
       style={{
         borderRadius: "12px",
         padding: "21px",
@@ -45,7 +49,9 @@ export default function PackagesDistribution() {
         gap: "12px",
       }}
     >
-      <p className="font-bold text-gray-900">توزيع الباقات</p>
+      <p className="font-bold text-gray-900" dir={isRtl ? "rtl" : "ltr"}>
+        {t("packagesDistribution")}
+      </p>
 
       <ResponsiveContainer width="100%" height={240}>
         <BarChart
@@ -65,6 +71,7 @@ export default function PackagesDistribution() {
             axisLine={false}
             tickLine={false}
             ticks={[0, 35, 70, 105, 140]}
+            reversed={isRtl}
           />
           <YAxis
             type="category"
@@ -72,8 +79,8 @@ export default function PackagesDistribution() {
             axisLine={false}
             tickLine={false}
             width={90}
-            orientation="left"
-            tick={<CustomTick />}
+            orientation={isRtl ? "right" : "left"}
+            tick={(props) => <CustomTick {...props} isRtl={isRtl} />}
           />
           <Tooltip
             contentStyle={{
@@ -81,6 +88,7 @@ export default function PackagesDistribution() {
               border: "none",
               boxShadow: "0 4px 12px #0000001A",
               fontSize: "12px",
+              direction: isRtl ? "rtl" : "ltr",
             }}
           />
           <Bar dataKey="value" radius={[0, 4, 4, 0]} maxBarSize={55}>

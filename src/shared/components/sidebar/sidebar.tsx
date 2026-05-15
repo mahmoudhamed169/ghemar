@@ -1,43 +1,35 @@
-import Image from "next/image";
-import NavList from "./nav-list";
+"use client";
+import { useState } from "react";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import SidebarContent from "./sidebar-content";
 
 export default function Sidebar() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <aside className="w-[288px] h-full bg-[#0C6175] flex flex-col shrink-0">
-      {/* Logo */}
-      <div className="flex items-center justify-center py-6 border-b border-white/20">
-        <div className="w-23 h-23  flex items-center justify-center overflow-hidden">
-          <Image
-            src="/images/logo.webp"
-            alt="Ghomar"
-            width={184}
-            height={187}
-            className="rounded-2xl"
-          />
-        </div>
-      </div>
+    <>
+      {/* Desktop */}
+      <aside className="hidden lg:flex w-[288px] h-full shrink-0">
+        <SidebarContent />
+      </aside>
 
-      {/* Nav */}
-      <nav className="flex-1 py-4 overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] sidebar-nav">
-        <NavList />
-      </nav>
-
-      {/* User */}
-      <div className="border-t border-white/20 p-4">
-        <div className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3">
-          {/* الأفاتار على اليسار */}
-          <div className="w-11 h-11 rounded-full bg-[#F5A623] flex items-center justify-center text-white font-bold text-lg shrink-0">
-            أ
-          </div>
-          {/*  النص على  */}
-          <div className="flex-1 min-w-0 text-right">
-            <p className="text-white text-base font-bold truncate">
-              أحمد المنصور
-            </p>
-            <p className="text-white/50 text-sm truncate">مدير النظام</p>
-          </div>
-        </div>
+      {/* Mobile */}
+      <div className="lg:hidden">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button className="fixed top-4 right-4 z-50 p-2 bg-[#0C6175] text-white rounded-xl shadow-lg">
+              <Menu size={22} />
+            </button>
+          </SheetTrigger>
+          <SheetContent
+            side="right"
+            className="p-0 w-[288px] bg-[#0C6175] border-none [&>button]:hidden"
+          >
+            <SidebarContent onClose={() => setOpen(false)} />
+          </SheetContent>
+        </Sheet>
       </div>
-    </aside>
+    </>
   );
 }

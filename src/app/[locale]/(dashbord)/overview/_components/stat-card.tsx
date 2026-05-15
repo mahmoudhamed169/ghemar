@@ -11,6 +11,12 @@ interface StatCardProps {
   iconBg?: string;
 }
 
+const badgeColors = {
+  positive: "text-green-600 bg-green-50",
+  negative: "text-red-500 bg-red-50",
+  neutral: "text-blue-600 bg-blue-50",
+};
+
 export default function StatCard({
   title,
   value,
@@ -21,12 +27,6 @@ export default function StatCard({
   iconColor = "text-green-500",
   iconBg = "bg-green-50",
 }: StatCardProps) {
-  const badgeColors = {
-    positive: "text-green-600 bg-green-50",
-    negative: "text-red-500 bg-red-50",
-    neutral: "text-green-600 bg-green-50",
-  };
-
   return (
     <div
       className="bg-white flex flex-col"
@@ -38,7 +38,6 @@ export default function StatCard({
         gap: "8px",
       }}
     >
-      {/* Badge + Icon */}
       <div className="flex items-start justify-between">
         {badge && (
           <span
@@ -54,13 +53,8 @@ export default function StatCard({
         </div>
       </div>
 
-      {/* Value */}
       <p className="text-2xl font-bold text-gray-900 leading-tight">{value}</p>
-
-      {/* Title */}
       <p className="text-sm font-medium text-gray-700">{title}</p>
-
-      {/* Subtitle */}
       {subtitle && <p className="text-xs text-gray-400">{subtitle}</p>}
     </div>
   );
