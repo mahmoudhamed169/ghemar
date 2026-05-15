@@ -1,12 +1,15 @@
 "use client"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
+import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import { toast } from "sonner"
 import { otpSchema, OtpSchema } from "@/shared/lib/schemas/login/otp.schema"
 import OtpInput from "./fields/otp-input"
 import ResendOtp from "./resend-otp"
 import SubmitButton from "./submit-button"
+import { sendOtpAction } from "@/shared/lib/actions/auth.actions"
 
 type Props = {
   phone: string
@@ -27,16 +30,27 @@ export default function OtpStep({ phone, onBack }: Props) {
   })
 
   async function onSubmit(data: OtpSchema) {
-    // TODO: استبدل بـ API call للتحقق من OTP
-    // await verifyOtp({ phone: `966${phone}`, otp: data.otp })
-    await new Promise((r) => setTimeout(r, 800))
-    router.push("/")
+    // بنكلم الـ API مرة واحدة بس عن طريق الـ signIn
+    const result = await signIn("credentials", {
+      phone: `+966${phone}`,
+      code: data.otp,
+      redirect: false,
+    })
+
+    if (result?.error) {
+      toast.error("الرمز غير صحيح أو منتهي الصلاحية")
+      return
+    }
+
+    toast.success("تم تسجيل الدخول بنجاح 🎉")
+    router.push("/overview")
+    router.refresh()
   }
 
   async function handleResend() {
-    // TODO: استبدل بـ API call لإعادة إرسال OTP
-    // await sendOtp({ phone: `966${phone}` })
-    await new Promise((r) => setTimeout(r, 600))
+    const result = await sendOtpAction(phone)
+    if (!result.success) toast.error(result.message)
+    else toast.success(result.message)
   }
 
   return (
@@ -53,15 +67,12 @@ export default function OtpStep({ phone, onBack }: Props) {
           />
         )}
       />
-
       <ResendOtp onResend={handleResend} />
-
       <SubmitButton
         isSubmitting={isSubmitting}
         label={t("submit")}
         loadingLabel={t("submitting")}
       />
-
       <button
         type="button"
         onClick={onBack}

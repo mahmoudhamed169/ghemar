@@ -16,9 +16,7 @@ export default function AuthLayout({ children }: Props) {
           alt="Ghomar"
           width={184}
           height={187}
-          className="rounded-2xl
-            w-20 h-20
-            md:w-[184px] md:h-[187px]"
+          className="rounded-2xl w-20 h-20 md:w-[184px] md:h-[187px]"
           priority
         />
       </div>
