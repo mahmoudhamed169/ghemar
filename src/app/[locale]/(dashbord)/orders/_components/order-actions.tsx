@@ -1,7 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { Eye } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import OrderDetailsSheet from "./order-details-sheet";
 import AssignDriverDialog from "./assign-driver-dialog";
+import { Order } from "@/shared/lib/types/orders/order";
 
 interface OrderActionsProps {
-  orderId: number;
+  order: Order;
 }
 
-export default function OrderActions({ orderId }: OrderActionsProps) {
+export default function OrderActions({ order }: OrderActionsProps) {
+  const t = useTranslations("orders.actions");
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
 
@@ -37,25 +39,24 @@ export default function OrderActions({ orderId }: OrderActionsProps) {
             className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-[#0C6175] focus:text-[#0C6175] focus:bg-teal-50"
             onSelect={() => setDetailsOpen(true)}
           >
-            عرض التفاصيل
+            {t("view_details")}
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-gray-700 focus:bg-gray-50"
             onSelect={() => setAssignOpen(true)}
           >
-            تعيين سائق
+            {t("assign_driver")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       <OrderDetailsSheet
-        orderId={orderId}
+        order={order}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
       />
-
       <AssignDriverDialog
-        orderId={orderId}
+        orderId={order._id}
         open={assignOpen}
         onOpenChange={setAssignOpen}
       />

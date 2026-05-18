@@ -119,5 +119,192 @@
       "totalAgreement": "اجمالي الاتفاق",
       "location": "الموقع"
     }
+  },
+  "orders": {
+    "title": "طلبات العملاء الجدد",
+    "filters": {
+      "search_placeholder": "ابحث عن طلب",
+      "priority_label": "فلتر حسب الاولوية",
+      "priority_all": "الكل",
+      "priority_express": "مستعجل",
+      "priority_normal": "عادي"
+    },
+    "status": {
+      "all": "الكل",
+      "pending": "قيد التعيين",
+      "driver_assigned": "تم تعيين سائق",
+      "driver_on_way_to_pickup": "قيد الاستلام",
+      "picked_up_from_customer": "تم الاستلام",
+      "in_laundry": "في المغسلة",
+      "driver_on_way_to_delivery": "قيد التسليم",
+      "delivered": "المكتملة",
+      "cancelled": "الملغية"
+    },
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "order_number": "رقم الطلب",
+      "driver_name": "اسم السائق",
+      "priority": "الأولوية",
+      "order_status": "حالة الأوردر",
+      "change_status": "تغيير حالة الأوردر",
+      "sort_action": "اجراء الفرز",
+      "actions": "إجراءات",
+      "no_orders": "لا توجد طلبات",
+      "no_driver": "—",
+      "priority_express": "مستعجل",
+      "priority_normal": "عادي"
+    },
+    "details": {
+      "order_number_label": "رقم الطلب",
+      "pickup_location": "موقع الاستلام",
+      "client_info": "بيانات العميل",
+      "driver_info": "بيانات السائق",
+      "pickup": "الاستلام",
+      "delivery": "التسليم",
+      "order_details": "تفاصيل الطلب",
+      "bag_barcodes": "باركود الأكياس",
+      "special_instructions": "تعليمات خاصة",
+      "name": "الاسم",
+      "phone": "رقم الهاتف",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "district": "الحي",
+      "address": "العنوان",
+      "notes": "ملاحظات",
+      "bag_count": "عدد الأكياس",
+      "sorted_items": "قطع مفرزة",
+      "sorting_not_started": "لم يبدأ الفرز",
+      "order_type": "نوع الطلب",
+      "package": "الباقة",
+      "bag": "كيس",
+      "order_type_laundry": "غسيل",
+      "order_type_delivery": "توصيل طرد",
+      "print_tooltip": "طباعة الفاتورة"
+    },
+    "actions": {
+      "view_details": "عرض التفاصيل",
+      "assign_driver": "تعيين سائق"
+    },
+    "receipt": {
+      "company_name": "غيمار للغسيل",
+      "company_subtitle": "خدمات الغسيل والتوصيل",
+      "order_number_label": "رقم الطلب",
+      "urgent": "*** طلب مستعجل ***",
+      "client": "العميل:",
+      "phone": "الهاتف:",
+      "district": "الحي:",
+      "city": "المدينة:",
+      "address": "العنوان:",
+      "notes": "ملاحظات:",
+      "pickup": "الاستلام:",
+      "delivery_label": "التسليم:",
+      "order_type": "نوع الطلب:",
+      "bag_count": "عدد الأكياس:",
+      "priority": "الأولوية:",
+      "order_status": "الحالة:",
+      "package": "الباقة:",
+      "driver": "السائق:",
+      "driver_phone": "هاتف السائق:",
+      "instructions": "تعليمات:",
+      "bag_barcodes": "باركود الأكياس",
+      "thank_you": "شكراً لثقتكم",
+      "footer": "غيمار — خدمة على مدار الساعة",
+      "priority_express": "مستعجل",
+      "priority_normal": "عادي",
+      "order_type_laundry": "غسيل",
+      "order_type_delivery": "توصيل طرد"
+    },
+    "assign_driver": {
+      "title": "تعيين سائق",
+      "search_placeholder": "ابحث عن سائق...",
+      "driver_area": "المنطقة الأساسية",
+      "status_active": "نشط",
+      "status_suspended": "موقوف",
+      "no_drivers": "لا يوجد سائقون مطابقون",
+      "save": "حفظ",
+      "cancel": "الغاء"
+    }
+  },
+
+  "drivers": {
+    "header": {
+      "title": "ادارة السائقين"
+    },
+    "filters": {
+      "search_placeholder": "ابحث عن سائق",
+      "status_label": "فلتر حسب حالة السائق",
+      "status_all": "الكل",
+      "status_active": "نشط",
+      "status_suspended": "موقوف"
+    },
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "الاسم",
+      "phone": "رقم الجوال",
+      "status": "حالة السائق",
+      "activity_status": "حالة النشاط",
+      "actions": "إجراءات",
+      "no_drivers": "لا يوجد سائقون",
+      "change_status": "تغيير حالة السائق"
+    },
+    "status": {
+      "active": "نشط",
+      "suspended": "موقوف",
+      "deactivated": "معطل"
+    },
+    "activity_status": {
+      "available": "متاح",
+      "in_order": "في أوردر",
+      "offline": "غير متصل"
+    },
+    "actions": {
+      "send_notification": "ارسال اشعار",
+      "view_details": "عرض التفاصيل",
+      "order_history": "سجل الأوردرات",
+      "block_user": "حظر المستخدم"
+    },
+    "details": {
+      "title": "تفاصيل السائق",
+      "join_date": "تاريخ الانضمام",
+      "vehicle_type": "نوع المركبة",
+      "vehicle_plate": "لوحة المركبة",
+      "city": "المدينة",
+      "total_orders": "إجمالي الطلبات",
+      "completed_orders": "الطلبات المكتملة",
+      "avg_rating": "متوسط التقييم",
+      "error_rate": "نسبة الأخطاء",
+      "assigned_areas": "المناطق المخصصة",
+      "location": "الموقع",
+      "vehicle": {
+        "car": "سيارة",
+        "motorcycle": "دراجة نارية",
+        "van": "فان"
+      }
+    },
+    "add": {
+      "button": "اضافة سائق",
+      "modal_title": "اضافة سائق جديد",
+      "name_label": "اسم السائق",
+      "name_placeholder": "محمد أحمد",
+      "phone_label": "رقم الهاتف",
+      "city_label": "المدينة",
+      "city_placeholder": "اختر المدينة",
+      "areas_label": "المناطق المتاح بها",
+      "confirm": "تأكيد",
+      "success_message": "تم اضافة السائق بنجاح!",
+      "vehicle_type_label": "نوع المركبة",
+      "vehicle_type_placeholder": "اختر نوع المركبة",
+      "vehicle_plate_label": "لوحة المركبة",
+      "vehicle_plate_placeholder": "ABC 123",
+      "vehicle_types": {
+        "car": "سيارة",
+        "motorcycle": "دراجة نارية",
+        "van": "فان"
+      },
+      "national_id_label": "رقم الهوية",
+      "national_id_placeholder": "1234567890",
+      "loading": "جاري الإضافة..."
+    }
   }
 }

@@ -1,22 +1,16 @@
 
-
-type OrderPriority = "مستعجل" | "عادي";
-
-interface OrderPriorityBadgeProps {
-  priority: OrderPriority;
-}
+import { useTranslations } from "next-intl";
 
 export default function OrderPriorityBadge({
   priority,
-}: OrderPriorityBadgeProps) {
-  const styles: Record<OrderPriority, string> = {
-    مستعجل: "text-red-500 font-semibold",
-    عادي: "text-gray-500 font-medium",
-  };
-
-  return (
-    <span className={styles[priority]}>
-      {priority === "مستعجل" ? "أوردر مستعجل" : "أوردر عادي"}
-    </span>
-  );
+}: {
+  priority: boolean;
+}) {
+  console.log("priority prop:", priority, typeof priority);
+  const t = useTranslations("orders.table");
+  const label = priority ? t("priority_express") : t("priority_normal");
+  const styles = priority
+    ? "text-red-500 font-semibold"
+    : "text-gray-500 font-medium";
+  return <span className={styles}>{label}</span>;
 }

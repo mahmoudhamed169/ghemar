@@ -6,7 +6,7 @@ import OrderSortDialog from "./order-sort-dialog";
 
 
 interface OrderSortActionProps {
-  orderId: number;
+  orderId: string;
 }
 
 export default function OrderSortAction({ orderId }: OrderSortActionProps) {
