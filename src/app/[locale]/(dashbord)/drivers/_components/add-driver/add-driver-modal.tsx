@@ -1,6 +1,6 @@
 "use client";
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useTranslations } from "next-intl";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import AddDriverForm from "./add-driver-form";
 
 export default function AddDriverModal({
@@ -12,12 +12,14 @@ export default function AddDriverModal({
   onClose: () => void;
   onSuccess: () => void;
 }) {
+  const t = useTranslations("drivers.add");
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-full rounded-2xl p-6" >
+      <DialogContent className="max-w-md w-full rounded-2xl p-6">
         <DialogHeader>
-         <h1 className="text-2xl font-bold text-[#000709] my-5 ">
-             اضافة سائق جديد
+          <h1 className="text-2xl font-bold text-[#000709] my-5">
+            {t("modal_title")}
           </h1>
         </DialogHeader>
         <AddDriverForm onClose={onClose} onSuccess={onSuccess} />

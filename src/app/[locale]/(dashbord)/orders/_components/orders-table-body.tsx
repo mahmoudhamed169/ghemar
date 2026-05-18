@@ -1,101 +1,80 @@
-// orders-table-body.tsx
-
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 import OrderPriorityBadge from "./order-priority-badge";
-import OrderStatusBadge, { type OrderStatus } from "./order-status-badge";
-import OrderSortAction from "./order-sort-action";
-import OrderActions from "./order-actions";
+import OrderStatusBadge from "./order-status-badge";
 import OrderStatusToggle from "./order-status-toggle";
+import OrderActions from "./order-actions";
+import { getOrders } from "@/shared/lib/services/orders/get-orders";
+import { Order, OrderStatus } from "@/shared/lib/types/orders/order";
 
-type OrderPriority = "مستعجل" | "عادي";
-
-interface Order {
-  id: number;
-  serial: number;
-  driverName: string;
-  priority: OrderPriority;
-  status: OrderStatus;
+interface Props {
+  page: number;
+  search?: string;
+  status?: OrderStatus;
+  isNewClient?: boolean;
+  isExpressWash?: boolean;
 }
 
-async function getOrders(): Promise<Order[]> {
-  const statuses: OrderStatus[] = [
-    "قيد التعيين",
-    "قيد الاستلام",
-    "في المغسلة",
-    "قيد التسليم",
-    "المكتملة",
-    "الملغية",
-    "الملغية",
-  ];
+export default async function OrdersTableBody({
+  page,
+  search,
+  status,
+  isNewClient,
+  isExpressWash,
+}: Props) {
+  const [{ data: orders }, t] = await Promise.all([
+    getOrders({ page, search, status, isNewClient, isExpressWash }),
+    getTranslations("orders.table"),
+  ]);
 
-  const priorities: OrderPriority[] = [
-    "مستعجل",
-    "عادي",
-    "عادي",
-    "عادي",
-    "عادي",
-    "مستعجل",
-    "مستعجل",
-  ];
+  orders.forEach(order => {
+    console.log(order.orderNumber, "isExpressWash:", order.isExpressWash, typeof order.isExpressWash)
+  })
 
-  return Array.from({ length: 7 }, (_, i) => ({
-    id: 66788,
-    serial: i + 1,
-    driverName: "ماريهان رضوان",
-    priority: priorities[i],
-    status: statuses[i],
-  }));
-}
-
-export default async function OrdersTableBody() {
-  const orders = await getOrders();
+  if (!orders.length) {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell
+            colSpan={8}
+            className="text-center text-gray-400 py-12 text-sm"
+          >
+            {t("no_orders")}
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+  }
 
   return (
     <TableBody>
-      {orders.map((order) => (
+      {orders.map((order: Order, index: number) => (
         <TableRow
-          key={order.serial}
+          key={order._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
-          {/* الرقم التسلسلي */}
           <TableCell className="text-center text-sm text-gray-500">
-            {order.serial}
+            {(page - 1) * 20 + index + 1}
           </TableCell>
-
-          {/* رقم الطلب */}
-          <TableCell className="text-center font-medium">{order.id}</TableCell>
-
-          {/* اسم السائق */}
+          <TableCell className="text-center font-medium text-sm">
+            {order.orderNumber}
+          </TableCell>
           <TableCell className="text-center font-medium">
-            {order.driverName}
+            {order.driver?.name ?? t("no_driver")}
           </TableCell>
-
-          {/* الأولوية */}
           <TableCell className="text-center">
-            <OrderPriorityBadge priority={order.priority} />
+            <OrderPriorityBadge priority={order.isExpressWash} />
           </TableCell>
-
-          {/* حالة الأوردر */}
-          <TableCell className="text-center">
-            <OrderStatusBadge status={order.status} />
-          </TableCell>
-
-          {/* تغيير حالة الأوردر */}
+      
           <TableCell className="text-center">
             <OrderStatusToggle
               currentStatus={order.status}
-              orderId={order.id}
+              orderId={order._id}
             />
           </TableCell>
-
-          {/* اجراء الفرز */}
+          <TableCell className="text-center" />
           <TableCell className="text-center">
-            <OrderSortAction orderId={order.id} />
-          </TableCell>
-
-          {/* إجراءات */}
-          <TableCell className="text-center">
-            <OrderActions orderId={order.id} />
+            <OrderActions order={order} />
           </TableCell>
         </TableRow>
       ))}

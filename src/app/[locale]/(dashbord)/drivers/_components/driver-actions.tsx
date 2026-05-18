@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,40 +9,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
-
 import BlockUserModal from "@/shared/components/block-user-modal";
 import DriverDetailsModal from "./driver-details/driver-details-modal";
+import { Driver } from "@/shared/lib/types/drivers/driver";
 
-interface DriverActionsProps {
-  driver: string;
-}
-
-export default function DriverActions({ driver }: DriverActionsProps) {
+export default function DriverActions({ driver }: { driver: Driver }) {
+  const t = useTranslations("drivers.actions");
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [blockOpen, setBlockOpen] = useState(false);
+  const [blockOpen, setBlockOpen]     = useState(false);
+
+  const menuItems = [
+    { label: t("send_notification"), onClick: () => {} },
+    { label: t("view_details"),      onClick: () => setDetailsOpen(true) },
+    { label: t("order_history"),     onClick: () => {} },
+  ];
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-gray-100 rounded-full"
-          >
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full">
             <MoreVertical size={25} />
           </Button>
         </DropdownMenuTrigger>
-
-        <DropdownMenuContent
-          align="center"
-          className="w-56 rounded-xl p-0 overflow-hidden"
-        >
-          {[
-            { label: "ارسال اشعار", onClick: () => {} },
-            { label: "عرض التفاصيل", onClick: () => setDetailsOpen(true) },
-            { label: "سجل الأوردرات", onClick: () => {} },
-          ].map((item, i, arr) => (
+        <DropdownMenuContent align="center" className="w-56 rounded-xl p-0 overflow-hidden">
+          {menuItems.map((item, i, arr) => (
             <DropdownMenuItem
               key={item.label}
               onClick={item.onClick}
@@ -57,7 +48,7 @@ export default function DriverActions({ driver }: DriverActionsProps) {
             onClick={() => setBlockOpen(true)}
             className="justify-center cursor-pointer py-3 rounded-none border-t border-[#00000014] text-red-500 focus:text-red-500 focus:bg-red-50"
           >
-            حظر المستخدم
+            {t("block_user")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -65,17 +56,13 @@ export default function DriverActions({ driver }: DriverActionsProps) {
       <DriverDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        driverName={driver}
+        driver={driver}
       />
-
       <BlockUserModal
         open={blockOpen}
         onOpenChange={setBlockOpen}
-        userName={driver}
-        onConfirm={() => {
-          // call API هنا
-          setBlockOpen(false);
-        }}
+        userName={driver.name}
+        onConfirm={() => setBlockOpen(false)}
       />
     </>
   );

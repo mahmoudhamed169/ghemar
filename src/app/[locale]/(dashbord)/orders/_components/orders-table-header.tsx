@@ -1,33 +1,35 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
-export default function OrdersTableHeader() {
+export default async function OrdersTableHeader() {
+  const t = await getTranslations("orders.table");
+
   return (
     <TableHeader>
-      <TableRow className=" h-15">
+      <TableRow className="h-15">
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الرقم التسلسلي
+          {t("serial")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          رقم الطلب
+          {t("order_number")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          اسم السائق
+          {t("driver_name")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الأولوية
+          {t("priority")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          حالة الأوردر
+          {t("order_status")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          تغيير حالة الأوردر
+          {t("change_status")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          اجراء الفرز
+          {t("sort_action")}
         </TableHead>
-
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          إجراءات
+          {t("actions")}
         </TableHead>
       </TableRow>
     </TableHeader>

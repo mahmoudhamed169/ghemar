@@ -1,24 +1,24 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { DriverStatus } from "@/shared/lib/types/drivers/driver";
+import { DriverActivityStatus } from "@/shared/lib/types/drivers/driver";
 
 const STATUS_STYLES: Record<
-  DriverStatus,
+  DriverActivityStatus,
   { dot: string; text: string; border: string; bg: string }
 > = {
-  active: {
+  available: {
     dot: "bg-[#00C950]",
     text: "text-[#00C950]",
     border: "border-[#00C950]",
     bg: "bg-[#F0FDF4]",
   },
-  suspended: {
-    dot: "bg-[#DC2626]",
-    text: "text-[#DC2626]",
-    border: "border-[#DC2626]",
-    bg: "bg-[#FEF2F2]",
+  in_order: {
+    dot: "bg-[#0C6175]",
+    text: "text-[#0C6175]",
+    border: "border-[#0C6175]",
+    bg: "bg-[#0069800D]",
   },
-  deactivated: {
+  offline: {
     dot: "bg-[#6B7280]",
     text: "text-[#6B7280]",
     border: "border-[#6B7280]",
@@ -26,12 +26,13 @@ const STATUS_STYLES: Record<
   },
 };
 
-export default function DriverStatusBadge({
+export default function DriverActivityStatusBadge({
   status,
 }: {
-  status: DriverStatus;
+  status?: DriverActivityStatus;
 }) {
-  const t = useTranslations("drivers.status");
+  const t = useTranslations("drivers.activity_status");
+  if (!status) return <span className="text-gray-400 text-sm">—</span>;
   const styles = STATUS_STYLES[status];
 
   return (

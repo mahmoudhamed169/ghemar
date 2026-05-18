@@ -119,5 +119,191 @@
       "totalAgreement": "Total Agreement",
       "location": "Location"
     }
+  },
+  "orders": {
+    "title": "New Customer Orders",
+    "filters": {
+      "search_placeholder": "Search for an order",
+      "priority_label": "Filter by priority",
+      "priority_all": "All",
+      "priority_express": "Express",
+      "priority_normal": "Normal"
+    },
+    "status": {
+      "all": "All",
+      "pending": "Pending Assignment",
+      "driver_assigned": "Driver Assigned",
+      "driver_on_way_to_pickup": "On Way to Pickup",
+      "picked_up_from_customer": "Picked Up",
+      "in_laundry": "In Laundry",
+      "driver_on_way_to_delivery": "On Way to Delivery",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "table": {
+      "serial": "Serial",
+      "order_number": "Order Number",
+      "driver_name": "Driver Name",
+      "priority": "Priority",
+      "order_status": "Order Status",
+      "change_status": "Change Status",
+      "sort_action": "Sort Action",
+      "actions": "Actions",
+      "no_orders": "No orders found",
+      "no_driver": "—",
+      "priority_express": "Express",
+      "priority_normal": "Normal"
+    },
+    "details": {
+      "order_number_label": "Order Number",
+      "pickup_location": "Pickup Location",
+      "client_info": "Client Info",
+      "driver_info": "Driver Info",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "order_details": "Order Details",
+      "bag_barcodes": "Bag Barcodes",
+      "special_instructions": "Special Instructions",
+      "name": "Name",
+      "phone": "Phone",
+      "date": "Date",
+      "time": "Time",
+      "district": "District",
+      "address": "Address",
+      "notes": "Notes",
+      "bag_count": "Bag Count",
+      "sorted_items": "Sorted Items",
+      "sorting_not_started": "Sorting not started",
+      "order_type": "Order Type",
+      "package": "Package",
+      "bag": "Bag",
+      "order_type_laundry": "Laundry",
+      "order_type_delivery": "Parcel Delivery",
+      "print_tooltip": "Print Receipt"
+    },
+    "actions": {
+      "view_details": "View Details",
+      "assign_driver": "Assign Driver"
+    },
+    "receipt": {
+      "company_name": "Ghaymar Laundry",
+      "company_subtitle": "Laundry & Delivery Services",
+      "order_number_label": "Order Number",
+      "urgent": "*** EXPRESS ORDER ***",
+      "client": "Client:",
+      "phone": "Phone:",
+      "district": "District:",
+      "city": "City:",
+      "address": "Address:",
+      "notes": "Notes:",
+      "pickup": "Pickup:",
+      "delivery_label": "Delivery:",
+      "order_type": "Order Type:",
+      "bag_count": "Bag Count:",
+      "priority": "Priority:",
+      "order_status": "Status:",
+      "package": "Package:",
+      "driver": "Driver:",
+      "driver_phone": "Driver Phone:",
+      "instructions": "Instructions:",
+      "bag_barcodes": "Bag Barcodes",
+      "thank_you": "Thank you for your trust",
+      "footer": "Ghaymar — 24/7 Service",
+      "priority_express": "Express",
+      "priority_normal": "Normal",
+      "order_type_laundry": "Laundry",
+      "order_type_delivery": "Parcel Delivery"
+    },
+    "assign_driver": {
+      "title": "Assign Driver",
+      "search_placeholder": "Search for a driver...",
+      "driver_area": "Primary Area",
+      "status_active": "Active",
+      "status_suspended": "Suspended",
+      "no_drivers": "No matching drivers found",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "drivers": {
+    "header": {
+      "title": "Drivers Management"
+    },
+    "filters": {
+      "search_placeholder": "Search for a driver",
+      "status_label": "Filter by driver status",
+      "status_all": "All",
+      "status_active": "Active",
+      "status_suspended": "Suspended"
+    },
+    "table": {
+      "serial": "Serial",
+      "id": "ID",
+      "name": "Name",
+      "phone": "Phone",
+      "status": "Driver Status",
+      "activity_status": "Activity Status",
+      "actions": "Actions",
+      "no_drivers": "No drivers found",
+      "change_status": "Change Status"
+    },
+    "status": {
+      "active": "Active",
+      "suspended": "Suspended",
+      "deactivated": "Deactivated"
+    },
+    "activity_status": {
+      "available": "Available",
+      "in_order": "In Order",
+      "offline": "Offline"
+    },
+    "actions": {
+      "send_notification": "Send Notification",
+      "view_details": "View Details",
+      "order_history": "Order History",
+      "block_user": "Block User"
+    },
+    "details": {
+      "title": "Driver Details",
+      "join_date": "Join Date",
+      "vehicle_type": "Vehicle Type",
+      "vehicle_plate": "Vehicle Plate",
+      "city": "City",
+      "total_orders": "Total Orders",
+      "completed_orders": "Completed Orders",
+      "avg_rating": "Average Rating",
+      "error_rate": "Error Rate",
+      "assigned_areas": "Assigned Areas",
+      "location": "Location",
+      "vehicle": {
+        "car": "Car",
+        "motorcycle": "Motorcycle",
+        "van": "Van"
+      }
+    },
+    "add": {
+      "button": "Add Driver",
+      "modal_title": "Add New Driver",
+      "name_label": "Driver Name",
+      "name_placeholder": "Mohamed Ahmed",
+      "phone_label": "Phone Number",
+      "city_label": "City",
+      "city_placeholder": "Select a city",
+      "areas_label": "Available Areas",
+      "confirm": "Confirm",
+      "success_message": "Driver added successfully!",
+      "vehicle_type_label": "Vehicle Type",
+      "vehicle_type_placeholder": "Select vehicle type",
+      "vehicle_plate_label": "Vehicle Plate",
+      "vehicle_plate_placeholder": "ABC 123",
+      "vehicle_types": {
+        "car": "Car",
+        "motorcycle": "Motorcycle",
+        "van": "Van"
+      },
+      "national_id_label": "National ID",
+      "national_id_placeholder": "1234567890",
+      "loading": "Adding..."
+    }
   }
 }
