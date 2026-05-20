@@ -1,35 +1,41 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
+"use client";
+import { useTranslations } from "next-intl";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import DriverDetailsLocation from "./driver-details-location";
 import DriverDetailsInfo from "./driver-details-info";
+import { Driver } from "@/shared/lib/types/drivers/driver";
 
-interface DriverDetailsModalProps {
+interface DriverDetailsSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  driverName?: string;
+  driver: Driver;
 }
 
 export default function DriverDetailsModal({
   open,
   onOpenChange,
-  driverName,
-}: DriverDetailsModalProps) {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="min-w-126.5 rounded-2xl px-6  py-10 flex flex-col gap-4">
-        <h1 className="text-2xl font-bold text-[#000709] my-5 ">
-          {" "}
-          تفاصيل السائق {driverName}
-        </h1>
+  driver,
+}: DriverDetailsSheetProps) {
+  const t = useTranslations("drivers.details");
 
-        <DriverDetailsInfo />
-        <DriverDetailsLocation />
-      </DialogContent>
-    </Dialog>
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="left" className="w-full max-w-md p-0 flex flex-col overflow-hidden">
+
+        {/* Header */}
+        <div className="flex items-center px-5 pt-6 pb-4 border-b shrink-0">
+          <h1 className="text-xl font-bold text-[#000709]">
+            {t("title")} {driver.name}
+          </h1>
+        </div>
+
+        {/* Body */}
+        <div className="overflow-y-auto flex-1 px-5 py-4 flex flex-col gap-4">
+          <DriverDetailsInfo driver={driver} />
+          <DriverDetailsLocation driver={driver} />
+        </div>
+
+      </SheetContent>
+    </Sheet>
   );
 }

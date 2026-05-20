@@ -1,56 +1,57 @@
-"use client";
+"use client"
+import { Suspense } from "react"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
+import { useTranslations } from "next-intl"
+import { OrderStatus } from "@/shared/lib/types/orders/order"
 
-import { Suspense } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { type OrderStatus } from "./order-status-badge";
-
-type FilterStatus = OrderStatus | "الكل";
-
-const filters: FilterStatus[] = [
-  "الكل",
-  "قيد التعيين",
-  "قيد الاستلام",
-  "في المغسلة",
-  "قيد التسليم",
-  "المكتملة",
-  "الملغية",
-];
+const STATUS_KEYS = [
+  "all",
+  "pending",
+  "driver_assigned",
+  "driver_on_way_to_pickup",
+  "picked_up_from_customer",
+  "in_laundry",
+  "driver_on_way_to_delivery",
+  "delivered",
+  "cancelled",
+] as const
 
 function OrdersStatusFilterInner() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const t = useTranslations("orders.status")
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const activeValue = searchParams.get("status") ?? "all"
 
-  const active = (searchParams.get("status") as FilterStatus) ?? "الكل";
-
-  const handleSelect = (status: FilterStatus) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (status === "الكل") {
-      params.delete("status");
+  const handleSelect = (value: OrderStatus | "all") => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (value === "all") {
+      params.delete("status")
     } else {
-      params.set("status", status);
+      params.set("status", value)
     }
-    router.push(`${pathname}?${params.toString()}`);
-  };
+    params.delete("page")
+    router.push(`${pathname}?${params.toString()}`)
+  }
 
   return (
-    <div className="flex items-center gap-1 bg-white rounded-xl p-1 h-15 w-full justify-between">
-      {filters.map((status) => (
+    <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-1 bg-white rounded-xl p-1 w-full">
+      {STATUS_KEYS.map((key) => (
         <button
-          key={status}
-          onClick={() => handleSelect(status)}
-          className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap
+          key={key}
+          onClick={() => handleSelect(key as OrderStatus | "all")}
+          className={`px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-center
             ${
-              active === status
+              activeValue === key
                 ? "bg-[#0C6175] text-white shadow-sm"
-                : "text-gray-500 hover:text-gray-700 hover:bg-white"
+                : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
             }`}
         >
-          {status}
+          {t(key)}
         </button>
       ))}
     </div>
-  );
+  )
 }
 
 export default function OrdersStatusFilter() {
@@ -58,5 +59,5 @@ export default function OrdersStatusFilter() {
     <Suspense fallback={null}>
       <OrdersStatusFilterInner />
     </Suspense>
-  );
+  )
 }

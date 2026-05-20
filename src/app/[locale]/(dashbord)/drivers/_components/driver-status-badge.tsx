@@ -1,35 +1,45 @@
-type DriverStatus = "متاح" | "في المغسلة" | "قيد التوصيل";
+"use client";
+import { useTranslations } from "next-intl";
+import { DriverStatus } from "@/shared/lib/types/drivers/driver";
 
-const statusStyles: Record<
+const STATUS_STYLES: Record<
   DriverStatus,
   { dot: string; text: string; border: string; bg: string }
 > = {
-  متاح: {
+  active: {
     dot: "bg-[#00C950]",
     text: "text-[#00C950]",
     border: "border-[#00C950]",
     bg: "bg-[#F0FDF4]",
   },
-  "في المغسلة": {
-    dot: "bg-[#0C6175]",
-    text: "text-[#0C6175]",
-    border: "border-[#0C6175]",
-    bg: "bg-[#0069800D]",
+  suspended: {
+    dot: "bg-[#DC2626]",
+    text: "text-[#DC2626]",
+    border: "border-[#DC2626]",
+    bg: "bg-[#FEF2F2]",
   },
-  "قيد التوصيل": {
-    dot: "bg-[#B45309]",
-    text: "text-[#B45309]",
-    border: "border-[#B45309]",
-    bg: "bg-[#FFFBEB]",
+  deactivated: {
+    dot: "bg-[#6B7280]",
+    text: "text-[#6B7280]",
+    border: "border-[#6B7280]",
+    bg: "bg-[#F3F4F6]",
   },
 };
 
-export default function DriverStatusBadge({ status }: { status: DriverStatus }) {
-  const styles = statusStyles[status];
+export default function DriverStatusBadge({
+  status,
+}: {
+  status: DriverStatus;
+}) {
+  const t = useTranslations("drivers.status");
+  const styles = STATUS_STYLES[status];
+
   return (
-    <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border ${styles.border} ${styles.bg}`}>
+    <div
+      className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border ${styles.border} ${styles.bg}`}
+    >
       <span className={`w-2 h-2 rounded-full ${styles.dot}`} />
-      <span className={`text-sm font-medium ${styles.text}`}>{status}</span>
+      <span className={`text-sm font-medium ${styles.text}`}>{t(status)}</span>
     </div>
   );
 }

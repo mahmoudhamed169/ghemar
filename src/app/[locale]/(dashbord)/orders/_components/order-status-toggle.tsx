@@ -7,70 +7,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-export type OrderStatus =
-  | "قيد التعيين"
-  | "قيد الاستلام"
-  | "في المغسلة"
-  | "قيد التسليم"
-  | "المكتملة"
-  | "الملغية";
-
-const statuses: OrderStatus[] = [
-  "قيد التعيين",
-  "قيد الاستلام",
-  "في المغسلة",
-  "قيد التسليم",
-  "المكتملة",
-  "الملغية",
-];
+import { useTranslations } from "next-intl";
+import { OrderStatus } from "@/shared/lib/types/orders/order";
 
 const statusColors: Record<OrderStatus, string> = {
-  "قيد التعيين": "text-[#6B7280]", // رمادي  - لسه مش اتعين سايق
-  "قيد الاستلام": "text-[#B45309]", // برتقالي - السايق في الطريق للعميل
-  "في المغسلة": "text-[#0C6175]", // تيل     - الأوردر وصل المغسلة
-  "قيد التسليم": "text-[#7C3AED]", // بنفسجي  - راجع للعميل
-  المكتملة: "text-[#00C950]", // أخضر    - اتسلم وخلص
-  الملغية: "text-[#DC2626]", // أحمر    - اتلغى
+  pending: "text-[#6B7280]",
+  driver_assigned: "text-[#1D4ED8]",
+  driver_arrived_at_pickup: "text-[#F97316]",
+  driver_on_way_to_pickup: "text-[#B45309]",
+  picked_up_from_customer: "text-[#CA8A04]",
+  in_laundry: "text-[#0C6175]",
+  driver_on_way_to_delivery: "text-[#7C3AED]",
+  delivered: "text-[#00C950]",
+  cancelled: "text-[#DC2626]",
 };
+
+const ALL_STATUSES = Object.keys(statusColors) as OrderStatus[];
 
 export default function OrderStatusToggle({
   currentStatus,
   orderId,
 }: {
   currentStatus: OrderStatus;
-  orderId: number;
+  orderId: string;
 }) {
-  const handleChange = (value: OrderStatus) => {
-    // TODO: call your API to update order status
+  const t = useTranslations("orders.status");
+
+  const handleChange = async (value: OrderStatus) => {
+    // TODO: server action
     console.log(`Order ${orderId} status changed to: ${value}`);
   };
 
+  const color = statusColors[currentStatus] ?? "text-gray-500";
+
   return (
     <div className="flex justify-center items-center w-full">
-      <Select
-        defaultValue={currentStatus}
-        onValueChange={handleChange}
-        dir="rtl"
-      >
+      <Select defaultValue={currentStatus} onValueChange={handleChange} dir="rtl">
         <SelectTrigger className="w-fit border-none shadow-none focus:ring-0 flex-row-reverse gap-1 hover:cursor-pointer">
           <SelectValue>
-            <span
-              className={`text-sm font-medium ${statusColors[currentStatus]}`}
-            >
-              {currentStatus}
+            <span className={`text-sm font-medium ${color}`}>
+              {t(currentStatus)}
             </span>
           </SelectValue>
         </SelectTrigger>
         <SelectContent className="min-w-[180px] p-2" dir="rtl">
-          {statuses.map((status) => (
-            <SelectItem
-              key={status}
-              value={status}
-              className="text-base py-3 px-4 cursor-pointer"
-            >
+          {ALL_STATUSES.map((status) => (
+            <SelectItem key={status} value={status} className="text-base py-3 px-4 cursor-pointer">
               <span className={`font-medium ${statusColors[status]}`}>
-                {status}
+                {t(status)}
               </span>
             </SelectItem>
           ))}
