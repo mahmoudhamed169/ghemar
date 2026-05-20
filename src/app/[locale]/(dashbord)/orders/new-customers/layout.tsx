@@ -9,7 +9,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <PageTitle />
       <OrdersFilters />
       <Suspense fallback={null}>
-        <OrdersStatusFilter />
+        {/* <OrdersStatusFilter /> */}
       </Suspense>
       {children}
     </main>

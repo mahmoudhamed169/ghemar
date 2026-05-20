@@ -1,37 +1,38 @@
-// hooks/use-drivers.ts
 "use client";
 
-import { useEffect, useState } from "react";
-import { Driver, DriversParams } from "@/shared/lib/types/drivers/driver";
-import { getDrivers } from "@/shared/lib/services/drivers/get-drivers";
+import { useQuery } from "@tanstack/react-query";
+import {
+  DriversParams,
+  DriversResponse,
+} from "@/shared/lib/types/drivers/driver";
 
-interface UseDriversReturn {
-  drivers: Driver[];
-  isLoading: boolean;
-  error: string | null;
+async function fetchDrivers(
+  params: DriversParams = {},
+): Promise<DriversResponse> {
+  const query = new URLSearchParams({
+    page: String(params.page || 1),
+    limit: String(params.limit || 20),
+    ...(params.search && { search: params.search }),
+    ...(params.cityId && { cityId: params.cityId }),
+    ...(params.status && { status: params.status }),
+    ...(params.activityStatus && {
+      activityStatus: params.activityStatus,
+    }),
+  });
+
+  const res = await fetch(`/api/drivers?${query}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch drivers");
+  }
+
+  return res.json();
 }
 
-export function useDrivers(params: DriversParams = {}): UseDriversReturn {
-  const [drivers, setDrivers] = useState<Driver[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetch() {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const res = await getDrivers(params);
-        setDrivers(res.data);
-      } catch {
-        setError("فشل تحميل السائقين");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.search, params.status, params.activityStatus, params.page]);
-
-  return { drivers, isLoading, error };
+export function useDrivers(params: DriversParams = {}) {
+  return useQuery<DriversResponse>({
+    queryKey: ["drivers", params],
+    queryFn: () => fetchDrivers(params),
+    staleTime: 30_000,
+  });
 }
