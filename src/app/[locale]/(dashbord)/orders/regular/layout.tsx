@@ -9,9 +9,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
     <main className="space-y-6">
       <PageTitle />
       <OrdersFilters />
-       <Suspense fallback={null}>
+       {/* <Suspense fallback={null}>
         <OrdersStatusFilter />
-      </Suspense>
+      </Suspense> */}
       
       {children}
     </main>
