@@ -22,6 +22,8 @@ export default function OrderActions({ order }: OrderActionsProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
 
+  const hasDriver = !!order.driver;
+
   return (
     <>
       <DropdownMenu dir="rtl">
@@ -42,7 +44,8 @@ export default function OrderActions({ order }: OrderActionsProps) {
             {t("view_details")}
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-gray-700 focus:bg-gray-50"
+            disabled={hasDriver}
+            className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-gray-700 focus:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onSelect={() => setAssignOpen(true)}
           >
             {t("assign_driver")}

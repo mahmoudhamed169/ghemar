@@ -1,0 +1,32 @@
+// shared/lib/constants/piece-types.ts
+export const PIECE_TYPE_KEYS = [
+  "shirt",
+  "pants",
+  "thobe",
+  "abaya",
+  "jacket",
+  "coat",
+  "dress",
+  "skirt",
+  "underwear",
+  "socks",
+  "towel",
+  "bedsheet",
+  "pillowcase",
+  "blanket",
+  "curtain",
+  "tablecloth",
+  "kandura",
+  "hijab",
+  "suit_jacket",
+  "suit_pants",
+  "tie",
+  "sportswear",
+  "swimwear",
+  "kids_clothing",
+  "shoes",
+  "bag",
+  "carpet",
+] as const;
+
+export type PieceTypeKey = (typeof PIECE_TYPE_KEYS)[number];
