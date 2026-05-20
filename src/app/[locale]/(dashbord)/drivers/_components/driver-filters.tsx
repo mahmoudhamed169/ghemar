@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,10 +13,10 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 
-export default function DriverFilters() {
+function DriverFiltersInner() {
   const t = useTranslations("drivers.filters");
-  const router      = useRouter();
-  const pathname    = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const updateParam = useCallback(
@@ -36,7 +37,6 @@ export default function DriverFilters() {
 
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
-      {/* Search */}
       <div className="relative flex-1">
         <Search
           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
@@ -50,7 +50,6 @@ export default function DriverFilters() {
         />
       </div>
 
-      {/* Status Filter */}
       <div className="flex flex-row items-center gap-3 w-full sm:w-[340px] shrink-0">
         <p className="text-[#000709] font-medium text-[16px] sm:text-[18px] whitespace-nowrap">
           {t("status_label")}
@@ -72,5 +71,13 @@ export default function DriverFilters() {
         </Select>
       </div>
     </div>
+  );
+}
+
+export default function DriverFilters() {
+  return (
+    <Suspense fallback={null}>
+      <DriverFiltersInner />
+    </Suspense>
   );
 }
