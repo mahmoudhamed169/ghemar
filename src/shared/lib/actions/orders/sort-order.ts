@@ -1,4 +1,3 @@
-// shared/lib/actions/orders/sort-order.ts
 "use server";
 
 import { getServerSession } from "next-auth";
@@ -19,23 +18,58 @@ export async function sortOrder(
   orderId: string,
   items: SortItem[],
 ): Promise<SortOrderResult> {
-  const session = await getServerSession(authOptions);
-  const token = session?.accessToken;
+  try {
+    const session = await getServerSession(authOptions);
+    const token = session?.accessToken;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/sort`,
-    {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/sort`;
+
+    const body = {
+      items,
+    };
+
+    // REQUEST
+    console.log("========== SORT REQUEST ==========");
+    console.log("URL:", url);
+    console.log("TOKEN:", token);
+    console.log("BODY:", JSON.stringify(body, null, 2));
+
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ items }),
-    },
-  );
+      body: JSON.stringify(body),
+    });
 
-  if (!res.ok) return { success: false, message: "فشل حفظ بيانات الفرز" };
+    // RESPONSE
+    console.log("========== SORT RESPONSE ==========");
+    console.log("STATUS:", res.status);
 
-  revalidateTag("orders");
-  return { success: true };
+    const data = await res.json();
+
+    console.log("RESPONSE BODY:", JSON.stringify(data, null, 2));
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data?.message || "فشل حفظ بيانات الفرز",
+      };
+    }
+
+    revalidateTag("orders");
+
+    return {
+      success: true,
+      message: data?.message,
+    };
+  } catch (error) {
+    console.error("SORT ERROR:", error);
+
+    return {
+      success: false,
+      message: "حدث خطأ أثناء الفرز",
+    };
+  }
 }

@@ -27,7 +27,9 @@ export default function AssignDriverDialog({
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const { drivers, isLoading } = useDrivers({ search });
+  const { data, isLoading } = useDrivers({ search });
+  const drivers = data?.data ?? [];
+
   const { assign, isLoading: isAssigning } = useAssignDriver();
 
   const handleSave = async () => {
