@@ -1,4 +1,5 @@
 "use client"
+import { Suspense } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -12,7 +13,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 import { useTranslations } from "next-intl"
 
-export default function OrdersFilters() {
+function OrdersFiltersInner() {
   const t = useTranslations("orders.filters")
   const router = useRouter()
   const pathname = usePathname()
@@ -70,5 +71,13 @@ export default function OrdersFilters() {
         </Select>
       </div>
     </div>
+  )
+}
+
+export default function OrdersFilters() {
+  return (
+    <Suspense fallback={null}>
+      <OrdersFiltersInner />
+    </Suspense>
   )
 }
