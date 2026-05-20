@@ -1,17 +1,17 @@
-import { Suspense } from "react"
-import { Table } from "@/components/ui/table"
-import OrdersTableHeader from "./orders-table-header"
-import OrdersTableBody from "./orders-table-body"
-import Pagination from "@/shared/components/pagination"
-import { getOrders } from "@/shared/lib/services/orders/get-orders"
-import { OrderStatus } from "@/shared/lib/types/orders/order"
+import { Suspense } from "react";
+import { Table } from "@/components/ui/table";
+import OrdersTableHeader from "./orders-table-header";
+import OrdersTableBody from "./orders-table-body";
+import Pagination from "@/shared/components/pagination";
+import { getOrders } from "@/shared/lib/services/orders/get-orders";
+import { OrderStatus } from "@/shared/lib/types/orders/order";
 
 interface Props {
-  page: number
-  search?: string
-  status?: OrderStatus
-  isNewClient?: boolean
-  isExpressWash?: boolean
+  page: number;
+  search?: string;
+  status?: OrderStatus;
+  isNewClient?: boolean;
+  isExpressWash?: boolean;
 }
 
 export default async function OrdersTable({
@@ -27,8 +27,8 @@ export default async function OrdersTable({
     status,
     isNewClient,
     isExpressWash,
-  })
-  const totalPages = Math.ceil(pagination.total / Number(pagination.limit))
+  });
+  const totalPages = Math.ceil(pagination.total / Number(pagination.limit));
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-5 flex flex-col gap-4">
@@ -46,7 +46,9 @@ export default async function OrdersTable({
           </Suspense>
         </Table>
       </div>
-      <Pagination currentPage={page} totalPages={totalPages} />
+      <Suspense fallback={null}>
+        <Pagination currentPage={page} totalPages={totalPages} />
+      </Suspense>
     </div>
-  )
+  );
 }
