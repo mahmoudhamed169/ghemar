@@ -133,6 +133,8 @@
       "all": "الكل",
       "pending": "قيد التعيين",
       "driver_assigned": "تم تعيين سائق",
+      "driver_arrived_at_pickup": "السائق وصل لموقع الاستلام",
+      "delivered_to_customer": "تم التسليم للعميل",
       "driver_on_way_to_pickup": "قيد الاستلام",
       "picked_up_from_customer": "تم الاستلام",
       "in_laundry": "في المغسلة",
@@ -223,6 +225,16 @@
       "no_drivers": "لا يوجد سائقون مطابقون",
       "save": "حفظ",
       "cancel": "الغاء"
+    },
+    "sort": {
+      "dialog_title": "تفاصيل فرز الأوردر رقم",
+      "piece_count": "عدد القطع",
+      "select_types": "حدد أنواع القطع",
+      "confirm": "تأكيد",
+      "saving": "جاري الحفظ...",
+      "already_sorted": "تم الفرز مسبقاً",
+      "start": "بدأ الفرز",
+      "done": "تم الفرز"
     }
   },
 
@@ -306,5 +318,34 @@
       "national_id_placeholder": "1234567890",
       "loading": "جاري الإضافة..."
     }
+  },
+  "piece_types": {
+    "shirt": "قميص",
+    "pants": "بنطلون",
+    "thobe": "ثوب",
+    "abaya": "عباءة",
+    "jacket": "جاكيت",
+    "coat": "معطف",
+    "dress": "فستان",
+    "skirt": "تنورة",
+    "underwear": "ملابس داخلية",
+    "socks": "جوارب",
+    "towel": "منشفة",
+    "bedsheet": "شرشف سرير",
+    "pillowcase": "كيس وسادة",
+    "blanket": "بطانية",
+    "curtain": "ستارة",
+    "tablecloth": "مفرش طاولة",
+    "kandura": "كندورة",
+    "hijab": "حجاب",
+    "suit_jacket": "جاكيت بدلة",
+    "suit_pants": "بنطلون بدلة",
+    "tie": "ربطة عنق",
+    "sportswear": "ملابس رياضية",
+    "swimwear": "ملابس سباحة",
+    "kids_clothing": "ملابس أطفال",
+    "shoes": "حذاء",
+    "bag": "شنطة",
+    "carpet": "سجادة"
   }
 }

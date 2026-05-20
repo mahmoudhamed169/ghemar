@@ -6,6 +6,7 @@ import OrderStatusToggle from "./order-status-toggle";
 import OrderActions from "./order-actions";
 import { getOrders } from "@/shared/lib/services/orders/get-orders";
 import { Order, OrderStatus } from "@/shared/lib/types/orders/order";
+import OrderSortAction from "./order-sort-action";
 
 interface Props {
   page: number;
@@ -27,16 +28,12 @@ export default async function OrdersTableBody({
     getTranslations("orders.table"),
   ]);
 
-  orders.forEach(order => {
-    console.log(order.orderNumber, "isExpressWash:", order.isExpressWash, typeof order.isExpressWash)
-  })
-
   if (!orders.length) {
     return (
       <TableBody>
         <TableRow>
           <TableCell
-            colSpan={8}
+            colSpan={7}
             className="text-center text-gray-400 py-12 text-sm"
           >
             {t("no_orders")}
@@ -65,14 +62,19 @@ export default async function OrdersTableBody({
           <TableCell className="text-center">
             <OrderPriorityBadge priority={order.isExpressWash} />
           </TableCell>
-      
+          <TableCell className="text-center">
+            <OrderStatusBadge status={order.status} />
+          </TableCell>
           <TableCell className="text-center">
             <OrderStatusToggle
               currentStatus={order.status}
               orderId={order._id}
             />
           </TableCell>
-          <TableCell className="text-center" />
+
+          <TableCell className="text-center">
+            <OrderSortAction orderId={order._id} />
+          </TableCell>
           <TableCell className="text-center">
             <OrderActions order={order} />
           </TableCell>
