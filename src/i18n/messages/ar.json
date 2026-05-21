@@ -347,5 +347,64 @@
     "shoes": "حذاء",
     "bag": "شنطة",
     "carpet": "سجادة"
+  },
+  "PromoCodes": {
+    "header": {
+      "title": "أكواد الخصم",
+      "addButton": "إضافة كود خصم"
+    },
+    "stats": {
+      "totalPromoCodes": "إجمالي الرموز",
+      "activePromoCodes": "رموز نشطة",
+      "totalUsage": "إجمالي الاستخدام",
+      "expiredPromoCodes": "رموز منتهية"
+    },
+    "table": {
+      "empty": "لا توجد أكواد خصم",
+      "usageUnit": "استخدام",
+      "currency": "ريال",
+      "headers": {
+        "serial": "الرقم التسلسلي",
+        "id": "ID",
+        "code": "كود الخصم",
+        "value": "القيمة",
+        "maxLimit": "الحد الأقصى",
+        "usage": "الاستخدام",
+        "expiryDate": "تاريخ الانتهاء",
+        "status": "الحالة"
+      }
+    },
+    "form": {
+      "title": "إضافة كود خصم",
+      "fields": {
+        "code": "كود الخصم",
+        "discountType": "نوع الخصم",
+        "percentage": "نسبة مئوية %",
+        "fixed": "مبلغ ثابت ﷼",
+        "value": "القيمة",
+        "usageLimit": "الحد الأقصى للاستخدام",
+        "expiryDate": "تاريخ الانتهاء",
+        "cities": "المدن المتاحة",
+        "citiesHint": "اختياري — فارغ = كل المدن",
+        "citiesError": "تعذر تحميل المدن",
+        "cityCount_one": "مدينة",
+        "cityCount_other": "مدن",
+        "selected": "محددة"
+      },
+      "actions": {
+        "save": "حفظ",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء"
+      }
+    },
+    "editForm": {
+      "title": "تعديل كود الخصم",
+      "discountValue": "قيمة الخصم",
+      "expiryDate": "تاريخ الانتهاء",
+      "currency": "ريال",
+      "save": "حفظ التعديلات",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    }
   }
 }

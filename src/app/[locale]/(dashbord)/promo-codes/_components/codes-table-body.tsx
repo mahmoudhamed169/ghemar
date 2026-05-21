@@ -1,111 +1,79 @@
-"use client";
-
-import { useState } from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Switch } from "@/components/ui/switch";
-import CodeStatusBadge, { type CodeStatus } from "./code-status-badge";
+import { getTranslations } from "next-intl/server";
+import CodeStatusBadge from "./code-status-badge";
+import ActiveToggle from "./active-toggle";
+import EditCodeButton from "./edit-discount-code/edit-code-button";
+import { getPromoCodes } from "@/shared/lib/services/promocode/get-promo-codes";
 
-type DiscountCode = {
-  serial: number;
-  id: number;
-  code: string;
-  value: string;
-  maxLimit: string;
-  usage: string;
-  expiryDate: string;
-  active: boolean;
-};
-
-function getInitialCodes(): DiscountCode[] {
-  return Array.from({ length: 7 }, (_, i) => ({
-    serial: i + 1,
-    id: 66788,
-    code: "AaB32",
-    value: "%20",
-    maxLimit: "100 استخدام",
-    usage: "48 من 100",
-    expiryDate: "12 يناير 2025",
-    active: i < 4,
-  }));
+function formatExpiryDate(dateStr: string, locale: string): string {
+  return new Date(dateStr).toLocaleDateString(
+    locale === "ar" ? "ar-SA" : "en-US",
+    { year: "numeric", month: "long", day: "numeric" },
+  );
 }
 
-export default function CodesTableBody() {
-  const [codes, setCodes] = useState<DiscountCode[]>(getInitialCodes());
+function formatDiscountValue(
+  type: "percentage" | "fixed",
+  value: number,
+): string {
+  return type === "percentage" ? `${value}%` : `${value} ﷼`;
+}
 
-  const toggleStatus = (serial: number) => {
-    setCodes((prev) =>
-      prev.map((code) =>
-        code.serial === serial ? { ...code, active: !code.active } : code
-      )
+export default async function CodesTableBody() {
+  const t = await getTranslations("PromoCodes.table");
+  const { data: codes } = await getPromoCodes();
+
+  if (!codes?.length) {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={9} className="text-center py-16 text-gray-400">
+            {t("empty")}
+          </TableCell>
+        </TableRow>
+      </TableBody>
     );
-  };
+  }
 
   return (
     <TableBody>
-      {codes.map((code) => {
-        const status: CodeStatus = code.active ? "نشط" : "موقوف";
-
-        return (
-          <TableRow
-            key={code.serial}
-            className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
-          >
-            {/* الرقم التسلسلي */}
-            <TableCell className="text-center text-sm text-gray-500">
-              {code.serial}
-            </TableCell>
-
-            {/* ID */}
-            <TableCell className="text-center font-medium">
-              {code.id}
-            </TableCell>
-
-            {/* كود الخصم */}
-            <TableCell className="text-center font-medium">
-              {code.code}
-            </TableCell>
-
-            {/* القيمة */}
-            <TableCell className="text-center font-medium">
-              {code.value}
-            </TableCell>
-
-            {/* الحد الأقصى */}
-            <TableCell className="text-center text-gray-600">
-              {code.maxLimit}
-            </TableCell>
-
-            {/* الاستخدام */}
-            <TableCell className="text-center text-gray-600">
-              {code.usage}
-            </TableCell>
-
-            {/* تاريخ الانتهاء */}
-            <TableCell className="text-center text-gray-600">
-              {code.expiryDate}
-            </TableCell>
-
-            {/* الحالة */}
-            <TableCell className="text-center">
-              <CodeStatusBadge status={status} />
-            </TableCell>
-
-            {/* إجراءات - Switch */}
-            <TableCell className="text-center">
-              <Switch
-                checked={code.active}
-                onCheckedChange={() => toggleStatus(code.serial)}
-                aria-label={`تبديل حالة الكود ${code.serial}`}
-                className={
-                  code.active
-                    ? "data-[state=checked]:bg-green-500"
-                    : "data-[state=unchecked]:bg-gray-300"
-                }
-              />
-            </TableCell>
-          </TableRow>
-        );
-      })}
+      {codes.map((code, index) => (
+        <TableRow
+          key={code._id}
+          className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
+        >
+          <TableCell className="text-center text-sm text-gray-500">
+            {index + 1}
+          </TableCell>
+          <TableCell className="text-center font-medium text-xs text-gray-400">
+            {code._id.slice(-6).toUpperCase()}
+          </TableCell>
+          <TableCell className="text-center font-semibold tracking-widest">
+            {code.code}
+          </TableCell>
+          <TableCell className="text-center font-medium">
+            {formatDiscountValue(code.discountType, code.discountValue)}
+          </TableCell>
+          <TableCell className="text-center text-gray-600">
+            {code.maxUsagePerUser} {t("usageUnit")}
+          </TableCell>
+          <TableCell className="text-center text-gray-600">
+            {code.currentUsage}
+          </TableCell>
+          <TableCell className="text-center text-gray-600">
+            {formatExpiryDate(code.expiryDate, "ar")}
+          </TableCell>
+          <TableCell className="text-center">
+            <CodeStatusBadge status={code.isActive ? "نشط" : "موقوف"} />
+          </TableCell>
+          <TableCell className="text-center">
+            <div className="flex items-center justify-center gap-2">
+              <EditCodeButton promoCode={code} />
+              <ActiveToggle id={code._id} isActive={code.isActive} />
+            </div>
+          </TableCell>
+        </TableRow>
+      ))}
     </TableBody>
   );
 }

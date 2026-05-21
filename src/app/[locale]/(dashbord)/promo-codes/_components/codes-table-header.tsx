@@ -1,37 +1,37 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
-export default function CodesTableHeader() {
+export default async function CodesTableHeader() {
+  const t = await getTranslations("PromoCodes.table.headers");
+
   return (
     <TableHeader>
-      <TableRow className=" h-15">
+      <TableRow className="h-15">
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الرقم التسلسلي
+          {t("serial")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          ID
+          {t("id")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          كود الخصم 
+          {t("code")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          القيمة 
+          {t("value")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الحد الأقصي
+          {t("maxLimit")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الاستخدام
+          {t("usage")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-           تاريخ الانتهاء
+          {t("expiryDate")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الحالة
+          {t("status")}
         </TableHead>
-   
-        <TableHead className="text-center font-semibold text-[#6A7282]">
-        
-        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]" />
       </TableRow>
     </TableHeader>
   );

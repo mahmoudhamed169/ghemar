@@ -1,42 +1,43 @@
-import {
-  TicketPercent,
-  BadgePercent,
-  Users2,
-  Ban,
-} from "lucide-react";
+import { getPromoCodeStats } from "@/shared/lib/services/promocode/get-promo-code-stats";
+import { TicketPercent, BadgePercent, Users2, Ban } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-const stats = [
-  {
-    label: "إجمالي الرموز",
-    value: "6",
-    icon: TicketPercent,
-    iconBg: "bg-blue-50",
-    iconColor: "text-blue-500",
-  },
-  {
-    label: "رموز نشطة",
-    value: "284",
-    icon: BadgePercent,
-    iconBg: "bg-green-50",
-    iconColor: "text-green-500",
-  },
-  {
-    label: "إجمالي الإستخدام",
-    value: "551",
-    icon: Users2,
-    iconBg: "bg-orange-50",
-    iconColor: "text-orange-500",
-  },
-  {
-    label: "رموز منتهية",
-    value: "1",
-    icon: Ban,
-    iconBg: "bg-red-50",
-    iconColor: "text-red-500",
-  },
-];
+export default async function OffersStat() {
+  const t = await getTranslations("PromoCodes.stats");
 
-export default function OffersStat() {
+  const { data } = await getPromoCodeStats();
+
+  const stats = [
+    {
+      label: t("totalPromoCodes"),
+      value: data.totalPromoCodes,
+      icon: TicketPercent,
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-500",
+    },
+    {
+      label: t("activePromoCodes"),
+      value: data.activePromoCodes,
+      icon: BadgePercent,
+      iconBg: "bg-green-50",
+      iconColor: "text-green-500",
+    },
+    {
+      label: t("totalUsage"),
+      value: data.totalUsage,
+      icon: Users2,
+      iconBg: "bg-orange-50",
+      iconColor: "text-orange-500",
+    },
+    {
+      label: t("expiredPromoCodes"),
+      value: data.expiredPromoCodes,
+      icon: Ban,
+      iconBg: "bg-red-50",
+      iconColor: "text-red-500",
+    },
+  ];
+
   return (
     <div className="grid grid-cols-4 gap-4">
       {stats.map((stat, i) => (
