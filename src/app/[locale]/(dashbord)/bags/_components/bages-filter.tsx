@@ -38,10 +38,10 @@ const DEFAULT_TO   = new Date(2026, 3, 1);
 
 const STATUS_TABS = [
   { value: "all",      label: "الكل" },
-  { value: "active",   label: "نشأ" },
+  { value: "active",   label: "منشأ" },
   { value: "assigned", label: "معين" },
   { value: "inuse",    label: "قيد الاستخدام" },
-  { value: "voucher",  label: "في القسيمة" },
+  { value: "voucher",  label: "في المغسلة" },
 ];
 
 // ─── DatePickerButton ─────────────────────────────────────────────────────────

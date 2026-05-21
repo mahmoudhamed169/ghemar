@@ -305,5 +305,64 @@
       "national_id_placeholder": "1234567890",
       "loading": "Adding..."
     }
+  },
+  "PromoCodes": {
+    "header": {
+      "title": "Promo Codes",
+      "addButton": "Add Promo Code"
+    },
+    "stats": {
+      "totalPromoCodes": "Total Codes",
+      "activePromoCodes": "Active Codes",
+      "totalUsage": "Total Usage",
+      "expiredPromoCodes": "Expired Codes"
+    },
+    "table": {
+      "empty": "No promo codes found",
+      "usageUnit": "uses",
+      "currency": "SAR",
+      "headers": {
+        "serial": "Serial",
+        "id": "ID",
+        "code": "Promo Code",
+        "value": "Value",
+        "maxLimit": "Max Limit",
+        "usage": "Usage",
+        "expiryDate": "Expiry Date",
+        "status": "Status"
+      }
+    },
+    "form": {
+      "title": "Add Promo Code",
+      "fields": {
+        "code": "Promo Code",
+        "discountType": "Discount Type",
+        "percentage": "Percentage %",
+        "fixed": "Fixed Amount",
+        "value": "Value",
+        "usageLimit": "Max Usage Limit",
+        "expiryDate": "Expiry Date",
+        "cities": "Applicable Cities",
+        "citiesHint": "Optional — empty = all cities",
+        "citiesError": "Failed to load cities",
+        "cityCount_one": "city",
+        "cityCount_other": "cities",
+        "selected": "selected"
+      },
+      "actions": {
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      }
+    },
+    "editForm": {
+      "title": "Edit Promo Code",
+      "discountValue": "Discount Value",
+      "expiryDate": "Expiry Date",
+      "currency": "SAR",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    }
   }
 }
