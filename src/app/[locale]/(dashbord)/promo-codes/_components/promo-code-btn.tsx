@@ -13,7 +13,7 @@ export default function PromoCodeBtn() {
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="bg-[#0C6175] text-white w-[288px] h-[55px] rounded-lg text-lg hover:bg-[#097188] hover:text-white cursor-pointer"
+        className="w-full sm:w-[288px] h-[48px] sm:h-[55px] bg-[#0C6175] text-white rounded-lg text-base sm:text-lg hover:bg-[#097188] cursor-pointer"
       >
         {t("addButton")}
       </Button>

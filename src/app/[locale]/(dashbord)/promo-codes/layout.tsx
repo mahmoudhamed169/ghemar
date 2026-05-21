@@ -8,7 +8,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
     <main className="space-y-4">
       <OffersHeaderPage />
       <OffersStat />
-      <CodesFilter />
+      {/* <CodesFilter /> */}
       {children}
     </main>
   );
