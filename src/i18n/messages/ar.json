@@ -406,5 +406,86 @@
       "saving": "جاري الحفظ...",
       "cancel": "إلغاء"
     }
+  },
+  "Notifications": {
+    "header": {
+      "title": "الإشعارات",
+      "sendButton": "إرسال إشعار"
+    },
+    "form": {
+      "title": "إرسال إشعار جديد",
+      "audience": "الجمهور المستهدف",
+      "clients": "العملاء",
+      "drivers": "السائقين",
+      "all": "الجميع",
+      "users": "مستخدم",
+      "titleAr": "عنوان الإشعار (عربي)",
+      "titleEn": "عنوان الإشعار (إنجليزي)",
+      "titleArPlaceholder": "عرض حصري لأعضاء غمار",
+      "titleEnPlaceholder": "Exclusive offer",
+      "bodyAr": "نص الإشعار (عربي)",
+      "bodyEn": "نص الإشعار (إنجليزي)",
+      "bodyArPlaceholder": "اكتب هنا...",
+      "bodyEnPlaceholder": "Write here...",
+      "send": "إرسال",
+      "sending": "جاري الإرسال..."
+    },
+    "list": {
+      "empty": "لا توجد إشعارات",
+      "total": "إجمالي الإشعارات",
+      "delivered": "تم الإرسال",
+      "read": "مقروء",
+      "unread": "غير مقروء"
+    }
+  },
+
+  "Packages": {
+    "empty": "لا توجد باقات",
+    "header": {
+      "title": "إدارة الباقات",
+      "addButton": "إضافة باقة"
+    },
+    "card": {
+      "month": "شهر",
+      "bagsPerMonth": "أكياس / شهر",
+      "expressWash": "غسيل سريع / شهر",
+      "inactive": "غير نشطة",
+      "edit": "تعديل",
+      "delete": "حذف"
+    },
+    "stats": {
+      "totalPackages": "إجمالي الباقات",
+      "activePackages": "باقات نشطة",
+      "activeSubscriptions": "اشتراكات نشطة",
+      "revenue": "إيرادات الباقات",
+      "currency": "ر.س"
+    },
+    "modal": {
+      "addTitle": "إضافة باقة جديدة",
+      "editTitle": "تعديل الباقة",
+      "nameAr": "اسم الباقة (عربي)",
+      "nameEn": "اسم الباقة (إنجليزي)",
+      "price": "السعر",
+      "bagCount": "عدد الأكياس / شهر",
+      "expressWashCount": "غسيل سريع / شهر",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "deleteModal": {
+      "title": "حذف الباقة",
+      "message": "هل أنت متأكد من حذف باقة",
+      "confirm": "نعم، احذف",
+      "deleting": "جاري الحذف...",
+      "cancel": "إلغاء"
+    },
+    "successModal": {
+      "editTitle": "تم التعديل بنجاح",
+      "editMessage": "تم تحديث بيانات الباقة",
+      "deleteTitle": "تم الحذف بنجاح",
+      "deleteMessage": "تم حذف الباقة بنجاح",
+      "addTitle": "تمت الإضافة بنجاح",
+      "addMessage": "تم إضافة الباقة بنجاح"
+    }
   }
 }

@@ -1,38 +1,45 @@
-// packages-header-page.tsx
 "use client";
 
 import { useState } from "react";
-import AddPackageButton from "./package-modal/add-package-button";
+import { useTranslations } from "next-intl";
+import { Package } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import PackageModal from "./package-modal/package-modal";
 import PackageSuccessModal from "./package-modal/package-success-modal";
-import PackagesStats from "./packages-stats";
 
 export default function PackagesHeaderPage() {
-  const [editOpen, setEditOpen] = useState(false);
+  const t = useTranslations("Packages");
+  const [addOpen,     setAddOpen]     = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
 
-  const handleEditSuccess = () => {
-    setEditOpen(false);
+  const handleAddSuccess = () => {
+    setAddOpen(false);
     setSuccessOpen(true);
     setTimeout(() => setSuccessOpen(false), 2500);
   };
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">ادارة الباقات</h1>
-        <AddPackageButton />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#000709]">
+          {t("header.title")}
+        </h1>
+        <Button
+          onClick={() => setAddOpen(true)}
+          className="w-full sm:w-[288px] h-[48px] sm:h-[55px] bg-[#0C6175] hover:bg-[#097188] text-white rounded-lg text-base sm:text-lg gap-2"
+        >
+          <Package className="w-5 h-5" />
+          {t("header.addButton")}
+        </Button>
       </div>
 
-    
-
       <PackageModal
-        open={editOpen}
-        onClose={() => setEditOpen(false)}
-        onSuccess={handleEditSuccess}
-        mode="edit"
-        initialData={{ name: "الباقة الذهبية", price: "100", bags: "3" }}
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onSuccess={handleAddSuccess}
+        mode="add"
       />
+
       <PackageSuccessModal
         open={successOpen}
         onClose={() => setSuccessOpen(false)}

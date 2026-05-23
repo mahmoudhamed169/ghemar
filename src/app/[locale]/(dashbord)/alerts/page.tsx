@@ -1,9 +1,11 @@
-import React from "react";
+import { Suspense } from "react";
+import NotificationsList from "./_components/notifications-list";
+import NotificationsListSkeleton from "./_components/notifications-list-skeleton";
 
 export default function page() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold"> الإشعارات </h1>
-    </div>
+    <Suspense fallback={<NotificationsListSkeleton />}>
+      <NotificationsList />
+    </Suspense>
   );
 }

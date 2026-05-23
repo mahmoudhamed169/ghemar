@@ -4,9 +4,8 @@ import PackagesStats from "./_components/packages-stats";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="space-y-4">
+    <main className="space-y-6">
       <PackagesHeaderPage />
-
       <PackagesStats />
       {children}
     </main>
