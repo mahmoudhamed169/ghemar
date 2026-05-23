@@ -364,5 +364,85 @@
       "saving": "Saving...",
       "cancel": "Cancel"
     }
+  },
+  "Notifications": {
+    "header": {
+      "title": "Notifications",
+      "sendButton": "Send Notification"
+    },
+    "form": {
+      "title": "Send New Notification",
+      "audience": "Target Audience",
+      "clients": "Clients",
+      "drivers": "Drivers",
+      "all": "All",
+      "users": "users",
+      "titleAr": "Title (Arabic)",
+      "titleEn": "Title (English)",
+      "titleArPlaceholder": "Exclusive offer for members",
+      "titleEnPlaceholder": "Exclusive offer",
+      "bodyAr": "Body (Arabic)",
+      "bodyEn": "Body (English)",
+      "bodyArPlaceholder": "Write here...",
+      "bodyEnPlaceholder": "Write here...",
+      "send": "Send",
+      "sending": "Sending..."
+    },
+    "list": {
+      "empty": "No notifications found",
+      "total": "Total Notifications",
+      "delivered": "Delivered",
+      "read": "Read",
+      "unread": "Unread"
+    }
+  },
+  "Packages": {
+    "empty": "No packages found",
+    "header": {
+      "title": "Packages Management",
+      "addButton": "Add Package"
+    },
+    "card": {
+      "month": "month",
+      "bagsPerMonth": "bags / month",
+      "expressWash": "express wash / month",
+      "inactive": "Inactive",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "stats": {
+      "totalPackages": "Total Packages",
+      "activePackages": "Active Packages",
+      "activeSubscriptions": "Active Subscriptions",
+      "revenue": "Packages Revenue",
+      "currency": "SAR"
+    },
+    "modal": {
+      "addTitle": "Add New Package",
+      "editTitle": "Edit Package",
+      "nameAr": "Package Name (Arabic)",
+      "nameEn": "Package Name (English)",
+      "price": "Price",
+      "bagCount": "Bags / month",
+      "expressWashCount": "Express wash / month",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "deleteModal": {
+      "title": "Delete Package",
+      "message": "Are you sure you want to delete",
+      "confirm": "Yes, Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel"
+    },
+    "successModal": {
+      "editTitle": "Updated Successfully",
+      "editMessage": "Package data has been updated",
+      "deleteTitle": "Deleted Successfully",
+      "deleteMessage": "Package has been deleted successfully",
+      "addTitle": "Added Successfully",
+      "addMessage": "Package has been added successfully"
+    }
   }
 }
