@@ -2,8 +2,8 @@
 
 import { Suspense, useState, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Search, CalendarDays, ChevronDown } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -30,19 +30,11 @@ function toIso(date: Date): string {
 
 const dateFormatter = new Intl.DateTimeFormat("ar-SA", {
   month: "long",
-  year: "numeric",
+  year:  "numeric",
 });
 
 const DEFAULT_FROM = new Date(2026, 4, 1);
 const DEFAULT_TO   = new Date(2026, 3, 1);
-
-const STATUS_TABS = [
-  { value: "all",      label: "الكل" },
-  { value: "active",   label: "منشأ" },
-  { value: "assigned", label: "معين" },
-  { value: "inuse",    label: "قيد الاستخدام" },
-  { value: "voucher",  label: "في المغسلة" },
-];
 
 // ─── DatePickerButton ─────────────────────────────────────────────────────────
 
@@ -78,6 +70,8 @@ function DatePickerButton({
 // ─── BarcodeFiltersContent ────────────────────────────────────────────────────
 
 function BarcodeFiltersContent() {
+  const t = useTranslations("Bags.filter");
+
   const router       = useRouter();
   const pathname     = usePathname();
   const searchParams = useSearchParams();
@@ -98,35 +92,51 @@ function BarcodeFiltersContent() {
         if (!value || value === "all") params.delete(key);
         else params.set(key, value);
       });
+      // reset page on filter change
+      params.delete("page");
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     },
     [router, pathname, searchParams],
   );
 
+  const STATUS_TABS = [
+    { value: "all",      label: t("tabs.all")      },
+    { value: "active",   label: t("tabs.active")   },
+    { value: "assigned", label: t("tabs.assigned") },
+    { value: "inuse",    label: t("tabs.inuse")    },
+    { value: "voucher",  label: t("tabs.voucher")  },
+  ];
+
+  const TYPE_OPTIONS = [
+    { value: "all",     label: t("all")     },
+    { value: "single",  label: t("single")  },
+    { value: "package", label: t("package") },
+  ];
+
   return (
     <div className="flex flex-col gap-2 w-full">
 
-      {/* Row 1: Search + Date Range */}
-      <div className="flex items-center gap-2 w-full">
+      {/* Row 1: Search + Date Range + Type */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
 
         {/* Search */}
-        <div className="relative flex-1 min-w-0">
+        {/* <div className="relative flex-1 min-w-0">
           <Search
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
             size={16}
           />
           <Input
-            placeholder="ابحث"
+            placeholder={t("search")}
             defaultValue={search}
             onChange={(e) => updateParams({ search: e.target.value || null })}
             className="w-full bg-white h-[44px] rounded-lg pr-9 text-right border border-gray-200 text-sm"
           />
-        </div>
+        </div> */}
 
         {/* Date Range */}
-        <div className="flex items-center gap-2 px-3 h-[44px] border border-gray-200 rounded-lg bg-white shrink-0">
+        {/* <div className="flex items-center gap-2 px-3 h-[44px] border border-gray-200 rounded-lg bg-white shrink-0 overflow-x-auto">
           <span className="text-xs font-semibold text-gray-700 whitespace-nowrap">
-            فلتر حسب المدة الزمنية
+            {t("dateRange")}
           </span>
           <Separator orientation="vertical" className="h-4" />
           <DatePickerButton
@@ -135,22 +145,18 @@ function BarcodeFiltersContent() {
             onOpenChange={setFromOpen}
             onSelect={(d) => updateParams({ from: toIso(d) })}
           />
-          <span className="text-xs text-gray-400 select-none">الى</span>
+          <span className="text-xs text-gray-400 select-none">{t("to")}</span>
           <DatePickerButton
             date={to}
             open={toOpen}
             onOpenChange={setToOpen}
             onSelect={(d) => updateParams({ to: toIso(d) })}
           />
-        </div>
+        </div> */}
 
-        {/* Barcode Type Filter */}
+        {/* Type Filter */}
         <div className="flex items-center h-[44px] border border-gray-200 rounded-lg bg-white shrink-0 overflow-hidden">
-          {[
-            { value: "all",     label: "الكل"   },
-            { value: "single",  label: "فردي"   },
-            { value: "package", label: "باكيج"  },
-          ].map((opt, idx, arr) => {
+          {TYPE_OPTIONS.map((opt, idx, arr) => {
             const isActive = type === opt.value;
             return (
               <button
@@ -174,7 +180,7 @@ function BarcodeFiltersContent() {
       </div>
 
       {/* Row 2: Status Tabs */}
-      <div className="flex items-center gap-1 border border-gray-200 rounded-lg bg-white h-[44px] px-1 w-full overflow-x-auto">
+      {/* <div className="flex items-center gap-1 border border-gray-200 rounded-lg bg-white h-[44px] px-1 w-full overflow-x-auto">
         {STATUS_TABS.map((tab) => {
           const isActive = status === tab.value;
           return (
@@ -193,7 +199,7 @@ function BarcodeFiltersContent() {
             </button>
           );
         })}
-      </div>
+      </div> */}
 
     </div>
   );

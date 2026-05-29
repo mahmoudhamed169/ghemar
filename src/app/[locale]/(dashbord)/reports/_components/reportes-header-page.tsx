@@ -1,5 +1,7 @@
-import React from "react";
+import { getTranslations } from "next-intl/server";
 
-export default function ReportesHeaderPage() {
-  return <h1 className="text-3xl font-bold"> الفواتير والتقارير المالية</h1>;
+export default async function ReportesHeaderPage() {
+  const t = await getTranslations("Reports");
+
+  return <h1 className="text-2xl sm:text-3xl font-bold">{t("title")}</h1>;
 }

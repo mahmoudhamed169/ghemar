@@ -1,111 +1,95 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Bag } from "@/shared/lib/types/bags/bag";
+import BagStatusBadge from "./bag-status-badge";
+import BagReplaceButton from "./bag-replace-button";
 
-type BarcodeRow = {
-  id: string;
-  code: string;
-  clientName: string;
-  driverName: string;
-  createdAt: string;
-  lastScan: string;
-};
-
-async function getBarcodes(): Promise<BarcodeRow[]> {
-  return [
-    {
-      id: "1",
-      code: "BG-2299",
-      clientName: "ماريهان رضوان",
-      driverName: "ماريهان رضوان",
-      createdAt: "12 يناير 2025",
-      lastScan: "منذ 3 ساعات",
-    },
-    {
-      id: "2",
-      code: "BG-2300",
-      clientName: "أحمد الشمري",
-      driverName: "سعد الدوسري",
-      createdAt: "14 يناير 2025",
-      lastScan: "منذ 5 ساعات",
-    },
-    {
-      id: "3",
-      code: "BG-2301",
-      clientName: "نورة العتيبي",
-      driverName: "خالد المطيري",
-      createdAt: "18 يناير 2025",
-      lastScan: "منذ يوم",
-    },
-    {
-      id: "4",
-      code: "BG-2302",
-      clientName: "فيصل الحربي",
-      driverName: "عمر الزهراني",
-      createdAt: "20 يناير 2025",
-      lastScan: "منذ يومين",
-    },
-    {
-      id: "5",
-      code: "BG-2303",
-      clientName: "سارة القحطاني",
-      driverName: "محمد الغامدي",
-      createdAt: "22 يناير 2025",
-      lastScan: "منذ 3 أيام",
-    },
-    {
-      id: "6",
-      code: "BG-2304",
-      clientName: "عبدالله العمري",
-      driverName: "ياسر البقمي",
-      createdAt: "25 يناير 2025",
-      lastScan: "منذ أسبوع",
-    },
-    {
-      id: "7",
-      code: "BG-2305",
-      clientName: "منى الرشيدي",
-      driverName: "تركي السبيعي",
-      createdAt: "28 يناير 2025",
-      lastScan: "منذ أسبوعين",
-    },
-  ];
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("ar-SA", {
+    year:  "numeric",
+    month: "short",
+    day:   "numeric",
+  });
 }
 
-export default async function BarcodeTableBody() {
-  const barcodes = await getBarcodes();
+interface BarcodeTableBodyProps {
+  bags: Bag[];
+}
+
+export default async function BarcodeTableBody({ bags }: BarcodeTableBodyProps) {
+  const t = await getTranslations("Bags.table");
+
+  if (!bags?.length) {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={7} className="text-center py-16 text-gray-400">
+            {t("empty")}
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+  }
 
   return (
     <TableBody>
-      {barcodes.map((row) => (
+      {bags.map((bag) => (
         <TableRow
-          key={row.id}
+          key={bag._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
-          <TableCell className="text-center font-mono font-medium">
-            {row.code}
+          {/* Barcode */}
+          <TableCell className="text-center font-mono font-medium text-sm tracking-wider">
+            {bag.barcode}
           </TableCell>
-          <TableCell className="text-center font-medium">
-            {row.clientName}
-          </TableCell>
-          <TableCell className="text-center font-medium">
-            {row.driverName}
-          </TableCell>
-          <TableCell className="text-center text-gray-600">
-            {row.createdAt}
-          </TableCell>
-          <TableCell className="text-center text-[#E8A838] font-medium">
-            {row.lastScan}
-          </TableCell>
+
+          {/* Status */}
           <TableCell className="text-center">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5 text-sm bg-[#0C6175] text-white border-none hover:bg-[#0C6175]/90"
-            >
-              <RotateCcw size={14} />
-              استبدال
-            </Button>
+            <BagStatusBadge status={bag.status} />
+          </TableCell>
+
+          {/* Client */}
+          <TableCell className="text-center">
+            {bag.assignedTo ? (
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="font-medium text-sm">{bag.assignedTo.name}</span>
+                <span className="text-xs text-gray-400">{bag.assignedTo.phone}</span>
+              </div>
+            ) : (
+              <span className="text-gray-300 text-sm">—</span>
+            )}
+          </TableCell>
+
+          {/* Driver */}
+          <TableCell className="text-center">
+            {bag.currentOrderId?.driver ? (
+              <span className="font-medium text-sm">
+                {bag.currentOrderId.driver.name}
+              </span>
+            ) : (
+              <span className="text-gray-300 text-sm">—</span>
+            )}
+          </TableCell>
+
+          {/* Order */}
+          <TableCell className="text-center">
+            {bag.currentOrderId ? (
+              <span className="font-mono text-xs text-[#0C6175] font-medium">
+                {bag.currentOrderId.orderNumber}
+              </span>
+            ) : (
+              <span className="text-gray-300 text-sm">—</span>
+            )}
+          </TableCell>
+
+          {/* Created At */}
+          <TableCell className="text-center text-gray-600 text-sm">
+            {formatDate(bag.createdAt)}
+          </TableCell>
+
+          {/* Actions */}
+          <TableCell className="text-center">
+            <BagReplaceButton bagId={bag._id} barcode={bag.barcode} />
           </TableCell>
         </TableRow>
       ))}

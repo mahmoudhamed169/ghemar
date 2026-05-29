@@ -1,100 +1,79 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { getLocale, getTranslations } from "next-intl/server";
 
-import OrderStatusBadge, { type OrderStatus } from "./order-status-badge";
+import { Invoice } from "@/shared/lib/types/reports/invoice";
+import OrderStatusBadge from "./order-status-badge";
 import { InvoiceModalTrigger } from "./invoice-modal";
+import {
+  formatInvoiceDate,
+  getInvoicePackageName,
+  mapInvoiceToInvoiceData,
+} from "./invoice-modal/invoice-data";
 
-type Report = {
-  serial: number;
-  id: string;
-  orderNumber: number;
-  clientName: string;
-  package: string;
-  date: string;
-  amountPaid: number;
-  discount: number;
-  status: OrderStatus;
-};
-
-async function getReports(): Promise<Report[]> {
-  const statuses: OrderStatus[] = [
-    "مستعجل",
-    "مستعجل",
-    "مستعجل",
-    "مستعجل",
-    "عادي",
-    "عادي",
-    "عادي",
-  ];
-
-  const packages = [
-    "الذهبية",
-    "الفضية",
-    "الأساسية",
-    "الأساسية",
-    "الأساسية",
-    "الأساسية",
-    "الأساسية",
-  ];
-
-  return Array.from({ length: 7 }, (_, i) => ({
-    serial: i + 1,
-    id: "INV-66788",
-    orderNumber: 66788,
-    clientName: "ماريهان رضوان",
-    package: packages[i],
-    date: "12 يناير 2026",
-    amountPaid: i < 4 ? 115 : 100,
-    discount: 10,
-    status: statuses[i],
-  }));
+interface ReportsTableBodyProps {
+  invoices: Invoice[];
+  page: number;
+  limit: number;
 }
 
-export default async function ReportsTableBody() {
-  const reports = await getReports();
+export default async function ReportsTableBody({
+  invoices,
+  page,
+  limit,
+}: ReportsTableBodyProps) {
+  const locale = await getLocale();
+  const t = await getTranslations("Reports");
+
+  if (!invoices.length) {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={10} className="h-28 text-center text-gray-500">
+            {t("table.empty")}
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+  }
 
   return (
     <TableBody>
-      {reports.map((report) => (
+      {invoices.map((invoice, index) => (
         <TableRow
-          key={report.serial}
+          key={invoice._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
           <TableCell className="text-center text-sm text-gray-500">
-            {report.serial}
+            {(page - 1) * limit + index + 1}
           </TableCell>
-          <TableCell className="text-center font-medium">{report.id}</TableCell>
-          <TableCell className="text-center font-medium">
-            {report.orderNumber}
+          <TableCell className="text-center font-medium whitespace-nowrap">
+            {invoice._id}
           </TableCell>
-          <TableCell className="text-center font-medium">
-            {report.clientName}
+          <TableCell className="text-center font-medium whitespace-nowrap">
+            {invoice.orderId || "-"}
           </TableCell>
-          <TableCell className="text-center">{report.package}</TableCell>
-          <TableCell className="text-center text-gray-600">
-            {report.date}
+          <TableCell className="text-center font-medium whitespace-nowrap">
+            {invoice.user?.name || "-"}
           </TableCell>
-          <TableCell className="text-center font-medium">
-            {report.amountPaid} ريال
+          <TableCell className="text-center whitespace-nowrap">
+            {getInvoicePackageName(invoice, locale)}
           </TableCell>
-          <TableCell className="text-center text-gray-600">
-            {report.discount} ريال
+          <TableCell className="text-center text-gray-600 whitespace-nowrap">
+            {formatInvoiceDate(invoice.createdAt, locale)}
+          </TableCell>
+          <TableCell className="text-center font-medium whitespace-nowrap">
+            {invoice.amount} {invoice.currency}
+          </TableCell>
+          <TableCell className="text-center text-gray-600 whitespace-nowrap">
+            {invoice.discountAmount || 0} {invoice.currency}
           </TableCell>
           <TableCell className="text-center">
-            <OrderStatusBadge status={report.status} />
+            <OrderStatusBadge status={invoice.status} />
           </TableCell>
           <TableCell className="text-center">
             <InvoiceModalTrigger
-              invoice={{
-                invoiceId: "2345",
-                clientName: report.clientName,
-                orderNumber: report.orderNumber,
-                driverName: "سعد الدوسري",
-                date: report.date,
-                baseAmount: 290.25,
-                discount: report.discount,
-                vatPercent: 14,
-                total: report.amountPaid,
-              }}
+              invoiceId={invoice._id}
+              invoice={mapInvoiceToInvoiceData(invoice, locale)}
             />
           </TableCell>
         </TableRow>

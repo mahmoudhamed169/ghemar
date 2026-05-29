@@ -1,12 +1,30 @@
 export type OrderStatus =
   | "pending"
+  | "confirmed"
+  | "awaiting_payment"
   | "driver_assigned"
+  // Package delivery flow
+  | "driver_preparing_bags"
+  | "driver_on_way_to_customer"
+  | "bags_delivered_and_linked"
+  | "first_bag_collected"
+  // Normal laundry pickup flow
   | "driver_on_way_to_pickup"
+  | "driver_arrived_at_pickup"
   | "picked_up_from_customer"
-  | "in_laundry"
-  | "driver_on_way_to_delivery"
-  | "delivered"
-  | "cancelled";
+  | "on_way_to_laundry"
+  | "delivered_to_laundry"
+  | "at_laundry"
+  | "ready_for_return"
+  | "driver_on_way_to_laundry_pickup"
+  | "picked_from_laundry"
+  | "on_way_to_customer"
+  | "driver_arrived_at_customer"
+  | "delivered_to_customer"
+  // Terminal
+  | "completed"
+  | "cancelled"
+  | "problem_reported";
 
 export type OrderType = "laundry_pickup" | "package_delivery";
 

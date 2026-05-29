@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 interface InvoiceAmountsProps {
   baseAmount: number;
   discount: number;
@@ -16,7 +18,7 @@ function AmountRow({
 }) {
   return (
     <div
-      className={`flex items-center justify-between py-2 ${
+      className={`flex items-center justify-between gap-4 py-2 ${
         isTotal ? "border-t border-gray-100 mt-1 pt-3" : ""
       }`}
     >
@@ -28,7 +30,7 @@ function AmountRow({
         {value}
       </span>
       <span
-        className={`text-sm ${
+        className={`text-sm text-end ${
           isTotal ? "text-gray-500 font-medium" : "text-gray-400"
         }`}
       >
@@ -44,17 +46,15 @@ export default function InvoiceAmounts({
   vatPercent,
   total,
 }: InvoiceAmountsProps) {
+  const t = useTranslations("Reports.invoice");
   const vat = ((baseAmount - discount) * vatPercent) / 100;
 
   return (
     <div className="border-t border-gray-100 pt-3 space-y-0.5">
-      <AmountRow label="المبلغ الأساسي" value={`﷼ ${baseAmount.toFixed(2)}`} />
-      <AmountRow label="الخصم" value={`﷼ ${discount}`} />
-      <AmountRow
-        label={`ضريبة القيمة المضافة (%${vatPercent})`}
-        value={`﷼ ${vat.toFixed(2)}`}
-      />
-      <AmountRow label="الإجمالي" value={`﷼ ${total}`} isTotal />
+      <AmountRow label={t("baseAmount")} value={baseAmount.toFixed(2)} />
+      <AmountRow label={t("discount")} value={String(discount)} />
+      <AmountRow label={`${t("vat")} (%${vatPercent})`} value={vat.toFixed(2)} />
+      <AmountRow label={t("total")} value={String(total)} isTotal />
     </div>
   );
 }

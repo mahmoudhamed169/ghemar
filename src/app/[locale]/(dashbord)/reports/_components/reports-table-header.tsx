@@ -1,38 +1,41 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
-export default function ReportsTableHeader() {
+export default async function ReportsTableHeader() {
+  const t = await getTranslations("Reports.table");
+
   return (
     <TableHeader>
-      <TableRow className=" h-15">
+      <TableRow className="h-15">
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الرقم التسلسلي
+          {t("serial")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
           ID
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          رقم الطلب
+          {t("orderNumber")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          اسم العميل
+          {t("clientName")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الباقة
+          {t("package")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          التاريخ
+          {t("date")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          المبلغ المدفوع
+          {t("paidAmount")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الخصم
+          {t("discount")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          حالة الطلب
+          {t("status")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          إجراءات
+          {t("actions")}
         </TableHead>
       </TableRow>
     </TableHeader>
