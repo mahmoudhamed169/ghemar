@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 interface InvoiceInfoGridProps {
   clientName: string;
   orderNumber: number | string;
@@ -5,17 +7,13 @@ interface InvoiceInfoGridProps {
   date: string;
 }
 
-function InfoCell({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) {
+function InfoCell({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="flex flex-col gap-1 border border-dashed border-gray-200 rounded-lg p-3">
       <span className="text-xs text-gray-400">{label}</span>
-      <span className="text-sm font-semibold text-gray-800">{value}</span>
+      <span className="text-sm font-semibold text-gray-800 break-words">
+        {value}
+      </span>
     </div>
   );
 }
@@ -26,12 +24,14 @@ export default function InvoiceInfoGrid({
   driverName,
   date,
 }: InvoiceInfoGridProps) {
+  const t = useTranslations("Reports.invoice");
+
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <InfoCell label="رقم الطلب" value={orderNumber} />
-      <InfoCell label="اسم العميل" value={clientName} />
-      <InfoCell label="التاريخ" value={date} />
-      <InfoCell label="السائق" value={driverName} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <InfoCell label={t("orderNumber")} value={orderNumber} />
+      <InfoCell label={t("clientName")} value={clientName} />
+      <InfoCell label={t("date")} value={date} />
+      <InfoCell label={t("paymentMethod")} value={driverName} />
     </div>
   );
 }
