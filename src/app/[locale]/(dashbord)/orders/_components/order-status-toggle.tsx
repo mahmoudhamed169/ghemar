@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Select,
   SelectContent,
@@ -11,15 +10,32 @@ import { useTranslations } from "next-intl";
 import { OrderStatus } from "@/shared/lib/types/orders/order";
 
 const statusColors: Record<OrderStatus, string> = {
-  pending: "text-[#6B7280]",
-  driver_assigned: "text-[#1D4ED8]",
-  driver_arrived_at_pickup: "text-[#F97316]",
-  driver_on_way_to_pickup: "text-[#B45309]",
-  picked_up_from_customer: "text-[#CA8A04]",
-  in_laundry: "text-[#0C6175]",
-  driver_on_way_to_delivery: "text-[#7C3AED]",
-  delivered: "text-[#00C950]",
-  cancelled: "text-[#DC2626]",
+  // Common
+  pending:                          "text-[#6B7280]",
+  confirmed:                        "text-[#1E40AF]",
+  driver_assigned:                  "text-[#1D4ED8]",
+  // Package delivery flow
+  driver_preparing_bags:            "text-[#4338CA]",
+  driver_on_way_to_customer:        "text-[#7C3AED]",
+  bags_delivered_and_linked:        "text-[#0C6175]",
+  first_bag_collected:              "text-[#0E7490]",
+  // Normal laundry pickup flow
+  driver_on_way_to_pickup:          "text-[#B45309]",
+  driver_arrived_at_pickup:         "text-[#F97316]",
+  picked_up_from_customer:          "text-[#CA8A04]",
+  on_way_to_laundry:                "text-[#B45309]",
+  delivered_to_laundry:             "text-[#4D7C0F]",
+  at_laundry:                       "text-[#0C6175]",
+  ready_for_return:                 "text-[#065F46]",
+  driver_on_way_to_laundry_pickup:  "text-[#6D28D9]",
+  picked_from_laundry:              "text-[#7C3AED]",
+  on_way_to_customer:               "text-[#6D28D9]",
+  driver_arrived_at_customer:       "text-[#BE185D]",
+  delivered_to_customer:            "text-[#15803D]",
+  // Terminal
+  completed:                        "text-[#00C950]",
+  cancelled:                        "text-[#DC2626]",
+  problem_reported:                 "text-[#9F1239]",
 };
 
 const ALL_STATUSES = Object.keys(statusColors) as OrderStatus[];

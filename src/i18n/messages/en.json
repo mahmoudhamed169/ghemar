@@ -131,14 +131,32 @@
     },
     "status": {
       "all": "All",
-      "pending": "Pending Assignment",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
       "driver_assigned": "Driver Assigned",
+      "awaiting_payment": "Awaiting Payment",
+
+      "driver_preparing_bags": "Preparing Bags",
+      "driver_on_way_to_customer": "Driver On The Way",
+      "bags_delivered_and_linked": "Bags Delivered & Linked",
+      "first_bag_collected": "First Bag Collected",
+
       "driver_on_way_to_pickup": "On Way to Pickup",
+      "driver_arrived_at_pickup": "Driver Arrived at Pickup",
       "picked_up_from_customer": "Picked Up",
-      "in_laundry": "In Laundry",
-      "driver_on_way_to_delivery": "On Way to Delivery",
-      "delivered": "Delivered",
-      "cancelled": "Cancelled"
+      "on_way_to_laundry": "On Way to Laundry",
+      "delivered_to_laundry": "Delivered to Laundry",
+      "at_laundry": "In Laundry",
+      "ready_for_return": "Ready for Return",
+      "driver_on_way_to_laundry_pickup": "On Way to Laundry Pickup",
+      "picked_from_laundry": "Picked from Laundry",
+      "on_way_to_customer": "On Way to Delivery",
+      "driver_arrived_at_customer": "Driver Arrived",
+      "delivered_to_customer": "Delivered",
+
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "problem_reported": "Problem Reported"
     },
     "table": {
       "serial": "Serial",
@@ -443,6 +461,104 @@
       "deleteMessage": "Package has been deleted successfully",
       "addTitle": "Added Successfully",
       "addMessage": "Package has been added successfully"
+    }
+  },
+  "Reports": {
+    "title": "Invoices & Financial Reports",
+    "stats": {
+      "totalRevenue": "Total Revenue",
+      "invoicesThisMonth": "Invoices This Month",
+      "paidInvoices": "Paid Invoices",
+      "unpaidInvoices": "Unpaid Invoices",
+      "currency": "SAR"
+    },
+    "filters": {
+      "search": "Search invoices",
+      "dateRange": "Filter by date range",
+      "from": "From",
+      "to": "To",
+      "all": "All",
+      "completed": "Paid",
+      "pending": "Pending",
+      "print": "Print"
+    },
+    "table": {
+      "empty": "No invoices found",
+      "serial": "Serial",
+      "orderNumber": "Order Number",
+      "clientName": "Client Name",
+      "package": "Package",
+      "date": "Date",
+      "paidAmount": "Paid Amount",
+      "discount": "Discount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "completed": "Paid",
+      "pending": "Pending"
+    },
+    "actions": {
+      "viewInvoice": "View invoice"
+    },
+    "invoice": {
+      "title": "Invoice",
+      "orderNumber": "Order Number",
+      "clientName": "Client Name",
+      "date": "Date",
+      "paymentMethod": "Payment Method",
+      "baseAmount": "Base Amount",
+      "discount": "Discount",
+      "vat": "VAT",
+      "total": "Total",
+      "printPdf": "Print / Save PDF",
+      "loading": "Loading invoice..."
+    }
+  },
+  "Bags": {
+    "table": {
+      "empty": "No bags found",
+      "replace": "Replace",
+      "headers": {
+        "barcode": "Barcode",
+        "status": "Status",
+        "client": "Client",
+        "driver": "Driver",
+        "order": "Order",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      }
+    },
+    "status": {
+      "generated": "Generated",
+      "assigned": "Assigned",
+      "in_use": "In Use",
+      "at_laundry": "At Laundry",
+      "voucher": "Voucher"
+    },
+    "filter": {
+      "search": "Search",
+      "dateRange": "Filter by date range",
+      "to": "To",
+      "all": "All",
+      "single": "Single",
+      "package": "Package",
+      "tabs": {
+        "all": "All",
+        "active": "Generated",
+        "assigned": "Assigned",
+        "inuse": "In Use",
+        "voucher": "At Laundry"
+      }
+    },
+    "header": {
+      "title": "Bags Management",
+      "generateButton": "Generate Barcode"
+    },
+    "print": {
+      "title": "Print Barcode",
+      "print": "Print",
+      "cancel": "Cancel"
     }
   }
 }

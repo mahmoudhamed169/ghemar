@@ -1,26 +1,32 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
-export default function BarcodeTableHeader() {
+export default async function BarcodeTableHeader() {
+  const t = await getTranslations("Bags.table.headers");
+
   return (
     <TableHeader>
       <TableRow className="h-15">
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          الباركود
+          {t("barcode")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          العميل
+          {t("status")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          السائق
+          {t("client")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          تاريخ الانشاء
+          {t("driver")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          اخر مسح
+          {t("order")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-          إجراءات
+          {t("createdAt")}
+        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]">
+          {t("actions")}
         </TableHead>
       </TableRow>
     </TableHeader>

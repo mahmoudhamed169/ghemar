@@ -2,17 +2,18 @@
 
 import { Printer, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { type InvoiceData } from "./invoice-modal";
 
 export default function InvoiceActions({
-  invoiceId,
   invoice,
 }: {
   invoiceId?: string;
   invoice: InvoiceData;
 }) {
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("Reports.invoice");
 
   const handlePrint = () => {
     setLoading(true);
@@ -284,7 +285,7 @@ export default function InvoiceActions({
         disabled={loading}
       >
         {loading ? <Loader2 size={15} className="animate-spin" /> : <Printer size={15} />}
-        طباعة / حفظ PDF
+        {t("printPdf")}
       </Button>
     </div>
   );

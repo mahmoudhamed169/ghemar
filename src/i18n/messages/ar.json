@@ -131,16 +131,32 @@
     },
     "status": {
       "all": "الكل",
-      "pending": "قيد التعيين",
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
       "driver_assigned": "تم تعيين سائق",
-      "driver_arrived_at_pickup": "السائق وصل لموقع الاستلام",
-      "delivered_to_customer": "تم التسليم للعميل",
+      "awaiting_payment": "في انتظار الدفع",
+
+      "driver_preparing_bags": "السائق يجهّز الأكياس",
+      "driver_on_way_to_customer": "السائق في الطريق إليك",
+      "bags_delivered_and_linked": "تم توصيل الأكياس وربطها",
+      "first_bag_collected": "تم استلام أول كيس",
+
       "driver_on_way_to_pickup": "قيد الاستلام",
+      "driver_arrived_at_pickup": "السائق وصل لموقع الاستلام",
       "picked_up_from_customer": "تم الاستلام",
-      "in_laundry": "في المغسلة",
-      "driver_on_way_to_delivery": "قيد التسليم",
-      "delivered": "المكتملة",
-      "cancelled": "الملغية"
+      "on_way_to_laundry": "في الطريق للمغسلة",
+      "delivered_to_laundry": "تم التسليم للمغسلة",
+      "at_laundry": "في المغسلة",
+      "ready_for_return": "جاهز للإرجاع",
+      "driver_on_way_to_laundry_pickup": "السائق في الطريق لاستلام الغسيل",
+      "picked_from_laundry": "تم الاستلام من المغسلة",
+      "on_way_to_customer": "قيد التسليم",
+      "driver_arrived_at_customer": "السائق وصل لموقع العميل",
+      "delivered_to_customer": "تم التسليم للعميل",
+
+      "completed": "مكتمل",
+      "cancelled": "ملغي",
+      "problem_reported": "تم الإبلاغ عن مشكلة"
     },
     "table": {
       "serial": "الرقم التسلسلي",
@@ -486,6 +502,104 @@
       "deleteMessage": "تم حذف الباقة بنجاح",
       "addTitle": "تمت الإضافة بنجاح",
       "addMessage": "تم إضافة الباقة بنجاح"
+    }
+  },
+  "Reports": {
+    "title": "الفواتير والتقارير المالية",
+    "stats": {
+      "totalRevenue": "إجمالي الإيرادات",
+      "invoicesThisMonth": "عدد الفواتير هذا الشهر",
+      "paidInvoices": "الفواتير المدفوعة",
+      "unpaidInvoices": "الفواتير غير المدفوعة",
+      "currency": "ر.س"
+    },
+    "filters": {
+      "search": "ابحث في الفواتير",
+      "dateRange": "فلتر حسب المدة الزمنية",
+      "from": "من",
+      "to": "إلى",
+      "all": "الكل",
+      "completed": "مدفوعة",
+      "pending": "قيد الانتظار",
+      "print": "طباعة"
+    },
+    "table": {
+      "empty": "لا توجد فواتير",
+      "serial": "الرقم التسلسلي",
+      "orderNumber": "رقم الطلب",
+      "clientName": "اسم العميل",
+      "package": "الباقة",
+      "date": "التاريخ",
+      "paidAmount": "المبلغ المدفوع",
+      "discount": "الخصم",
+      "status": "الحالة",
+      "actions": "إجراءات"
+    },
+    "status": {
+      "completed": "مدفوعة",
+      "pending": "قيد الانتظار"
+    },
+    "actions": {
+      "viewInvoice": "عرض الفاتورة"
+    },
+    "invoice": {
+      "title": "فاتورة",
+      "orderNumber": "رقم الطلب",
+      "clientName": "اسم العميل",
+      "date": "التاريخ",
+      "paymentMethod": "طريقة الدفع",
+      "baseAmount": "المبلغ الأساسي",
+      "discount": "الخصم",
+      "vat": "ضريبة القيمة المضافة",
+      "total": "الإجمالي",
+      "printPdf": "طباعة / حفظ PDF",
+      "loading": "جاري تحميل الفاتورة..."
+    }
+  },
+  "Bags": {
+    "table": {
+      "empty": "لا توجد أكياس",
+      "replace": "استبدال",
+      "headers": {
+        "barcode": "الباركود",
+        "status": "الحالة",
+        "client": "العميل",
+        "driver": "السائق",
+        "order": "الطلب",
+        "createdAt": "تاريخ الإنشاء",
+        "actions": "إجراءات"
+      }
+    },
+    "status": {
+      "generated": "منشأ",
+      "assigned": "معين",
+      "in_use": "قيد الاستخدام",
+      "at_laundry": "في المغسلة",
+      "voucher": "فاوتشر"
+    },
+    "filter": {
+      "search": "ابحث",
+      "dateRange": "فلتر حسب المدة الزمنية",
+      "to": "الى",
+      "all": "الكل",
+      "single": "فردي",
+      "package": "باكيج",
+      "tabs": {
+        "all": "الكل",
+        "active": "منشأ",
+        "assigned": "معين",
+        "inuse": "قيد الاستخدام",
+        "voucher": "في المغسلة"
+      }
+    },
+    "header": {
+      "title": "إدارة الأكياس",
+      "generateButton": "توليد باركود"
+    },
+    "print": {
+      "title": "طباعة الباركود",
+      "print": "طباعة",
+      "cancel": "إلغاء"
     }
   }
 }
