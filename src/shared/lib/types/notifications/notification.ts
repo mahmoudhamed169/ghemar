@@ -1,4 +1,4 @@
-export type RecipientRole = "client" | "driver" | "admin";
+export type RecipientRole = "client" | "driver" | "admin" | "all";
 export type NotificationType = "system" | "order" | "promo";
 
 export interface NotificationRecipient {
