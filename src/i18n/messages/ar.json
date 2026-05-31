@@ -423,6 +423,31 @@
       "cancel": "إلغاء"
     }
   },
+  "Bounes": {
+    "stats": {
+      "totalIssued": "إجمالي النقاط المُصدَرة",
+      "totalUsed": "النقاط المستخدمة",
+      "activeUsers": "المستخدمون النشطون",
+      "redemptionsCount": "عمليات الاستبدال",
+      "unit": {
+        "point": "نقطة",
+        "user": "مستخدم",
+        "redemption": "عملية"
+      }
+    },
+    "pointsTable": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "اسم المستخدم",
+      "phone": "رقم الجوال",
+      "totalPoints": "إجمالي النقاط",
+      "usedPoints": "النقاط المستخدمة",
+      "remainingPoints": "النقاط المتبقية",
+      "actions": "إجراءات",
+      "noName": "—",
+      "empty": "لا توجد بيانات"
+    }
+  },
   "Notifications": {
     "header": {
       "title": "الإشعارات",

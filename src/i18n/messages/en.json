@@ -383,6 +383,31 @@
       "cancel": "Cancel"
     }
   },
+  "Bounes": {
+    "stats": {
+      "totalIssued": "Total Issued Points",
+      "totalUsed": "Used Points",
+      "activeUsers": "Active Users",
+      "redemptionsCount": "Redemptions",
+      "unit": {
+        "point": "pts",
+        "user": "user",
+        "redemption": "ops"
+      }
+    },
+    "pointsTable": {
+      "serial": "Serial",
+      "id": "ID",
+      "name": "Username",
+      "phone": "Phone",
+      "totalPoints": "Total Points",
+      "usedPoints": "Used Points",
+      "remainingPoints": "Remaining Points",
+      "actions": "Actions",
+      "noName": "—",
+      "empty": "No data found"
+    }
+  },
   "Notifications": {
     "header": {
       "title": "Notifications",
