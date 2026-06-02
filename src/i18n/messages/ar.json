@@ -626,5 +626,49 @@
       "print": "طباعة",
       "cancel": "إلغاء"
     }
+  },
+  "Settings": {
+    "general": {
+      "title": "الإعدادات العامة",
+      "appSettings": {
+        "title": "إعدادات التطبيق",
+        "logoLabel": "شعار التطبيق",
+        "uploadLogo": "رفع شعار جديد",
+        "appName": "اسم التطبيق",
+        "supportEmail": "عنوان البريد الإلكتروني",
+        "supportPhone": "رقم الدعم",
+        "currency": "العملة",
+        "expressWashFee": "رسوم المستعجل",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء"
+      },
+      "alertSettings": {
+        "title": "إعدادات التنبيهات",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "smsEnabled": {
+          "title": "الإشعارات برسائل SMS",
+          "description": "إرسال رسائل نصية عند تغيير حالة الطلب"
+        },
+        "emailEnabled": {
+          "title": "الإشعارات بالبريد الإلكتروني",
+          "description": "إرسال بريد إلكتروني عند تغيير حالة الطلب"
+        },
+        "pushEnabled": {
+          "title": "الإشعارات الفورية (Push)",
+          "description": "إرسال إشعارات فورية للتطبيق"
+        },
+        "driverAlerts": {
+          "title": "تنبيهات السائقين",
+          "description": "إشعار السائق عند تعيين طلب جديد له"
+        },
+        "delayAlerts": {
+          "title": "تنبيهات التأخر",
+          "description": "تنبيه عند تأخر التوصيل عن الوقت المحدد"
+        }
+      }
+    }
   }
 }

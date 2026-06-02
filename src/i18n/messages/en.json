@@ -585,5 +585,49 @@
       "print": "Print",
       "cancel": "Cancel"
     }
+  },
+  "Settings": {
+    "general": {
+      "title": "General Settings",
+      "appSettings": {
+        "title": "App Settings",
+        "logoLabel": "App Logo",
+        "uploadLogo": "Upload New Logo",
+        "appName": "App Name",
+        "supportEmail": "Support Email",
+        "supportPhone": "Support Phone",
+        "currency": "Currency",
+        "expressWashFee": "Express Wash Fee",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      },
+      "alertSettings": {
+        "title": "Notification Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "smsEnabled": {
+          "title": "SMS Notifications",
+          "description": "Send text messages when order status changes"
+        },
+        "emailEnabled": {
+          "title": "Email Notifications",
+          "description": "Send emails when order status changes"
+        },
+        "pushEnabled": {
+          "title": "Push Notifications",
+          "description": "Send push notifications to the app"
+        },
+        "driverAlerts": {
+          "title": "Driver Alerts",
+          "description": "Notify driver when a new order is assigned"
+        },
+        "delayAlerts": {
+          "title": "Delay Alerts",
+          "description": "Alert when delivery exceeds expected time"
+        }
+      }
+    }
   }
 }
