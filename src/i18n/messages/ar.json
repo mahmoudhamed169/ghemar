@@ -627,6 +627,71 @@
       "cancel": "إلغاء"
     }
   },
+  "Zones": {
+    "header": { "title": "مدن التوصيل", "addButton": "إضافة مدينة" },
+    "stats": {
+      "totalCities": "إجمالي المدن",
+      "activeCities": "المدن النشطة",
+      "disabledCities": "المدن المعطلة",
+      "totalDrivers": "إجمالي السائقين"
+    },
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "name": "اسم المدينة",
+      "code": "الكود",
+      "areas": "المناطق",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "empty": "لا توجد مدن بعد"
+    },
+    "status": { "active": "نشط", "inactive": "معطل" },
+    "cityModal": {
+      "addTitle": "إضافة مدينة جديدة",
+      "editTitle": "تعديل المدينة",
+      "nameAr": "الاسم (عربي)",
+      "name": "الاسم (إنجليزي)",
+      "code": "الكود",
+      "country": "الدولة",
+      "timezone": "المنطقة الزمنية",
+      "currency": "العملة",
+      "openTime": "وقت الفتح",
+      "closeTime": "وقت الإغلاق",
+      "minLeadTime": "وقت الاستعداد (ساعات)",
+      "isActive": "تفعيل المدينة",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "areaModal": {
+      "addTitle": "إضافة منطقة",
+      "editTitle": "تعديل المنطقة",
+      "nameAr": "الاسم (عربي)",
+      "name": "الاسم (إنجليزي)",
+      "code": "الكود",
+      "lat": "خط العرض",
+      "lng": "خط الطول",
+      "deliveryAvailable": "التوصيل متاح",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "actions": {
+      "viewDetails": "عرض التفاصيل",
+      "edit": "تعديل المدينة",
+      "addArea": "إضافة منطقة"
+    },
+    "details": {
+      "title": "تفاصيل المدينة",
+      "operatingHours": "ساعات العمل",
+      "areas": "المناطق",
+      "noAreas": "لا توجد مناطق",
+      "deliveryAvailable": "التوصيل متاح",
+      "deliveryUnavailable": "التوصيل غير متاح",
+      "drivers": "السائقون",
+      "noDrivers": "لا يوجد سائقون في هذه المنطقة",
+      "edit": "تعديل المدينة"
+    }
+  },
   "Settings": {
     "terms": {
       "title": "الشروط والأحكام",

@@ -586,6 +586,71 @@
       "cancel": "Cancel"
     }
   },
+  "Zones": {
+    "header": { "title": "Delivery Cities", "addButton": "Add City" },
+    "stats": {
+      "totalCities": "Total Cities",
+      "activeCities": "Active Cities",
+      "disabledCities": "Disabled Cities",
+      "totalDrivers": "Total Drivers"
+    },
+    "table": {
+      "serial": "Serial",
+      "name": "City Name",
+      "code": "Code",
+      "areas": "Areas",
+      "status": "Status",
+      "actions": "Actions",
+      "empty": "No cities yet"
+    },
+    "status": { "active": "Active", "inactive": "Inactive" },
+    "cityModal": {
+      "addTitle": "Add New City",
+      "editTitle": "Edit City",
+      "nameAr": "Name (Arabic)",
+      "name": "Name (English)",
+      "code": "Code",
+      "country": "Country",
+      "timezone": "Timezone",
+      "currency": "Currency",
+      "openTime": "Opening Time",
+      "closeTime": "Closing Time",
+      "minLeadTime": "Min Lead Time (hours)",
+      "isActive": "Activate City",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "areaModal": {
+      "addTitle": "Add Area",
+      "editTitle": "Edit Area",
+      "nameAr": "Name (Arabic)",
+      "name": "Name (English)",
+      "code": "Code",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "deliveryAvailable": "Delivery Available",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "edit": "Edit City",
+      "addArea": "Add Area"
+    },
+    "details": {
+      "title": "City Details",
+      "operatingHours": "Operating Hours",
+      "areas": "Areas",
+      "noAreas": "No areas yet",
+      "deliveryAvailable": "Delivery Available",
+      "deliveryUnavailable": "Delivery Unavailable",
+      "drivers": "Drivers",
+      "noDrivers": "No drivers assigned to this area",
+      "edit": "Edit City"
+    }
+  },
   "Settings": {
     "terms": {
       "title": "Terms & Conditions",

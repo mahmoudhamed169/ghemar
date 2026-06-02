@@ -1,38 +1,27 @@
-// ZonesHeaderPage.tsx
-// Header page — wires the "اضافة منطقة" button to ZoneModal
-
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { ZoneFormData, ZoneModal } from "./zone-modal";
-
+import CityModal from "./city-modal";
 
 export default function ZonesHeaderPage() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleSubmit = (data: ZoneFormData) => {
-    console.log("Zone saved:", data);
-    // TODO: call your API here
-  };
+  const t = useTranslations("Zones.header");
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="space-y-6 mt-1">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">مناطق التوصيل</h1>
+    <>
+      <div className="flex items-center justify-between mt-1">
+        <h1 className="text-3xl font-bold">{t("title")}</h1>
         <Button
-          onClick={() => setModalOpen(true)}
-          className="mt-4 bg-[#0C6175] text-white w-[288px] h-[55px] rounded-lg text-lg flex items-center justify-center hover:bg-[#097188] hover:text-white hover:cursor-pointer"
+          onClick={() => setOpen(true)}
+          className="bg-[#0C6175] text-white w-[288px] h-[55px] rounded-lg text-lg hover:bg-[#097188]"
         >
-          اضافة منطقة
+          {t("addButton")}
         </Button>
       </div>
 
-      <ZoneModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleSubmit}
-      />
-    </div>
+      <CityModal open={open} onOpenChange={setOpen} />
+    </>
   );
 }

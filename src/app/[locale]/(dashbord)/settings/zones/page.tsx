@@ -1,6 +1,10 @@
-import React from "react";
+import { Suspense } from "react";
 import ZonesTable from "./_components/zones-table";
 
 export default function page() {
-  return <ZonesTable />;
+  return (
+    <Suspense>
+      <ZonesTable />
+    </Suspense>
+  );
 }
