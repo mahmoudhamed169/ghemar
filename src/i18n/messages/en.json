@@ -602,6 +602,42 @@
         "saving": "Saving...",
         "cancel": "Cancel"
       },
+      "banners": {
+        "title": "Special Offer Banners",
+        "add": "Add Banner",
+        "edit": "Edit",
+        "done": "Done",
+        "addModal": {
+          "title": "Add New Banner",
+          "bannerTitle": "Banner Title",
+          "link": "Link",
+          "sortOrder": "Sort Order",
+          "isActive": "Active",
+          "image": "Banner Image",
+          "chooseImage": "Choose Image",
+          "save": "Add",
+          "saving": "Adding...",
+          "cancel": "Cancel"
+        },
+        "editModal": {
+          "title": "Edit Banner",
+          "bannerTitle": "Banner Title",
+          "link": "Link",
+          "sortOrder": "Sort Order",
+          "isActive": "Active",
+          "image": "Change Image (optional)",
+          "chooseImage": "Choose Image",
+          "save": "Save Changes",
+          "saving": "Saving...",
+          "cancel": "Cancel"
+        },
+        "deleteConfirm": {
+          "title": "Delete Banner",
+          "description": "Are you sure you want to delete this banner? This action cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
       "alertSettings": {
         "title": "Notification Settings",
         "save": "Save Changes",

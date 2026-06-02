@@ -1,5 +1,1 @@
-export interface Banner {
-  id: string;
-  imageUrl: string;
-  alt?: string;
-}
+export type { Banner } from "@/shared/lib/types/settings/banner";

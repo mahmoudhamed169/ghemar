@@ -643,6 +643,42 @@
         "saving": "جاري الحفظ...",
         "cancel": "إلغاء"
       },
+      "banners": {
+        "title": "بنرات العروض الخاصة",
+        "add": "إضافة بنر",
+        "edit": "تعديل",
+        "done": "تم",
+        "addModal": {
+          "title": "إضافة بنر جديد",
+          "bannerTitle": "عنوان البنر",
+          "link": "الرابط",
+          "sortOrder": "ترتيب العرض",
+          "isActive": "نشط",
+          "image": "صورة البنر",
+          "chooseImage": "اختر صورة",
+          "save": "إضافة",
+          "saving": "جاري الإضافة...",
+          "cancel": "إلغاء"
+        },
+        "editModal": {
+          "title": "تعديل البنر",
+          "bannerTitle": "عنوان البنر",
+          "link": "الرابط",
+          "sortOrder": "ترتيب العرض",
+          "isActive": "نشط",
+          "image": "تغيير الصورة (اختياري)",
+          "chooseImage": "اختر صورة",
+          "save": "حفظ التعديلات",
+          "saving": "جاري الحفظ...",
+          "cancel": "إلغاء"
+        },
+        "deleteConfirm": {
+          "title": "حذف البنر",
+          "description": "هل أنت متأكد من حذف هذا البنر؟ لا يمكن التراجع عن هذا الإجراء.",
+          "confirm": "حذف",
+          "cancel": "إلغاء"
+        }
+      },
       "alertSettings": {
         "title": "إعدادات التنبيهات",
         "save": "حفظ التغييرات",
