@@ -587,6 +587,20 @@
     }
   },
   "Settings": {
+    "terms": {
+      "title": "Terms & Conditions",
+      "arLabel": "Arabic",
+      "enLabel": "English",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "introduction": "Introduction",
+      "serviceUsage": "Service Usage",
+      "userResponsibilities": "User Responsibilities",
+      "cancellationPolicy": "Cancellation Policy",
+      "privacy": "Privacy",
+      "legalLiability": "Legal Liability"
+    },
     "operations": {
       "title": "Operations Settings",
       "operationalSettings": {
