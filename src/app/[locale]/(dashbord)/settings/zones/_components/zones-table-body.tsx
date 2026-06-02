@@ -1,55 +1,64 @@
-// zones-table-body.tsx
-
+import { getTranslations } from "next-intl/server";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Switch } from "@/components/ui/switch";
+import { getCities } from "@/shared/lib/services/zones/get-cities";
 import ZoneStatusBadge from "./zone-status-badge";
+import CityStatusToggle from "./city-status-toggle";
 import ZoneActions from "./zone-actions";
 
-type ZoneStatus = "نشط" | "معطل";
-
-async function getZones() {
-  const statuses: ZoneStatus[] = ["نشط", "نشط", "نشط", "نشط", "معطل", "معطل"];
-
-  return Array.from({ length: 6 }, (_, i) => ({
-    id: 88200 + i,
-    serial: i + 1,
-    name: "منطقة الرياض الشمالية",
-    drivers: Math.floor(Math.random() * 10) + 1,
-    orders: Math.floor(Math.random() * 50) + 5,
-    createdAt: "2024-01-15",
-    status: statuses[i],
-    active: i < 4,
-  }));
-}
-
 export default async function ZonesTableBody() {
-  const zones = await getZones();
+  const [t, { data: cities }] = await Promise.all([
+    getTranslations("Zones.table"),
+    getCities(),
+  ]);
+
+  if (!cities?.length) {
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={7} className="text-center py-16 text-gray-400">
+            {t("empty")}
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+  }
 
   return (
     <TableBody>
-      {zones.map((zone) => (
+      {cities.map((city, index) => (
         <TableRow
-          key={zone.serial}
+          key={city._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
           <TableCell className="text-center text-sm text-gray-500">
-            {zone.serial}
+            {index + 1}
           </TableCell>
-          <TableCell className="text-center font-medium">{zone.id}</TableCell>
-          <TableCell className="text-center font-medium">{zone.name}</TableCell>
-          <TableCell className="text-center">{zone.drivers}</TableCell>
-          <TableCell className="text-center">{zone.orders}</TableCell>
-          <TableCell className="text-center text-sm text-gray-500">
-            {zone.createdAt}
-          </TableCell>
+
           <TableCell className="text-center">
-            <ZoneStatusBadge status={zone.status} />
+            <p className="font-medium">{city.nameAr}</p>
+            <p className="text-xs text-gray-400">{city.name}</p>
           </TableCell>
-          <TableCell className="text-center">
-            <Switch defaultChecked={zone.active} />
+
+          <TableCell className="text-center font-mono text-sm font-medium">
+            {city.code}
           </TableCell>
+
           <TableCell className="text-center">
-            <ZoneActions zone={zone.name} zoneId={zone.id} />
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#0C6175]/10 text-[#0C6175] text-sm font-semibold">
+              {city.areas?.length ?? 0}
+            </span>
+          </TableCell>
+
+          <TableCell className="text-center">
+            <ZoneStatusBadge isActive={city.isActive} />
+          </TableCell>
+
+          <TableCell className="text-center">
+            <CityStatusToggle cityId={city._id} initialActive={city.isActive} />
+          </TableCell>
+
+          <TableCell className="text-center">
+            <ZoneActions city={city} />
           </TableCell>
         </TableRow>
       ))}

@@ -383,6 +383,31 @@
       "cancel": "Cancel"
     }
   },
+  "Bounes": {
+    "stats": {
+      "totalIssued": "Total Issued Points",
+      "totalUsed": "Used Points",
+      "activeUsers": "Active Users",
+      "redemptionsCount": "Redemptions",
+      "unit": {
+        "point": "pts",
+        "user": "user",
+        "redemption": "ops"
+      }
+    },
+    "pointsTable": {
+      "serial": "Serial",
+      "id": "ID",
+      "name": "Username",
+      "phone": "Phone",
+      "totalPoints": "Total Points",
+      "usedPoints": "Used Points",
+      "remainingPoints": "Remaining Points",
+      "actions": "Actions",
+      "noName": "—",
+      "empty": "No data found"
+    }
+  },
   "Notifications": {
     "header": {
       "title": "Notifications",
@@ -559,6 +584,192 @@
       "title": "Print Barcode",
       "print": "Print",
       "cancel": "Cancel"
+    }
+  },
+  "Zones": {
+    "header": { "title": "Delivery Cities", "addButton": "Add City" },
+    "stats": {
+      "totalCities": "Total Cities",
+      "activeCities": "Active Cities",
+      "disabledCities": "Disabled Cities",
+      "totalDrivers": "Total Drivers"
+    },
+    "table": {
+      "serial": "Serial",
+      "name": "City Name",
+      "code": "Code",
+      "areas": "Areas",
+      "status": "Status",
+      "actions": "Actions",
+      "empty": "No cities yet"
+    },
+    "status": { "active": "Active", "inactive": "Inactive" },
+    "cityModal": {
+      "addTitle": "Add New City",
+      "editTitle": "Edit City",
+      "nameAr": "Name (Arabic)",
+      "name": "Name (English)",
+      "code": "Code",
+      "country": "Country",
+      "timezone": "Timezone",
+      "currency": "Currency",
+      "openTime": "Opening Time",
+      "closeTime": "Closing Time",
+      "minLeadTime": "Min Lead Time (hours)",
+      "isActive": "Activate City",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "areaModal": {
+      "addTitle": "Add Area",
+      "editTitle": "Edit Area",
+      "nameAr": "Name (Arabic)",
+      "name": "Name (English)",
+      "code": "Code",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "deliveryAvailable": "Delivery Available",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "edit": "Edit City",
+      "addArea": "Add Area"
+    },
+    "details": {
+      "title": "City Details",
+      "operatingHours": "Operating Hours",
+      "areas": "Areas",
+      "noAreas": "No areas yet",
+      "deliveryAvailable": "Delivery Available",
+      "deliveryUnavailable": "Delivery Unavailable",
+      "drivers": "Drivers",
+      "noDrivers": "No drivers assigned to this area",
+      "edit": "Edit City"
+    }
+  },
+  "Settings": {
+    "terms": {
+      "title": "Terms & Conditions",
+      "arLabel": "Arabic",
+      "enLabel": "English",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "introduction": "Introduction",
+      "serviceUsage": "Service Usage",
+      "userResponsibilities": "User Responsibilities",
+      "cancellationPolicy": "Cancellation Policy",
+      "privacy": "Privacy",
+      "legalLiability": "Legal Liability"
+    },
+    "operations": {
+      "title": "Operations Settings",
+      "operationalSettings": {
+        "title": "Operational Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "mandatoryBarcodeScanning": {
+          "title": "Mandatory Barcode Scanning",
+          "description": "Order status cannot change without scanning the barcode"
+        },
+        "autoAssignDrivers": {
+          "title": "Auto-Assign Drivers",
+          "description": "Automatically assign orders to available drivers"
+        }
+      },
+      "securitySettings": {
+        "title": "Security Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "twoFactorAuth": {
+          "title": "Two-Factor Authentication",
+          "description": "Enable two-factor authentication for admin sessions"
+        }
+      }
+    },
+    "general": {
+      "title": "General Settings",
+      "appSettings": {
+        "title": "App Settings",
+        "logoLabel": "App Logo",
+        "uploadLogo": "Upload New Logo",
+        "appName": "App Name",
+        "supportEmail": "Support Email",
+        "supportPhone": "Support Phone",
+        "currency": "Currency",
+        "expressWashFee": "Express Wash Fee",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      },
+      "banners": {
+        "title": "Special Offer Banners",
+        "add": "Add Banner",
+        "edit": "Edit",
+        "done": "Done",
+        "addModal": {
+          "title": "Add New Banner",
+          "bannerTitle": "Banner Title",
+          "link": "Link",
+          "sortOrder": "Sort Order",
+          "isActive": "Active",
+          "image": "Banner Image",
+          "chooseImage": "Choose Image",
+          "save": "Add",
+          "saving": "Adding...",
+          "cancel": "Cancel"
+        },
+        "editModal": {
+          "title": "Edit Banner",
+          "bannerTitle": "Banner Title",
+          "link": "Link",
+          "sortOrder": "Sort Order",
+          "isActive": "Active",
+          "image": "Change Image (optional)",
+          "chooseImage": "Choose Image",
+          "save": "Save Changes",
+          "saving": "Saving...",
+          "cancel": "Cancel"
+        },
+        "deleteConfirm": {
+          "title": "Delete Banner",
+          "description": "Are you sure you want to delete this banner? This action cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
+      "alertSettings": {
+        "title": "Notification Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "smsEnabled": {
+          "title": "SMS Notifications",
+          "description": "Send text messages when order status changes"
+        },
+        "emailEnabled": {
+          "title": "Email Notifications",
+          "description": "Send emails when order status changes"
+        },
+        "pushEnabled": {
+          "title": "Push Notifications",
+          "description": "Send push notifications to the app"
+        },
+        "driverAlerts": {
+          "title": "Driver Alerts",
+          "description": "Notify driver when a new order is assigned"
+        },
+        "delayAlerts": {
+          "title": "Delay Alerts",
+          "description": "Alert when delivery exceeds expected time"
+        }
+      }
     }
   }
 }

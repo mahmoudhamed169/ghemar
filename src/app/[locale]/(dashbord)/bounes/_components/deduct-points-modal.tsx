@@ -17,7 +17,7 @@ import { Minus } from "lucide-react";
 interface DeductPointsModalProps {
   open: boolean;
   onClose: () => void;
-  userId: number;
+  userId: string;
   userName: string;
 }
 

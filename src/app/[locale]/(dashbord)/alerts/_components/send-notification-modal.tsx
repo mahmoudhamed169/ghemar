@@ -27,7 +27,7 @@ interface AudienceOption {
 const AUDIENCE: AudienceOption[] = [
   { role: "client", labelKey: "clients", count: 284, icon: UserCheck },
   { role: "driver", labelKey: "drivers", count: 24, icon: Clock },
-  { role: "admin", labelKey: "all", count: 308, icon: Users },
+  { role: "all", labelKey: "all", count: 308, icon: Users },
 ];
 
 interface FormState {
@@ -74,7 +74,7 @@ export default function SendNotificationModal({
 
     createNotification(
       {
-        recipientId: selectedRole,
+        recipientId: "all",
         recipientRole: selectedRole,
         title: form.title.trim(),
         titleAr: form.titleAr.trim(),
