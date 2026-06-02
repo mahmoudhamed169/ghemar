@@ -423,6 +423,31 @@
       "cancel": "إلغاء"
     }
   },
+  "Bounes": {
+    "stats": {
+      "totalIssued": "إجمالي النقاط المُصدَرة",
+      "totalUsed": "النقاط المستخدمة",
+      "activeUsers": "المستخدمون النشطون",
+      "redemptionsCount": "عمليات الاستبدال",
+      "unit": {
+        "point": "نقطة",
+        "user": "مستخدم",
+        "redemption": "عملية"
+      }
+    },
+    "pointsTable": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "اسم المستخدم",
+      "phone": "رقم الجوال",
+      "totalPoints": "إجمالي النقاط",
+      "usedPoints": "النقاط المستخدمة",
+      "remainingPoints": "النقاط المتبقية",
+      "actions": "إجراءات",
+      "noName": "—",
+      "empty": "لا توجد بيانات"
+    }
+  },
   "Notifications": {
     "header": {
       "title": "الإشعارات",
@@ -600,6 +625,192 @@
       "title": "طباعة الباركود",
       "print": "طباعة",
       "cancel": "إلغاء"
+    }
+  },
+  "Zones": {
+    "header": { "title": "مدن التوصيل", "addButton": "إضافة مدينة" },
+    "stats": {
+      "totalCities": "إجمالي المدن",
+      "activeCities": "المدن النشطة",
+      "disabledCities": "المدن المعطلة",
+      "totalDrivers": "إجمالي السائقين"
+    },
+    "table": {
+      "serial": "الرقم التسلسلي",
+      "name": "اسم المدينة",
+      "code": "الكود",
+      "areas": "المناطق",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "empty": "لا توجد مدن بعد"
+    },
+    "status": { "active": "نشط", "inactive": "معطل" },
+    "cityModal": {
+      "addTitle": "إضافة مدينة جديدة",
+      "editTitle": "تعديل المدينة",
+      "nameAr": "الاسم (عربي)",
+      "name": "الاسم (إنجليزي)",
+      "code": "الكود",
+      "country": "الدولة",
+      "timezone": "المنطقة الزمنية",
+      "currency": "العملة",
+      "openTime": "وقت الفتح",
+      "closeTime": "وقت الإغلاق",
+      "minLeadTime": "وقت الاستعداد (ساعات)",
+      "isActive": "تفعيل المدينة",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "areaModal": {
+      "addTitle": "إضافة منطقة",
+      "editTitle": "تعديل المنطقة",
+      "nameAr": "الاسم (عربي)",
+      "name": "الاسم (إنجليزي)",
+      "code": "الكود",
+      "lat": "خط العرض",
+      "lng": "خط الطول",
+      "deliveryAvailable": "التوصيل متاح",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "actions": {
+      "viewDetails": "عرض التفاصيل",
+      "edit": "تعديل المدينة",
+      "addArea": "إضافة منطقة"
+    },
+    "details": {
+      "title": "تفاصيل المدينة",
+      "operatingHours": "ساعات العمل",
+      "areas": "المناطق",
+      "noAreas": "لا توجد مناطق",
+      "deliveryAvailable": "التوصيل متاح",
+      "deliveryUnavailable": "التوصيل غير متاح",
+      "drivers": "السائقون",
+      "noDrivers": "لا يوجد سائقون في هذه المنطقة",
+      "edit": "تعديل المدينة"
+    }
+  },
+  "Settings": {
+    "terms": {
+      "title": "الشروط والأحكام",
+      "arLabel": "عربي",
+      "enLabel": "إنجليزي",
+      "save": "حفظ التغييرات",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء",
+      "introduction": "المقدمة",
+      "serviceUsage": "استخدام الخدمة",
+      "userResponsibilities": "مسؤوليات المستخدم",
+      "cancellationPolicy": "سياسة الإلغاء",
+      "privacy": "الخصوصية",
+      "legalLiability": "المسؤولية القانونية"
+    },
+    "operations": {
+      "title": "إعدادات التشغيل",
+      "operationalSettings": {
+        "title": "إعدادات التشغيل",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "mandatoryBarcodeScanning": {
+          "title": "إجبارية مسح الباركود",
+          "description": "لا يمكن تغيير حالة الأوردر بدون مسح الباركود"
+        },
+        "autoAssignDrivers": {
+          "title": "التعيين التلقائي للسائقين",
+          "description": "تعيين الطلبات تلقائياً للسائقين المتاحين"
+        }
+      },
+      "securitySettings": {
+        "title": "إعدادات الأمان",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "twoFactorAuth": {
+          "title": "التحقق بخطوتين",
+          "description": "تفعيل المصادقة الثنائية لجلسات الإدارة"
+        }
+      }
+    },
+    "general": {
+      "title": "الإعدادات العامة",
+      "appSettings": {
+        "title": "إعدادات التطبيق",
+        "logoLabel": "شعار التطبيق",
+        "uploadLogo": "رفع شعار جديد",
+        "appName": "اسم التطبيق",
+        "supportEmail": "عنوان البريد الإلكتروني",
+        "supportPhone": "رقم الدعم",
+        "currency": "العملة",
+        "expressWashFee": "رسوم المستعجل",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء"
+      },
+      "banners": {
+        "title": "بنرات العروض الخاصة",
+        "add": "إضافة بنر",
+        "edit": "تعديل",
+        "done": "تم",
+        "addModal": {
+          "title": "إضافة بنر جديد",
+          "bannerTitle": "عنوان البنر",
+          "link": "الرابط",
+          "sortOrder": "ترتيب العرض",
+          "isActive": "نشط",
+          "image": "صورة البنر",
+          "chooseImage": "اختر صورة",
+          "save": "إضافة",
+          "saving": "جاري الإضافة...",
+          "cancel": "إلغاء"
+        },
+        "editModal": {
+          "title": "تعديل البنر",
+          "bannerTitle": "عنوان البنر",
+          "link": "الرابط",
+          "sortOrder": "ترتيب العرض",
+          "isActive": "نشط",
+          "image": "تغيير الصورة (اختياري)",
+          "chooseImage": "اختر صورة",
+          "save": "حفظ التعديلات",
+          "saving": "جاري الحفظ...",
+          "cancel": "إلغاء"
+        },
+        "deleteConfirm": {
+          "title": "حذف البنر",
+          "description": "هل أنت متأكد من حذف هذا البنر؟ لا يمكن التراجع عن هذا الإجراء.",
+          "confirm": "حذف",
+          "cancel": "إلغاء"
+        }
+      },
+      "alertSettings": {
+        "title": "إعدادات التنبيهات",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "smsEnabled": {
+          "title": "الإشعارات برسائل SMS",
+          "description": "إرسال رسائل نصية عند تغيير حالة الطلب"
+        },
+        "emailEnabled": {
+          "title": "الإشعارات بالبريد الإلكتروني",
+          "description": "إرسال بريد إلكتروني عند تغيير حالة الطلب"
+        },
+        "pushEnabled": {
+          "title": "الإشعارات الفورية (Push)",
+          "description": "إرسال إشعارات فورية للتطبيق"
+        },
+        "driverAlerts": {
+          "title": "تنبيهات السائقين",
+          "description": "إشعار السائق عند تعيين طلب جديد له"
+        },
+        "delayAlerts": {
+          "title": "تنبيهات التأخر",
+          "description": "تنبيه عند تأخر التوصيل عن الوقت المحدد"
+        }
+      }
     }
   }
 }

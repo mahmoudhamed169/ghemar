@@ -13,7 +13,7 @@ import AddPointsModal from "./add-points-modal";
 import DeductPointsModal from "./deduct-points-modal";
 
 interface PointsActionsProps {
-  userId: number;
+  userId: string;
   userName: string;
 }
 

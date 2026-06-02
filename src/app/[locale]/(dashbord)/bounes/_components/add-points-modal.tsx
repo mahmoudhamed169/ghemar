@@ -17,7 +17,7 @@ import { Plus } from "lucide-react";
 interface AddPointsModalProps {
   open: boolean;
   onClose: () => void;
-  userId: number;
+  userId: string;
   userName: string;
 }
 

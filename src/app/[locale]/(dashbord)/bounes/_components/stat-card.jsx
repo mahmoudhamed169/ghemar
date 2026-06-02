@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
  * @param {string|number}   props.value         - Main metric value
  * @param {string}          props.label         - Label below value
  * @param {string}          [props.subLabel]    - Smaller label below main label
- * @param {string}          props.trend         - e.g. "+٣٪"
- * @param {boolean}         props.trendUp       - true = green, false = red
+ * @param {string}          [props.trend]       - e.g. "+٣٪"
+ * @param {boolean}         [props.trendUp]     - true = green, false = red
  * @param {string}          [props.compareLabel]
  */
 export default function StatCard({
@@ -25,7 +25,7 @@ export default function StatCard({
   trend,
   trendUp = true,
   compareLabel = "مقارنة بالشهر الماضي",
-}) {
+} = {}) {
   return (
     <Card className="flex-1 min-w-[160px]">
       <CardContent className=" flex flex-col gap-4">
@@ -42,22 +42,24 @@ export default function StatCard({
             </span>
           </div>
 
-          <Badge
-            variant="secondary"
-            className={cn(
-              "gap-1 text-xs font-semibold px-2 py-0.5",
-              trendUp
-                ? "bg-green-50 text-green-600 hover:bg-green-50"
-                : "bg-red-50 text-red-500 hover:bg-red-50",
-            )}
-          >
-            {trendUp ? (
-              <TrendingUp className="w-3 h-3" />
-            ) : (
-              <TrendingDown className="w-3 h-3" />
-            )}
-            {trend}
-          </Badge>
+          {trend && (
+            <Badge
+              variant="secondary"
+              className={cn(
+                "gap-1 text-xs font-semibold px-2 py-0.5",
+                trendUp
+                  ? "bg-green-50 text-green-600 hover:bg-green-50"
+                  : "bg-red-50 text-red-500 hover:bg-red-50",
+              )}
+            >
+              {trendUp ? (
+                <TrendingUp className="w-3 h-3" />
+              ) : (
+                <TrendingDown className="w-3 h-3" />
+              )}
+              {trend}
+            </Badge>
+          )}
         </div>
 
         {/* Value + labels */}
