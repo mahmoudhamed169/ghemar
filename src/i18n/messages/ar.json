@@ -628,6 +628,33 @@
     }
   },
   "Settings": {
+    "operations": {
+      "title": "إعدادات التشغيل",
+      "operationalSettings": {
+        "title": "إعدادات التشغيل",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "mandatoryBarcodeScanning": {
+          "title": "إجبارية مسح الباركود",
+          "description": "لا يمكن تغيير حالة الأوردر بدون مسح الباركود"
+        },
+        "autoAssignDrivers": {
+          "title": "التعيين التلقائي للسائقين",
+          "description": "تعيين الطلبات تلقائياً للسائقين المتاحين"
+        }
+      },
+      "securitySettings": {
+        "title": "إعدادات الأمان",
+        "save": "حفظ التغييرات",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء",
+        "twoFactorAuth": {
+          "title": "التحقق بخطوتين",
+          "description": "تفعيل المصادقة الثنائية لجلسات الإدارة"
+        }
+      }
+    },
     "general": {
       "title": "الإعدادات العامة",
       "appSettings": {

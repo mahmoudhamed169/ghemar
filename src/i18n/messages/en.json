@@ -587,6 +587,33 @@
     }
   },
   "Settings": {
+    "operations": {
+      "title": "Operations Settings",
+      "operationalSettings": {
+        "title": "Operational Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "mandatoryBarcodeScanning": {
+          "title": "Mandatory Barcode Scanning",
+          "description": "Order status cannot change without scanning the barcode"
+        },
+        "autoAssignDrivers": {
+          "title": "Auto-Assign Drivers",
+          "description": "Automatically assign orders to available drivers"
+        }
+      },
+      "securitySettings": {
+        "title": "Security Settings",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "twoFactorAuth": {
+          "title": "Two-Factor Authentication",
+          "description": "Enable two-factor authentication for admin sessions"
+        }
+      }
+    },
     "general": {
       "title": "General Settings",
       "appSettings": {

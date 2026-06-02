@@ -3,13 +3,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidateTag } from "next/cache";
-import {
-  GeneralSettings,
-  GeneralSettingsResponse,
-} from "../../types/settings/general-settings";
+import { GeneralSettingsResponse } from "../../types/settings/general-settings";
 
 export async function updateGeneralSettingsAction(
-  body: GeneralSettings,
+  formData: FormData,
 ): Promise<GeneralSettingsResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
@@ -18,11 +15,8 @@ export async function updateGeneralSettingsAction(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/settings/general`,
     {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
     },
   );
 

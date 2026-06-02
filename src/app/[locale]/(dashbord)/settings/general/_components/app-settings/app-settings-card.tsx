@@ -13,6 +13,7 @@ interface AppSettingsCardProps {
 
 export default function AppSettingsCard({ initialData }: AppSettingsCardProps) {
   const [data, setData] = useState<GeneralSettings>(initialData);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const { mutate: updateSettings, isPending } = useUpdateGeneralSettings();
 
   const handleChange = (field: keyof GeneralSettings, value: string | number) => {
@@ -20,16 +21,17 @@ export default function AppSettingsCard({ initialData }: AppSettingsCardProps) {
   };
 
   const handleSave = () => {
-    updateSettings(data);
+    updateSettings({ data, logoFile });
   };
 
   const handleCancel = () => {
     setData(initialData);
+    setLogoFile(null);
   };
 
   return (
     <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 w-full">
-      <AppSettingsHeader />
+      <AppSettingsHeader onLogoChange={setLogoFile} />
       <AppSettingsForm data={data} onChange={handleChange} />
       <AppSettingsActions
         onSave={handleSave}

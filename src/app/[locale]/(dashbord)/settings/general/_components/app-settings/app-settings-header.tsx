@@ -5,7 +5,11 @@ import { Upload, ZoomIn } from "lucide-react";
 import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 
-export default function AppSettingsHeader() {
+interface AppSettingsHeaderProps {
+  onLogoChange: (file: File) => void;
+}
+
+export default function AppSettingsHeader({ onLogoChange }: AppSettingsHeaderProps) {
   const t = useTranslations("Settings.general.appSettings");
   const [preview, setPreview] = useState(false);
   const [localLogo, setLocalLogo] = useState("/logo.png");
@@ -13,7 +17,10 @@ export default function AppSettingsHeader() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setLocalLogo(URL.createObjectURL(file));
+    if (file) {
+      setLocalLogo(URL.createObjectURL(file));
+      onLogoChange(file);
+    }
     e.target.value = "";
   };
 
