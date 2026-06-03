@@ -187,6 +187,7 @@ export default function OrderDetailsSheet({
   const t = useTranslations("orders.details");
   const r = useTranslations("orders.receipt");
   const ts = useTranslations("orders.status");
+  const pt = useTranslations("piece_types");
 
   const statusLabel = ts(order.status as Parameters<typeof ts>[0]);
   const pickupCoords = order.pickup.address?.coordinates;
@@ -350,11 +351,6 @@ export default function OrderDetailsSheet({
               value={order.bagCount}
             />
             <DetailCard
-              icon={Shirt}
-              label={t("sorted_items")}
-              value={order.sortedItems.length || t("sorting_not_started")}
-            />
-            <DetailCard
               icon={Package}
               label={t("order_type")}
               value={
@@ -371,6 +367,33 @@ export default function OrderDetailsSheet({
               />
             )}
           </div>
+
+          <SectionTitle>{t("sorted_items")}</SectionTitle>
+          {order.sortedItems.length === 0 ? (
+            <div className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5">
+              <Shirt className="w-4 h-4 text-gray-300 shrink-0" />
+              <span className="text-sm text-gray-400">{t("sorting_not_started")}</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              {order.sortedItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5"
+                >
+                  <Shirt className="w-4 h-4 text-[#0C6175] shrink-0" />
+                  <div className="flex flex-col gap-0.5 min-w-0">
+                    <span className="text-xs text-gray-400 truncate">
+                      {pt(item.itemType as Parameters<typeof pt>[0])}
+                    </span>
+                    <span className="text-sm font-bold text-[#0C6175]">
+                      × {item.count}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {hasBags && (
             <>

@@ -16,12 +16,14 @@ interface AssignDriverDialogProps {
   orderId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export default function AssignDriverDialog({
   orderId,
   open,
   onOpenChange,
+  onSuccess,
 }: AssignDriverDialogProps) {
   const t = useTranslations("orders.assign_driver");
   const [search, setSearch] = useState("");
@@ -35,7 +37,10 @@ export default function AssignDriverDialog({
   const handleSave = async () => {
     if (!selectedId) return;
     const success = await assign(orderId, selectedId);
-    if (success) onOpenChange(false);
+    if (success) {
+      onOpenChange(false);
+      onSuccess?.();
+    }
   };
 
   return (

@@ -3,33 +3,29 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidateTag } from "next/cache";
+import { OrderStatus } from "../../types/orders/order";
 
-interface AssignDriverResult {
-  success: boolean;
-  message?: string;
-}
-
-export async function assignDriver(
+export async function updateOrderStatusAction(
   orderId: string,
-  driverId: string,
-): Promise<AssignDriverResult> {
+  status: OrderStatus,
+): Promise<{ success: boolean; message?: string }> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/assign`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/status`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ driverId }),
+      body: JSON.stringify({ status }),
     },
   );
 
   if (!res.ok) {
-    return { success: false, message: "فشل تعيين السائق" };
+    return { success: false, message: "فشل تغيير حالة الطلب" };
   }
 
   revalidateTag("orders");

@@ -1,5 +1,5 @@
 "use client"
-import { Suspense } from "react"
+import { Suspense, useState, useRef, useEffect } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -35,6 +35,22 @@ function OrdersFiltersInner() {
 
   const currentPriority = searchParams.get("isExpressWash") ?? "all"
 
+  const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "")
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchValue(value)
+    clearTimeout(searchDebounceRef.current)
+    searchDebounceRef.current = setTimeout(() => {
+      updateParam("search", value || null)
+    }, 400)
+  }
+
+  useEffect(() => {
+    return () => clearTimeout(searchDebounceRef.current)
+  }, [])
+
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
       <div className="relative flex-1">
@@ -44,8 +60,8 @@ function OrdersFiltersInner() {
         />
         <Input
           placeholder={t("search_placeholder")}
-          defaultValue={searchParams.get("search") ?? ""}
-          onChange={(e) => updateParam("search", e.target.value || null)}
+          value={searchValue}
+          onChange={handleSearchChange}
           className="w-full bg-white h-[55px] rounded-lg pr-10 border border-gray-200 shadow-sm"
         />
       </div>
