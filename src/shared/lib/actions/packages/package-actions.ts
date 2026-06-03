@@ -33,7 +33,7 @@ export async function createPackageAction(
 
   if (!res.ok) throw new Error(`Failed to create package: ${res.status}`);
 
-  revalidateTag("packages");
+  revalidateTag("packages", {});
   return res.json();
 }
 
@@ -57,7 +57,7 @@ export async function updatePackageAction(
 
   if (!res.ok) throw new Error(`Failed to update package: ${res.status}`);
 
-  revalidateTag("packages");
+  revalidateTag("packages", {});
   return res.json();
 }
 
@@ -79,6 +79,6 @@ export async function deletePackageAction(
 
   if (!res.ok) throw new Error(`Failed to delete package: ${res.status}`);
 
-  revalidateTag("packages");
+  revalidateTag("packages", {});
   return res.json();
 }

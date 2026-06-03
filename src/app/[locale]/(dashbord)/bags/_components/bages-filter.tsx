@@ -60,7 +60,6 @@ function DatePickerButton({
           mode="single"
           selected={date}
           onSelect={(d) => { if (d) onSelect(d); onOpenChange(false); }}
-          initialFocus
         />
       </PopoverContent>
     </Popover>

@@ -28,7 +28,7 @@ export async function updateOrderStatusAction(
     return { success: false, message: "فشل تغيير حالة الطلب" };
   }
 
-  revalidateTag("orders");
+  revalidateTag("orders", {});
 
   return { success: true };
 }

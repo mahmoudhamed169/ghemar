@@ -72,8 +72,8 @@ export default function MonthlyRevenue() {
               fontSize: "12px",
               direction: isRtl ? "rtl" : "ltr",
             }}
-            formatter={(value: number) => [
-              value.toLocaleString() + (isRtl ? " ر.س" : " SAR"),
+            formatter={(value) => [
+              (value as number)?.toLocaleString() + (isRtl ? " ر.س" : " SAR"),
               t("revenue"),
             ]}
           />

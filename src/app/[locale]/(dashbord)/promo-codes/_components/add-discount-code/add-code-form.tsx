@@ -78,6 +78,7 @@ export default function AddCodeForm({ onClose }: AddCodeFormProps) {
         expiryDate: new Date(form.expiryDate).toISOString(),
         usageLimit: Number(form.usageLimit),
         applicableCities: form.applicableCities,
+        applicablePackages: [],
       },
       {
         onSuccess: () => {
