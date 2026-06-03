@@ -4,29 +4,16 @@ import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
 import OrderStatusChanger from "./order-status-changer";
 import OrderActions from "./order-actions";
-import { getOrders } from "@/shared/lib/services/orders/get-orders";
-import { Order, OrderStatus } from "@/shared/lib/types/orders/order";
+import { Order } from "@/shared/lib/types/orders/order";
 import OrderSortAction from "./order-sort-action";
 
 interface Props {
+  orders: Order[];
   page: number;
-  search?: string;
-  status?: OrderStatus;
-  isNewClient?: boolean;
-  isExpressWash?: boolean;
 }
 
-export default async function OrdersTableBody({
-  page,
-  search,
-  status,
-  isNewClient,
-  isExpressWash,
-}: Props) {
-  const [{ data: orders }, t] = await Promise.all([
-    getOrders({ page, search, status, isNewClient, isExpressWash }),
-    getTranslations("orders.table"),
-  ]);
+export default async function OrdersTableBody({ orders, page }: Props) {
+  const t = await getTranslations("orders.table");
 
   if (!orders.length) {
     return (

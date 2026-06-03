@@ -11,9 +11,6 @@ export async function GET(req: NextRequest) {
       search: searchParams.get("search") || undefined,
     });
 
-    // هتظهر ف التيرمنال
-    console.log("Drivers =>", data);
-
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);

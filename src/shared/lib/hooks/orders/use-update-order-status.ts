@@ -1,3 +1,4 @@
+import { useTransition } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import { updateOrderStatusAction } from "../../actions/orders/update-order-statu
 
 export function useUpdateOrderStatus() {
   const router = useRouter();
+  const [, startTransition] = useTransition();
 
   return useMutation({
     mutationFn: ({
@@ -21,7 +23,7 @@ export function useUpdateOrderStatus() {
         return;
       }
       toast.success("تم تغيير حالة الطلب بنجاح");
-      router.refresh();
+      startTransition(() => router.refresh());
     },
     onError: () => toast.error("حدث خطأ غير متوقع"),
   });

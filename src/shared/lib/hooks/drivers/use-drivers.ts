@@ -29,10 +29,14 @@ async function fetchDrivers(
   return res.json();
 }
 
-export function useDrivers(params: DriversParams = {}) {
+export function useDrivers(
+  params: DriversParams = {},
+  options?: { enabled?: boolean },
+) {
   return useQuery<DriversResponse>({
     queryKey: ["drivers", params],
     queryFn: () => fetchDrivers(params),
     staleTime: 30_000,
+    enabled: options?.enabled ?? true,
   });
 }
