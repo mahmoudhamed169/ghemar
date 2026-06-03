@@ -6,7 +6,7 @@ import { revalidateTag } from "next/cache";
 import {
   UpdatePromoCodeBody,
   UpdatePromoCodeResponse,
-} from "@/server/types/promocode/update-promo-code";
+} from "@/shared/lib/types/promocode/update-promo-code";
 
 export async function updatePromoCodeAction(
   id: string,
@@ -29,7 +29,7 @@ export async function updatePromoCodeAction(
 
   if (!res.ok) throw new Error(`Failed to update promo code: ${res.status}`);
 
-  revalidateTag("promo-codes");
+  revalidateTag("promo-codes", {});
 
   return res.json();
 }

@@ -13,6 +13,7 @@ const statusColors: Record<OrderStatus, string> = {
   // Common
   pending:                          "text-[#6B7280]",
   confirmed:                        "text-[#1E40AF]",
+  awaiting_payment:                 "text-[#B45309]",
   driver_assigned:                  "text-[#1D4ED8]",
   // Package delivery flow
   driver_preparing_bags:            "text-[#4338CA]",

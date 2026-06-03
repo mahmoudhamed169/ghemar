@@ -30,7 +30,7 @@ export async function createNotificationAction(
 
   if (!res.ok) throw new Error(`Failed to create notification: ${res.status}`);
 
-  revalidateTag("notifications");
+  revalidateTag("notifications", {});
 
   return json;
 }

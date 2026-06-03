@@ -31,7 +31,7 @@ export async function togglePromoCodeAction(
 
   if (!res.ok) throw new Error(`Failed to toggle promo code: ${res.status}`);
 
-  revalidateTag("promo-codes");
+  revalidateTag("promo-codes", {});
 
   return res.json();
 }

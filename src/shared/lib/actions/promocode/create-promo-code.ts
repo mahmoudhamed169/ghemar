@@ -28,7 +28,7 @@ export async function createPromoCodeAction(
 
   if (!res.ok) throw new Error(`Failed to create promo code: ${res.status}`);
 
-  revalidateTag("promo-codes");
+  revalidateTag("promo-codes", {});
 
   return res.json();
 }
