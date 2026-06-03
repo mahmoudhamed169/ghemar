@@ -2,7 +2,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getTranslations } from "next-intl/server";
 import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
-import OrderStatusToggle from "./order-status-toggle";
+import OrderStatusChanger from "./order-status-changer";
 import OrderActions from "./order-actions";
 import { getOrders } from "@/shared/lib/services/orders/get-orders";
 import { Order, OrderStatus } from "@/shared/lib/types/orders/order";
@@ -53,28 +53,40 @@ export default async function OrdersTableBody({
           <TableCell className="text-center text-sm text-gray-500">
             {(page - 1) * 20 + index + 1}
           </TableCell>
+
           <TableCell className="text-center font-medium text-sm">
             {order.orderNumber}
           </TableCell>
+
           <TableCell className="text-center font-medium">
             {order.driver?.name ?? t("no_driver")}
           </TableCell>
+
           <TableCell className="text-center">
             <OrderPriorityBadge priority={order.isExpressWash} />
           </TableCell>
+
           <TableCell className="text-center">
             <OrderStatusBadge status={order.status} />
           </TableCell>
+
           <TableCell className="text-center">
-            <OrderStatusToggle
-              currentStatus={order.status}
+            <OrderStatusChanger
               orderId={order._id}
+              currentStatus={order.status}
+              orderType={order.orderType}
+              isSorted={order.sortedItems.length > 0}
             />
           </TableCell>
 
           <TableCell className="text-center">
-            <OrderSortAction orderId={order._id} />
+            <OrderSortAction
+              orderId={order._id}
+              isSorted={order.sortedItems.length > 0}
+              status={order.status}
+            />
           </TableCell>
+
           <TableCell className="text-center">
             <OrderActions order={order} />
           </TableCell>

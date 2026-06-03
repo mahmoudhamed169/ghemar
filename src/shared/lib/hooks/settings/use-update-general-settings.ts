@@ -1,9 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { GeneralSettings } from "../../types/settings/general-settings";
 import { updateGeneralSettingsAction } from "../../actions/settings/update-general-settings";
 
 export function useUpdateGeneralSettings() {
+  const router = useRouter();
+
   return useMutation({
     mutationFn: ({
       data,
@@ -21,7 +24,12 @@ export function useUpdateGeneralSettings() {
       if (logoFile) fd.append("appLogo", logoFile);
       return updateGeneralSettingsAction(fd);
     },
-    onSuccess: () => toast.success("تم حفظ الإعدادات بنجاح"),
-    onError: () => toast.error("حدث خطأ أثناء حفظ الإعدادات، حاول مرة أخرى"),
+    onSuccess: () => {
+      toast.success("تم حفظ الإعدادات بنجاح");
+      router.refresh();
+    },
+    onError: () => {
+      toast.error("حدث خطأ أثناء حفظ الإعدادات، حاول مرة أخرى");
+    },
   });
 }

@@ -91,6 +91,12 @@ interface StatusHistory {
   timestamp: string;
 }
 
+export interface SortedItem {
+  _id: string;
+  itemType: string;
+  count: number;
+}
+
 export interface Order {
   _id: string;
   orderNumber: string;
@@ -107,7 +113,7 @@ export interface Order {
   specialInstructions?: string;
   isExpressWash: boolean;
   bags: string[];
-  sortedItems: string[];
+  sortedItems: SortedItem[];
   firstPickupBags: string[];
   statusHistory: StatusHistory[];
   createdAt: string;

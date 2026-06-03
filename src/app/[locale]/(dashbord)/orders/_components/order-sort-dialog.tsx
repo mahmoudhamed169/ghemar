@@ -32,7 +32,7 @@ export default function OrderSortDialog({
   const t = useTranslations("piece_types");
   const tSort = useTranslations("orders.sort");
   const [selected, setSelected] = useState<PieceEntry[]>([]);
-  const { sort, isLoading } = useSortOrder();
+  const { mutate: sort, isPending: isLoading } = useSortOrder();
 
   const totalPieces = selected.reduce((sum, p) => sum + p.quantity, 0);
   const isChecked = (key: PieceTypeKey) => selected.some((p) => p.type === key);
@@ -53,13 +53,22 @@ export default function OrderSortDialog({
     );
   };
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
     const items = selected.map((p) => ({
       itemType: p.type,
       count: p.quantity,
     }));
-    const success = await sort(orderId, items);
-    if (success) onOpenChange(false);
+    sort(
+      { orderId, items },
+      {
+        onSuccess: (result) => {
+          if (result.success) {
+            setSelected([]);
+            onOpenChange(false);
+          }
+        },
+      },
+    );
   };
 
   return (

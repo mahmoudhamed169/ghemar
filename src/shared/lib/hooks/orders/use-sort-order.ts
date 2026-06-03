@@ -1,37 +1,22 @@
-// shared/lib/hooks/use-sort-order.ts
-"use client";
-
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { sortOrder, SortItem } from "@/shared/lib/actions/orders/sort-order";
 
-interface UseSortOrderReturn {
-  sort: (orderId: string, items: SortItem[]) => Promise<boolean>;
-  isLoading: boolean;
-}
+export function useSortOrder() {
+  const router = useRouter();
 
-export function useSortOrder(): UseSortOrderReturn {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const sort = async (orderId: string, items: SortItem[]): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      const result = await sortOrder(orderId, items);
-
+  return useMutation({
+    mutationFn: ({ orderId, items }: { orderId: string; items: SortItem[] }) =>
+      sortOrder(orderId, items),
+    onSuccess: (result) => {
       if (!result.success) {
         toast.error(result.message ?? "فشل حفظ بيانات الفرز");
-        return false;
+        return;
       }
-
       toast.success("تم حفظ بيانات الفرز بنجاح");
-      return true;
-    } catch {
-      toast.error("حدث خطأ غير متوقع");
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return { sort, isLoading };
+      router.refresh();
+    },
+    onError: () => toast.error("حدث خطأ غير متوقع"),
+  });
 }
