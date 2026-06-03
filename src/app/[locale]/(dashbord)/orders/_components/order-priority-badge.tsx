@@ -6,7 +6,6 @@ export default function OrderPriorityBadge({
 }: {
   priority: boolean;
 }) {
-  console.log("priority prop:", priority, typeof priority);
   const t = useTranslations("orders.table");
   const label = priority ? t("priority_express") : t("priority_normal");
   const styles = priority

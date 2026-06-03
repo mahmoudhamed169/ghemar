@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ChevronDown, Loader2 } from "lucide-react";
 import {
@@ -33,7 +32,6 @@ export default function OrderStatusChanger({
   isSorted,
 }: Props) {
   const t = useTranslations("orders.status");
-  const router = useRouter();
   const [confirmedStatus, setConfirmedStatus] = useState(currentStatus);
   const [assignOpen, setAssignOpen] = useState(false);
   const { mutate: updateStatus, isPending } = useUpdateOrderStatus();
@@ -107,14 +105,12 @@ export default function OrderStatusChanger({
         </DropdownMenuContent>
       </DropdownMenu>
 
+      {/* router.refresh() is handled inside useAssignDriver; only update local optimistic state here */}
       <AssignDriverDialog
         orderId={orderId}
         open={assignOpen}
         onOpenChange={setAssignOpen}
-        onSuccess={() => {
-          setConfirmedStatus("driver_assigned");
-          router.refresh();
-        }}
+        onSuccess={() => setConfirmedStatus("driver_assigned")}
       />
     </>
   );

@@ -1,10 +1,11 @@
+import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { OrdersParams, OrdersResponse } from "../../types/orders/order";
 
-export async function getOrders({
+export const getOrders = cache(async function getOrders({
   page = 1,
-  limit = 20,
+  limit = 7,
   search = "",
   status,
   isExpressWash,
@@ -48,4 +49,4 @@ export async function getOrders({
 
   if (!res.ok) throw new Error(`Failed to fetch orders: ${res.status}`);
   return res.json();
-}
+});

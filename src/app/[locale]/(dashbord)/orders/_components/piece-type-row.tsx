@@ -1,17 +1,21 @@
 "use client";
 
+import { memo } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import QuantityControl from "./quantity-control";
+import { PieceTypeKey } from "@/shared/lib/constants/piece-types";
 
 interface PieceTypeRowProps {
+  typeKey: PieceTypeKey;
   type: string;
   checked: boolean;
   quantity: number;
-  onToggle: () => void;
-  onQuantityChange: (v: number) => void;
+  onToggle: (key: PieceTypeKey) => void;
+  onQuantityChange: (key: PieceTypeKey, v: number) => void;
 }
 
-export default function PieceTypeRow({
+export default memo(function PieceTypeRow({
+  typeKey,
   type,
   checked,
   quantity,
@@ -20,7 +24,7 @@ export default function PieceTypeRow({
 }: PieceTypeRowProps) {
   return (
     <div
-      onClick={onToggle}
+      onClick={() => onToggle(typeKey)}
       className={`flex items-center justify-between p-3 rounded-xl border transition-all cursor-pointer select-none
         ${
           checked
@@ -31,7 +35,7 @@ export default function PieceTypeRow({
       <div className="flex items-center gap-3">
         <Checkbox
           checked={checked}
-          onCheckedChange={onToggle}
+          onCheckedChange={() => onToggle(typeKey)}
           onClick={(e) => e.stopPropagation()}
           className="data-[state=checked]:bg-[#0C6175] data-[state=checked]:border-[#0C6175]"
         />
@@ -40,9 +44,12 @@ export default function PieceTypeRow({
 
       {checked && (
         <div onClick={(e) => e.stopPropagation()}>
-          <QuantityControl value={quantity} onChange={onQuantityChange} />
+          <QuantityControl
+            value={quantity}
+            onChange={(v) => onQuantityChange(typeKey, v)}
+          />
         </div>
       )}
     </div>
   );
-}
+});
