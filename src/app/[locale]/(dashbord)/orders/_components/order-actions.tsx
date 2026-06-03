@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Eye } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ interface OrderActionsProps {
 
 export default function OrderActions({ order }: OrderActionsProps) {
   const t = useTranslations("orders.actions");
+  const router = useRouter();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
 
@@ -62,6 +64,7 @@ export default function OrderActions({ order }: OrderActionsProps) {
         orderId={order._id}
         open={assignOpen}
         onOpenChange={setAssignOpen}
+        onSuccess={() => router.refresh()}
       />
     </>
   );
