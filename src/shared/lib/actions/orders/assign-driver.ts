@@ -32,7 +32,7 @@ export async function assignDriver(
     return { success: false, message: "فشل تعيين السائق" };
   }
 
-  revalidateTag("orders");
+  revalidateTag("orders", {});
 
   return { success: true };
 }

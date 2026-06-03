@@ -46,6 +46,6 @@ export async function createDriver(
     };
   }
 
-  revalidateTag("drivers");
+  revalidateTag("drivers", {});
   return { success: true, message: data.message, data: data.data };
 }

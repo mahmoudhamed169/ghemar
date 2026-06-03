@@ -42,6 +42,6 @@ export async function updateDriverStatus(
     };
   }
 
-  revalidateTag("drivers");
+  revalidateTag("drivers", {});
   return { success: true, message: data.message, data: data.data };
 }

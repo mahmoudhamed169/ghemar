@@ -38,7 +38,7 @@ export async function sortOrder(
     return { success: false, message: data?.message ?? "فشل حفظ بيانات الفرز" };
   }
 
-  revalidateTag("orders");
+  revalidateTag("orders", {});
 
   return { success: true };
 }
