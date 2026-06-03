@@ -1,7 +1,7 @@
 // assign-driver-dialog.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
@@ -27,20 +27,51 @@ export default function AssignDriverDialog({
 }: AssignDriverDialogProps) {
   const t = useTranslations("orders.assign_driver");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const { data, isLoading } = useDrivers({ search });
+  // Reset local state when dialog closes
+  useEffect(() => {
+    if (!open) {
+      setSelectedId(null);
+      setSearch("");
+      setDebouncedSearch("");
+    }
+  }, [open]);
+
+  // Cleanup pending debounce on unmount
+  useEffect(() => () => clearTimeout(debounceRef.current), []);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => setDebouncedSearch(value), 300);
+  };
+
+  // Only fetch when the dialog is open — prevents 40 eager subscribers on page load
+  const { data, isLoading } = useDrivers(
+    { search: debouncedSearch },
+    { enabled: open },
+  );
   const drivers = data?.data ?? [];
 
-  const { assign, isLoading: isAssigning } = useAssignDriver();
+  const { mutate: assign, isPending: isAssigning } = useAssignDriver();
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!selectedId) return;
-    const success = await assign(orderId, selectedId);
-    if (success) {
-      onOpenChange(false);
-      onSuccess?.();
-    }
+    assign(
+      { orderId, driverId: selectedId },
+      {
+        onSuccess: (result) => {
+          if (result.success) {
+            onOpenChange(false);
+            onSuccess?.();
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -60,7 +91,7 @@ export default function AssignDriverDialog({
               dir="rtl"
               placeholder={t("search_placeholder")}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleSearchChange}
               className="pr-9 bg-gray-50 border-gray-200 focus-visible:ring-0"
             />
           </div>

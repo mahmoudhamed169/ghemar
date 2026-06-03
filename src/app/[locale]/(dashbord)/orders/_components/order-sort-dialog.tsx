@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
@@ -34,24 +34,36 @@ export default function OrderSortDialog({
   const [selected, setSelected] = useState<PieceEntry[]>([]);
   const { mutate: sort, isPending: isLoading } = useSortOrder();
 
-  const totalPieces = selected.reduce((sum, p) => sum + p.quantity, 0);
-  const isChecked = (key: PieceTypeKey) => selected.some((p) => p.type === key);
-  const getQuantity = (key: PieceTypeKey) =>
-    selected.find((p) => p.type === key)?.quantity ?? 1;
+  // O(1) lookups — recomputed only when selected array changes
+  const totalPieces = useMemo(
+    () => selected.reduce((sum, p) => sum + p.quantity, 0),
+    [selected],
+  );
 
-  const toggleType = (key: PieceTypeKey) => {
-    if (isChecked(key)) {
-      setSelected((prev) => prev.filter((p) => p.type !== key));
-    } else {
-      setSelected((prev) => [...prev, { type: key, quantity: 1 }]);
-    }
-  };
+  const checkedSet = useMemo(
+    () => new Set(selected.map((p) => p.type)),
+    [selected],
+  );
 
-  const updateQuantity = (key: PieceTypeKey, quantity: number) => {
+  const quantityMap = useMemo(
+    () => new Map(selected.map((p) => [p.type, p.quantity])),
+    [selected],
+  );
+
+  // Stable refs — PieceTypeRow memo can skip re-renders for unchanged rows
+  const toggleType = useCallback((key: PieceTypeKey) => {
+    setSelected((prev) =>
+      prev.some((p) => p.type === key)
+        ? prev.filter((p) => p.type !== key)
+        : [...prev, { type: key, quantity: 1 }],
+    );
+  }, []);
+
+  const updateQuantity = useCallback((key: PieceTypeKey, quantity: number) => {
     setSelected((prev) =>
       prev.map((p) => (p.type === key ? { ...p, quantity } : p)),
     );
-  };
+  }, []);
 
   const handleConfirm = () => {
     const items = selected.map((p) => ({
@@ -100,11 +112,12 @@ export default function OrderSortDialog({
               {PIECE_TYPE_KEYS.map((key) => (
                 <PieceTypeRow
                   key={key}
+                  typeKey={key}
                   type={t(key)}
-                  checked={isChecked(key)}
-                  quantity={getQuantity(key)}
-                  onToggle={() => toggleType(key)}
-                  onQuantityChange={(v) => updateQuantity(key, v)}
+                  checked={checkedSet.has(key)}
+                  quantity={quantityMap.get(key) ?? 1}
+                  onToggle={toggleType}
+                  onQuantityChange={updateQuantity}
                 />
               ))}
             </div>
