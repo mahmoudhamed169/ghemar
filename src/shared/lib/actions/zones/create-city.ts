@@ -26,6 +26,7 @@ export async function createCityAction(
   if (!res.ok) throw new Error(`Failed to create city: ${res.status}`);
 
   revalidateTag("cities", {});
+  revalidateTag("cities-stats", {});
   revalidatePath("/[locale]/settings/zones", "page");
 
   return res.json();
