@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 interface AssignDriverResult {
   success: boolean;
@@ -33,6 +33,7 @@ export async function assignDriver(
   }
 
   revalidateTag("orders", {});
+  revalidatePath("/[locale]/orders", "page");
 
   return { success: true };
 }
