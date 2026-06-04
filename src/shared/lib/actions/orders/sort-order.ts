@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export interface SortItem {
   itemType: string;
@@ -39,6 +39,8 @@ export async function sortOrder(
   }
 
   revalidateTag("orders", {});
+    revalidatePath("/[locale]/orders", "page");
+  
 
   return { success: true };
 }

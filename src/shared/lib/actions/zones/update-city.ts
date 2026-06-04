@@ -26,7 +26,7 @@ export async function updateCityAction(
 
   if (!res.ok) throw new Error(`Failed to update city: ${res.status}`);
 
-  revalidateTag("cities", "default");
+  revalidateTag("cities", {});
   revalidatePath("/[locale]/settings/zones", "page");
 
   return res.json();

@@ -27,7 +27,7 @@ export async function updateAreaAction(
 
   if (!res.ok) throw new Error(`Failed to update area: ${res.status}`);
 
-  revalidateTag("cities", "default");
+  revalidateTag("cities", {});
     revalidatePath("/[locale]/settings/zones", "page");
   
 }
