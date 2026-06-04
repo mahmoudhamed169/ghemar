@@ -21,6 +21,6 @@ export async function toggleCityStatusAction(id: string): Promise<void> {
 
   if (!res.ok) throw new Error(`Failed to toggle city status: ${res.status}`);
 
-  revalidateTag("cities", "default");
+  revalidateTag("cities", {});
   revalidatePath("/[locale]/settings/zones", "page");
 }

@@ -26,6 +26,6 @@ export async function createAreaAction(
 
   if (!res.ok) throw new Error(`Failed to create area: ${res.status}`);
 
-  revalidateTag("cities", "default");
+  revalidateTag("cities", {});
   revalidatePath("/[locale]/settings/zones", "page");
 }
