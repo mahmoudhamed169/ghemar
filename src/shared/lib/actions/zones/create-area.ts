@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { CreateAreaInput } from "../../types/zones/city";
 
 export async function createAreaAction(
@@ -27,4 +27,5 @@ export async function createAreaAction(
   if (!res.ok) throw new Error(`Failed to create area: ${res.status}`);
 
   revalidateTag("cities", "default");
+  revalidatePath("/[locale]/settings/zones", "page");
 }
