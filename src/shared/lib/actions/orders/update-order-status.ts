@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { OrderStatus } from "../../types/orders/order";
 
 export async function updateOrderStatusAction(
@@ -29,6 +29,7 @@ export async function updateOrderStatusAction(
   }
 
   revalidateTag("orders", {});
+  revalidatePath("/[locale]/orders", "page");
 
   return { success: true };
 }

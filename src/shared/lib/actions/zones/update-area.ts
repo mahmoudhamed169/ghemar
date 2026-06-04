@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { UpdateAreaInput } from "../../types/zones/city";
 
 export async function updateAreaAction(
@@ -28,4 +28,6 @@ export async function updateAreaAction(
   if (!res.ok) throw new Error(`Failed to update area: ${res.status}`);
 
   revalidateTag("cities", "default");
+    revalidatePath("/[locale]/settings/zones", "page");
+  
 }

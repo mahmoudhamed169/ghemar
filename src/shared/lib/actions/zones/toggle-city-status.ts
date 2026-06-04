@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function toggleCityStatusAction(id: string): Promise<void> {
   const session = await getServerSession(authOptions);
@@ -22,5 +22,5 @@ export async function toggleCityStatusAction(id: string): Promise<void> {
   if (!res.ok) throw new Error(`Failed to toggle city status: ${res.status}`);
 
   revalidateTag("cities", "default");
-  revalidateTag("cities-stats", "default");
+  revalidatePath("/[locale]/settings/zones", "page");
 }
