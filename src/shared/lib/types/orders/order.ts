@@ -97,6 +97,14 @@ export interface SortedItem {
   count: number;
 }
 
+export interface LinkedBag {
+  bagId: string;
+  barcode: string;
+  scannedByDriver: boolean;
+  linkedByDriver: boolean;
+  linkedAt?: string;
+}
+
 export interface Order {
   _id: string;
   orderNumber: string;
@@ -112,7 +120,7 @@ export interface Order {
   status: OrderStatus;
   specialInstructions?: string;
   isExpressWash: boolean;
-  bags: string[];
+  bags: LinkedBag[];
   sortedItems: SortedItem[];
   firstPickupBags: string[];
   statusHistory: StatusHistory[];

@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   UpdatePromoCodeBody,
   UpdatePromoCodeResponse,
@@ -30,6 +30,7 @@ export async function updatePromoCodeAction(
   if (!res.ok) throw new Error(`Failed to update promo code: ${res.status}`);
 
   revalidateTag("promo-codes", {});
+  revalidatePath("/[locale]/promo-codes", "page");
 
   return res.json();
 }

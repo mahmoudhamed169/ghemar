@@ -5,7 +5,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="space-y-6">
       <PageHeader />
-      <BarcodeFilters />
+      <div className="flex justify-end">
+        <BarcodeFilters />
+      </div>
       {children}
     </main>
   );

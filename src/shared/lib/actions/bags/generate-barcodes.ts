@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // ─── Package (activation codes) ───────────────────────────────────────────────
 
@@ -44,6 +44,7 @@ export async function generatePackageBarcodesAction(
     throw new Error(`Failed to generate activation codes: ${res.status}`);
 
   revalidateTag("activation-codes", {});
+  revalidatePath("/[locale]/bags", "page");
   return res.json();
 }
 
@@ -87,5 +88,6 @@ export async function generateSingleBagsAction(
     throw new Error(`Failed to generate bags: ${res.status}`);
 
   revalidateTag("bags", {});
+  revalidatePath("/[locale]/bags", "page");
   return res.json();
 }
