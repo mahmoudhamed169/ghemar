@@ -74,7 +74,7 @@ function buildReceiptHTML(
   const bagsSection =
     order.bags.length > 0
       ? `${hr}<div class="center bold" style="font-size:10px">${r("bag_barcodes")}</div>
-       ${order.bags.map((b) => `<div class="center" style="font-family:monospace;font-size:10px;letter-spacing:1px;margin:3px 0">${b}</div>`).join("")}`
+       ${order.bags.map((b) => `<div class="center" style="font-family:monospace;font-size:10px;letter-spacing:1px;margin:3px 0">${b.barcode}</div>`).join("")}`
       : "";
 
   return `<!DOCTYPE html>
@@ -401,13 +401,13 @@ export default function OrderDetailsSheet({
               <div className="grid grid-cols-2 gap-3">
                 {order.bags.map((bag) => (
                   <div
-                    key={bag}
+                    key={bag.bagId}
                     className="bg-gray-50 rounded-xl p-3 flex flex-col items-center gap-1"
                   >
                     <Package className="w-4 h-4 text-[#0C6175]" />
                     <span className="text-xs text-gray-400">{t("bag")}</span>
                     <span className="text-xs font-mono font-bold text-[#000709] break-all text-center">
-                      {bag}
+                      {bag.barcode}
                     </span>
                   </div>
                 ))}

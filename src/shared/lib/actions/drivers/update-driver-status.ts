@@ -1,7 +1,7 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { DriverStatus } from "@/shared/lib/types/drivers/driver";
 
 interface UpdateDriverStatusPayload {
@@ -43,5 +43,6 @@ export async function updateDriverStatus(
   }
 
   revalidateTag("drivers", {});
+  revalidatePath("/[locale]/drivers", "page");
   return { success: true, message: data.message, data: data.data };
 }

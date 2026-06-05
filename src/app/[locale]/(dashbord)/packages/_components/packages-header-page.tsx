@@ -43,7 +43,7 @@ export default function PackagesHeaderPage() {
       <PackageSuccessModal
         open={successOpen}
         onClose={() => setSuccessOpen(false)}
-        mode="edit"
+        mode="add"
       />
     </>
   );

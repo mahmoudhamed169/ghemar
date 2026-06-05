@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   CreatePackageBody,
   DeletePackageResponse,
@@ -34,6 +34,8 @@ export async function createPackageAction(
   if (!res.ok) throw new Error(`Failed to create package: ${res.status}`);
 
   revalidateTag("packages", {});
+  revalidateTag("packages-stats", {});
+  revalidatePath("/[locale]/packages", "page");
   return res.json();
 }
 
@@ -58,6 +60,8 @@ export async function updatePackageAction(
   if (!res.ok) throw new Error(`Failed to update package: ${res.status}`);
 
   revalidateTag("packages", {});
+  revalidateTag("packages-stats", {});
+  revalidatePath("/[locale]/packages", "page");
   return res.json();
 }
 
@@ -80,5 +84,7 @@ export async function deletePackageAction(
   if (!res.ok) throw new Error(`Failed to delete package: ${res.status}`);
 
   revalidateTag("packages", {});
+  revalidateTag("packages-stats", {});
+  revalidatePath("/[locale]/packages", "page");
   return res.json();
 }
