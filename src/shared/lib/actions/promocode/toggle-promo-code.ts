@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export interface TogglePromoCodeResponse {
   success: boolean;
@@ -32,6 +32,7 @@ export async function togglePromoCodeAction(
   if (!res.ok) throw new Error(`Failed to toggle promo code: ${res.status}`);
 
   revalidateTag("promo-codes", {});
+  revalidatePath("/[locale]/promo-codes", "page");
 
   return res.json();
 }
