@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { Minus } from "lucide-react";
+import { Loader2, Minus } from "lucide-react";
+import { useDeductPoints } from "@/shared/lib/hooks/rewards/use-adjust-points";
 
 interface DeductPointsModalProps {
   open: boolean;
@@ -31,10 +32,7 @@ export default function DeductPointsModal({
   const [reason, setReason] = useState("");
   const [notes, setNotes] = useState("");
 
-  const handleSubmit = () => {
-    console.log("خصم نقاط", { userId, userName, points, reason, notes });
-    onClose();
-  };
+  const { mutate: deductPoints, isPending } = useDeductPoints();
 
   const handleClose = () => {
     setPoints("");
@@ -43,40 +41,39 @@ export default function DeductPointsModal({
     onClose();
   };
 
+  const handleSubmit = () => {
+    const description = notes.trim() ? `${reason.trim()} — ${notes.trim()}` : reason.trim();
+
+    deductPoints(
+      { userId, points: Number(points), description },
+      { onSuccess: handleClose },
+    );
+  };
+
+  const isValid = !!points && Number(points) > 0 && !!reason.trim();
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[480px] rounded-2xl">
+      <DialogContent className="sm:max-w-120 rounded-2xl">
         <DialogHeader>
-
-          
-          <h2 className="my-5 flex  justify-center text-2xl items-center gap-2 text-red-500">
+          <DialogTitle className="my-5 flex justify-center text-2xl items-center gap-2 text-red-500">
             <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
               <Minus size={16} className="text-red-500" />
             </div>
             خصم نقاط
-          </h2>
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-4 py-2">
           {/* User info - readonly */}
           <div className="flex gap-3">
             <div className="flex-1 flex flex-col gap-1.5">
-              <Label className="text-right text-sm text-gray-600">
-                اسم المستخدم
-              </Label>
-              <Input
-                value={userName}
-                readOnly
-                className="bg-gray-50 text-right"
-              />
+              <Label className="text-right text-sm text-gray-600">اسم المستخدم</Label>
+              <Input value={userName} readOnly className="bg-gray-50 text-right" />
             </div>
-            <div className="w-[120px] flex flex-col gap-1.5">
+            <div className="w-30 flex flex-col gap-1.5">
               <Label className="text-right text-sm text-gray-600">ID</Label>
-              <Input
-                value={userId}
-                readOnly
-                className="bg-gray-50 text-center"
-              />
+              <Input value={userId.slice(-6)} readOnly className="bg-gray-50 text-center" />
             </div>
           </div>
 
@@ -87,10 +84,12 @@ export default function DeductPointsModal({
             </Label>
             <Input
               type="number"
+              min={1}
               placeholder="أدخل عدد النقاط"
               value={points}
               onChange={(e) => setPoints(e.target.value)}
               className="text-right"
+              dir="ltr"
             />
           </div>
 
@@ -123,14 +122,22 @@ export default function DeductPointsModal({
         <DialogFooter className="flex flex-row-reverse gap-2 sm:justify-start">
           <Button
             onClick={handleSubmit}
-            disabled={!points || !reason}
+            disabled={!isValid || isPending}
             className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-xl h-11"
           >
-            تأكيد الخصم
+            {isPending ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                جاري الخصم...
+              </span>
+            ) : (
+              "تأكيد الخصم"
+            )}
           </Button>
           <Button
             variant="outline"
             onClick={handleClose}
+            disabled={isPending}
             className="flex-1 rounded-xl h-11"
           >
             إلغاء
