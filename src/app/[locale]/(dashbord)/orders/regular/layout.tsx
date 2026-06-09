@@ -1,8 +1,8 @@
-import React, { Suspense } from "react";
+import React from "react";
 import PageTitle from "./_components/page-title";
 import OrdersFilters from "../_components/orders-filter";
-import OrdersTable from "../_components/orders-table";
 import OrdersStatusFilter from "../_components/orders-status-filter";
+import AutoRefresh from "@/shared/components/auto-refresh";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +12,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <OrdersStatusFilter variant="regular" />
       
       {children}
+      <AutoRefresh intervalMs={2000} />
     </main>
   );
 }
