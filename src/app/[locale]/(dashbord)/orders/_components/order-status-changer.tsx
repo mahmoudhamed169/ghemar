@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, Loader2 } from "lucide-react";
 import {
@@ -35,6 +35,10 @@ export default function OrderStatusChanger({
   const [confirmedStatus, setConfirmedStatus] = useState(currentStatus);
   const [assignOpen, setAssignOpen] = useState(false);
   const { mutate: updateStatus, isPending } = useUpdateOrderStatus();
+
+  useEffect(() => {
+    setConfirmedStatus(currentStatus);
+  }, [currentStatus]);
 
   const nextStatuses = getNextStatuses(confirmedStatus, orderType);
   const terminal = isTerminalStatus(confirmedStatus);

@@ -43,7 +43,7 @@ export const getOrders = cache(async function getOrders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["orders"] },
+      next: { revalidate: 2, tags: ["orders"] },
     },
   );
 
