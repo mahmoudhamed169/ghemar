@@ -36,7 +36,7 @@ export async function getBags({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["bags"] },
+      next: { revalidate: 2, tags: ["bags"] },
     },
   );
 
