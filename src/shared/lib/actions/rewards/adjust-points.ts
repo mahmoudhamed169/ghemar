@@ -35,8 +35,8 @@ export async function adjustPointsAction(
 
   if (!res.ok) throw new Error(`Failed to adjust points: ${res.status}`);
 
-  revalidateTag("rewards-points");
-  revalidateTag("rewards-stats");
+  revalidateTag("rewards-points", {});
+  revalidateTag("rewards-stats", {});
   revalidatePath("/[locale]/bounes", "page");
 
   return res.json();
