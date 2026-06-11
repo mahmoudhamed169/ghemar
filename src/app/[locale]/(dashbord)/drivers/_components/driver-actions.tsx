@@ -11,15 +11,17 @@ import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
 import BlockUserModal from "@/shared/components/block-user-modal";
 import DriverDetailsModal from "./driver-details/driver-details-modal";
+import SendNotificationModal from "@/app/[locale]/(dashbord)/alerts/_components/send-notification-modal";
 import { Driver } from "@/shared/lib/types/drivers/driver";
 
 export default function DriverActions({ driver }: { driver: Driver }) {
   const t = useTranslations("drivers.actions");
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [blockOpen, setBlockOpen]     = useState(false);
+  const [notifyOpen, setNotifyOpen]   = useState(false);
 
   const menuItems = [
-    { label: t("send_notification"), onClick: () => {} },
+    { label: t("send_notification"), onClick: () => setNotifyOpen(true) },
     { label: t("view_details"),      onClick: () => setDetailsOpen(true) },
     { label: t("order_history"),     onClick: () => {} },
   ];
@@ -63,6 +65,12 @@ export default function DriverActions({ driver }: { driver: Driver }) {
         onOpenChange={setBlockOpen}
         userName={driver.name}
         onConfirm={() => setBlockOpen(false)}
+      />
+      <SendNotificationModal
+        open={notifyOpen}
+        onOpenChange={setNotifyOpen}
+        recipientId={driver._id}
+        recipientRole="driver"
       />
     </>
   );

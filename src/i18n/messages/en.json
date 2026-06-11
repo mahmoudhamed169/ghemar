@@ -149,6 +149,7 @@
       "at_laundry": "In Laundry",
       "ready_for_return": "Ready for Return",
       "driver_on_way_to_laundry_pickup": "On Way to Laundry Pickup",
+      "driver_arrived_at_laundry_pickup": "Driver Arrived at Laundry",
       "picked_from_laundry": "Picked from Laundry",
       "on_way_to_customer": "On Way to Delivery",
       "driver_arrived_at_customer": "Driver Arrived",
@@ -168,7 +169,7 @@
       "sort_action": "Sort Action",
       "actions": "Actions",
       "no_orders": "No orders found",
-      "no_driver": "—",
+      "no_driver": "Awaiting Driver Assignment",
       "priority_express": "Express",
       "priority_normal": "Normal"
     },
@@ -583,7 +584,15 @@
     "print": {
       "title": "Print Barcode",
       "print": "Print",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "readyTitle": "Ready to Print",
+      "printNow": "Print Now",
+      "later": "Later",
+      "singleLabel": "barcode",
+      "packageLabel": "activation code",
+      "singleTitle": "Barcodes",
+      "packageTitle": "Activation Codes",
+      "successMessage": "{count} {label} created successfully — would you like to print now?"
     }
   },
   "Zones": {

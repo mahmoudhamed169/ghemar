@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Loader2, UserCheck } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,6 +45,27 @@ export default function OrderStatusChanger({
 
   if (terminal || nextStatuses.length === 0) {
     return <span className="text-gray-300 text-sm select-none">—</span>;
+  }
+
+  if (confirmedStatus === "ready_for_return") {
+    return (
+      <>
+        <button
+          onClick={() => setAssignOpen(true)}
+          disabled={isPending}
+          className="inline-flex items-center gap-1.5 px-3 h-8 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-sm text-gray-600 font-medium transition disabled:opacity-50"
+        >
+          <UserCheck className="w-3.5 h-3.5 shrink-0" />
+          <span>تعيين سائق</span>
+        </button>
+        <AssignDriverDialog
+          orderId={orderId}
+          open={assignOpen}
+          onOpenChange={setAssignOpen}
+          onSuccess={() => setConfirmedStatus("driver_on_way_to_laundry_pickup")}
+        />
+      </>
+    );
   }
 
   const handleSelect = (newStatus: OrderStatus) => {

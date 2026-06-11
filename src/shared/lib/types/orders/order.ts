@@ -17,6 +17,7 @@ export type OrderStatus =
   | "at_laundry"
   | "ready_for_return"
   | "driver_on_way_to_laundry_pickup"
+  | "driver_arrived_at_laundry_pickup"
   | "picked_from_laundry"
   | "on_way_to_customer"
   | "driver_arrived_at_customer"
