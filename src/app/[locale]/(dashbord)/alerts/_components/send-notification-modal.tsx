@@ -47,13 +47,19 @@ const INITIAL: FormState = {
 interface SendNotificationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** When provided, sends to a specific user (individual mode — hides audience selector) */
+  recipientId?: string;
+  recipientRole?: RecipientRole;
 }
 
 export default function SendNotificationModal({
   open,
   onOpenChange,
+  recipientId,
+  recipientRole: fixedRole,
 }: SendNotificationModalProps) {
   const t = useTranslations("Notifications.form");
+  const isIndividual = !!recipientId;
   const [selectedRole, setSelectedRole] = useState<RecipientRole>("client");
   const [form, setForm] = useState<FormState>(INITIAL);
 
@@ -74,8 +80,8 @@ export default function SendNotificationModal({
 
     createNotification(
       {
-        recipientId: "all",
-        recipientRole: selectedRole,
+        recipientId: isIndividual ? recipientId! : "all",
+        recipientRole: isIndividual ? (fixedRole ?? "client") : selectedRole,
         title: form.title.trim(),
         titleAr: form.titleAr.trim(),
         body: form.body.trim(),
@@ -101,43 +107,45 @@ export default function SendNotificationModal({
         </DialogHeader>
 
         <div className="flex flex-col gap-5">
-          {/* Audience Selector */}
-          <div className="flex flex-col gap-2">
-            <Label className="text-sm font-medium text-[#000709]">
-              {t("audience")}
-            </Label>
-            <div className="grid grid-cols-3 gap-3">
-              {AUDIENCE.map(({ role, labelKey, count, icon: Icon }) => {
-                const selected = selectedRole === role;
-                return (
-                  <button
-                    key={role}
-                    type="button"
-                    onClick={() => setSelectedRole(role)}
-                    className={`
-                      flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border-2
-                      transition-all duration-150
-                      ${
-                        selected
-                          ? "border-[#0C6175] bg-[#0C6175]/5 text-[#0C6175]"
-                          : "border-gray-100 bg-gray-50 text-gray-500 hover:border-gray-200"
-                      }
-                    `}
-                  >
-                    <Icon
-                      className={`w-5 h-5 ${selected ? "text-[#0C6175]" : "text-gray-400"}`}
-                    />
-                    <span className="text-xs font-semibold">{t(labelKey)}</span>
-                    <span
-                      className={`text-xs ${selected ? "text-[#0C6175]/70" : "text-gray-400"}`}
+          {/* Audience Selector — hidden in individual mode */}
+          {!isIndividual && (
+            <div className="flex flex-col gap-2">
+              <Label className="text-sm font-medium text-[#000709]">
+                {t("audience")}
+              </Label>
+              <div className="grid grid-cols-3 gap-3">
+                {AUDIENCE.map(({ role, labelKey, count, icon: Icon }) => {
+                  const selected = selectedRole === role;
+                  return (
+                    <button
+                      key={role}
+                      type="button"
+                      onClick={() => setSelectedRole(role)}
+                      className={`
+                        flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border-2
+                        transition-all duration-150
+                        ${
+                          selected
+                            ? "border-[#0C6175] bg-[#0C6175]/5 text-[#0C6175]"
+                            : "border-gray-100 bg-gray-50 text-gray-500 hover:border-gray-200"
+                        }
+                      `}
                     >
-                      {count} {t("users")}
-                    </span>
-                  </button>
-                );
-              })}
+                      <Icon
+                        className={`w-5 h-5 ${selected ? "text-[#0C6175]" : "text-gray-400"}`}
+                      />
+                      <span className="text-xs font-semibold">{t(labelKey)}</span>
+                      <span
+                        className={`text-xs ${selected ? "text-[#0C6175]/70" : "text-gray-400"}`}
+                      >
+                        {count} {t("users")}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Title AR + EN */}
           <div className="grid grid-cols-2 gap-4">

@@ -2,12 +2,11 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ActivationCode } from "@/shared/lib/types/bags/activation-code";
 import ActivationCodePrintButton from "./activation-code-print-button";
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  const date = d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
+  const time = d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+  return { date, time };
 }
 
 interface ActivationCodesTableBodyProps {
@@ -31,7 +30,9 @@ export default function ActivationCodesTableBody({
 
   return (
     <TableBody>
-      {codes.map((item) => (
+      {codes.map((item) => {
+        const { date, time } = formatDate(item.createdAt);
+        return (
         <TableRow
           key={item._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
@@ -77,8 +78,11 @@ export default function ActivationCodesTableBody({
           </TableCell>
 
           {/* Created At */}
-          <TableCell className="text-center text-gray-600 text-sm">
-            {formatDate(item.createdAt)}
+          <TableCell className="text-center">
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-sm text-gray-700">{date}</span>
+              <span className="text-xs text-gray-400">{time}</span>
+            </div>
           </TableCell>
 
           {/* Actions */}
@@ -86,7 +90,8 @@ export default function ActivationCodesTableBody({
             <ActivationCodePrintButton code={item.code} />
           </TableCell>
         </TableRow>
-      ))}
+        );
+      })}
     </TableBody>
   );
 }

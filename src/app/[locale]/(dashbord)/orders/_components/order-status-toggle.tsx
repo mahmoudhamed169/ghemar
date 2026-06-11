@@ -29,6 +29,7 @@ const statusColors: Record<OrderStatus, string> = {
   at_laundry:                       "text-[#0C6175]",
   ready_for_return:                 "text-[#065F46]",
   driver_on_way_to_laundry_pickup:  "text-[#6D28D9]",
+  driver_arrived_at_laundry_pickup: "text-[#5B21B6]",
   picked_from_laundry:              "text-[#7C3AED]",
   on_way_to_customer:               "text-[#6D28D9]",
   driver_arrived_at_customer:       "text-[#BE185D]",

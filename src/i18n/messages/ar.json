@@ -149,6 +149,7 @@
       "at_laundry": "في المغسلة",
       "ready_for_return": "جاهز للإرجاع",
       "driver_on_way_to_laundry_pickup": "السائق في الطريق لاستلام الغسيل",
+      "driver_arrived_at_laundry_pickup": "السائق وصل للمغسلة",
       "picked_from_laundry": "تم الاستلام من المغسلة",
       "on_way_to_customer": "قيد التسليم",
       "driver_arrived_at_customer": "السائق وصل لموقع العميل",
@@ -168,7 +169,7 @@
       "sort_action": "اجراء الفرز",
       "actions": "إجراءات",
       "no_orders": "لا توجد طلبات",
-      "no_driver": "—",
+      "no_driver": "في انتظار تعيين سائق",
       "priority_express": "مستعجل",
       "priority_normal": "عادي"
     },
@@ -624,7 +625,15 @@
     "print": {
       "title": "طباعة الباركود",
       "print": "طباعة",
-      "cancel": "إلغاء"
+      "cancel": "إلغاء",
+      "readyTitle": "جاهز للطباعة",
+      "printNow": "طباعة الآن",
+      "later": "لاحقاً",
+      "singleLabel": "باركود",
+      "packageLabel": "كود تفعيل",
+      "singleTitle": "الباركودات",
+      "packageTitle": "أكواد التفعيل",
+      "successMessage": "تم إنشاء {count} {label} بنجاح — هل تريد طباعتها الآن؟"
     }
   },
   "Zones": {

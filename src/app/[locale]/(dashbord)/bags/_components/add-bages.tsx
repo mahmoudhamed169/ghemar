@@ -31,6 +31,43 @@ import BarcodeBulkPrintModal from "./barcode-bulk-print-modal";
 
 type BarcodeType = "single" | "package";
 
+function extractCodes(res: unknown, kind: BarcodeType): string[] {
+  if (!res) return [];
+  const r = res as Record<string, unknown>;
+  const primaryField = kind === "package" ? "code" : "barcode";
+
+  // find an array anywhere in the response
+  const tryArray = (arr: unknown[]): string[] =>
+    arr
+      .map((b) => {
+        if (typeof b === "string") return b;
+        if (b && typeof b === "object") {
+          const o = b as Record<string, unknown>;
+          return (o[primaryField] ?? o.barcode ?? o.code ?? o.value ?? o._id) as string | undefined;
+        }
+        return undefined;
+      })
+      .filter(Boolean) as string[];
+
+  // Pattern 1: { data: [...] }
+  if (Array.isArray(r.data)) return tryArray(r.data);
+
+  // Pattern 2: { data: { bags|barcodes|codes|items|result: [...] } }
+  if (r.data && typeof r.data === "object" && !Array.isArray(r.data)) {
+    const d = r.data as Record<string, unknown>;
+    for (const key of ["bags", "barcodes", "codes", "items", "result", "list"]) {
+      if (Array.isArray(d[key])) return tryArray(d[key] as unknown[]);
+    }
+  }
+
+  // Pattern 3: top-level { bags|barcodes|codes: [...] }
+  for (const key of ["bags", "barcodes", "codes", "items", "result", "list"]) {
+    if (Array.isArray(r[key])) return tryArray(r[key] as unknown[]);
+  }
+
+  return [];
+}
+
 export default function AddBages() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -38,6 +75,7 @@ export default function AddBages() {
   const [barcodeType, setBarcodeType] = useState<BarcodeType>("single");
   const [selectedPackage, setSelectedPackage] = useState("");
   const [generatedBarcodes, setGeneratedBarcodes] = useState<string[]>([]);
+  const [printType, setPrintType] = useState<BarcodeType>("single");
   const [printOpen, setPrintOpen] = useState(false);
 
   const { data: packagesData, isLoading: packagesLoading } = usePackages();
@@ -58,25 +96,29 @@ export default function AddBages() {
   const handleCreate = async () => {
     if (!canSubmit) return;
 
+    let codes: string[] = [];
+
     try {
       if (barcodeType === "package") {
         const res = await generatePackage({ packageId: selectedPackage, count });
-        const codes = res.data.map((b) => b.code);
-        setGeneratedBarcodes(codes);
-        setOpen(false);
-        router.refresh();
-        setPrintOpen(true);
+        console.log("=== [AddBages] package raw response ===", res);
+        codes = extractCodes(res, "package");
       } else {
         const res = await generateSingle({ count });
-        const barcodes = res.data.map((b) => b.barcode);
-        setGeneratedBarcodes(barcodes);
-        setOpen(false);
-        router.refresh();
-        setPrintOpen(true);
+        console.log("=== [AddBages] single raw response ===", res);
+        codes = extractCodes(res, "single");
       }
-    } catch {
-      // onError in the hook handles the toast
+      console.log("[AddBages] extracted codes:", codes.length, codes);
+    } catch (err) {
+      console.error("[AddBages] handleCreate error:", err);
+      return;
     }
+
+    setGeneratedBarcodes(codes);
+    setPrintType(barcodeType);
+    setOpen(false);
+    setPrintOpen(true);
+    router.refresh();
   };
 
   return (
@@ -85,19 +127,20 @@ export default function AddBages() {
         open={printOpen}
         onClose={() => setPrintOpen(false)}
         barcodes={generatedBarcodes}
+        type={printType}
       />
 
       <Button
         onClick={() => setOpen(true)}
-        className="mt-4 bg-[#0C6175] text-white w-full sm:w-[288px] h-[52px] sm:h-[55px] rounded-xl text-sm sm:text-base flex items-center gap-2 justify-center hover:bg-[#097188] transition-colors"
+        className="mt-4 bg-[#0C6175] text-white w-full sm:w-72 h-13 sm:h-13.75 rounded-xl text-sm sm:text-base flex items-center gap-2 justify-center hover:bg-[#097188] transition-colors"
       >
         <Barcode className="w-5 h-5" />
         إنشاء باركود
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-0 gap-0 flex flex-col overflow-hidden w-[calc(100%-2rem)] max-w-[460px] max-h-[90dvh] rounded-2xl">
-          <DialogHeader className="px-4 sm:px-6 py-3 sm:py-5 border-b border-border/60 flex-shrink-0">
+        <DialogContent className="p-0 gap-0 flex flex-col overflow-hidden w-[calc(100%-2rem)] max-w-115 max-h-[90dvh] rounded-2xl">
+          <DialogHeader className="px-4 sm:px-6 py-3 sm:py-5 border-b border-border/60 shrink-0">
             <div className="flex flex-col gap-0.5 mt-4">
               <h1 className="text-[15px] sm:text-[17px] font-medium">
                 إنشاء باركود جديد
@@ -123,7 +166,7 @@ export default function AddBages() {
                   onChange={(e) =>
                     setCount(Math.max(1, parseInt(e.target.value) || 1))
                   }
-                  className="text-right pr-4 pl-10 h-10 sm:h-[42px] bg-muted/50 border-border/60 text-sm sm:text-base"
+                  className="text-right pr-4 pl-10 h-10 sm:h-10.5 bg-muted/50 border-border/60 text-sm sm:text-base"
                 />
                 <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               </div>
@@ -157,7 +200,7 @@ export default function AddBages() {
                     >
                       <div
                         className={cn(
-                          "w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0",
+                          "w-4.5 h-4.5 rounded-full border-2 flex items-center justify-center shrink-0",
                           isActive
                             ? "border-[#1D9E75]"
                             : "border-muted-foreground/40",
@@ -169,7 +212,7 @@ export default function AddBages() {
                       </div>
                       <div
                         className={cn(
-                          "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center flex-shrink-0",
+                          "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center shrink-0",
                           isActive ? "bg-[#1D9E75]/15" : "bg-muted",
                         )}
                       >
@@ -219,7 +262,7 @@ export default function AddBages() {
                   onValueChange={setSelectedPackage}
                   disabled={packagesLoading}
                 >
-                  <SelectTrigger className="text-right h-10 sm:h-[42px] bg-muted/50 border-border/60 text-sm">
+                  <SelectTrigger className="text-right h-10 sm:h-10.5 bg-muted/50 border-border/60 text-sm">
                     <SelectValue
                       placeholder={
                         packagesLoading ? "جاري التحميل..." : "-- اختر باكيج --"
@@ -239,7 +282,7 @@ export default function AddBages() {
 
             {/* Info banner */}
             <div className="flex items-center gap-2 px-3 py-2 sm:py-2.5 bg-blue-50 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-800">
-              <Info className="w-4 h-4 text-blue-500 flex-shrink-0" />
+              <Info className="w-4 h-4 text-blue-500 shrink-0" />
               <span className="text-[12px] sm:text-[13px] text-blue-700 dark:text-blue-300">
                 سيتم إنشاء {count} باركود{count > 1 ? "ات" : ""} جديد
                 {count > 1 ? "ة" : ""}

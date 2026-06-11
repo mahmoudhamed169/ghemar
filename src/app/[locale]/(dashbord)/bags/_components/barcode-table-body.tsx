@@ -4,12 +4,11 @@ import { Bag } from "@/shared/lib/types/bags/bag";
 import BagStatusBadge from "./bag-status-badge";
 import BagReplaceButton from "./bag-replace-button";
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("ar-SA", {
-    year:  "numeric",
-    month: "short",
-    day:   "numeric",
-  });
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  const date = d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
+  const time = d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+  return { date, time };
 }
 
 interface BarcodeTableBodyProps {
@@ -33,7 +32,9 @@ export default async function BarcodeTableBody({ bags }: BarcodeTableBodyProps) 
 
   return (
     <TableBody>
-      {bags.map((bag) => (
+      {bags.map((bag) => {
+        const { date, time } = formatDate(bag.createdAt);
+        return (
         <TableRow
           key={bag._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
@@ -83,8 +84,11 @@ export default async function BarcodeTableBody({ bags }: BarcodeTableBodyProps) 
           </TableCell>
 
           {/* Created At */}
-          <TableCell className="text-center text-gray-600 text-sm">
-            {formatDate(bag.createdAt)}
+          <TableCell className="text-center">
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-sm text-gray-700">{date}</span>
+              <span className="text-xs text-gray-400">{time}</span>
+            </div>
           </TableCell>
 
           {/* Actions */}
@@ -92,7 +96,8 @@ export default async function BarcodeTableBody({ bags }: BarcodeTableBodyProps) 
             <BagReplaceButton bagId={bag._id} barcode={bag.barcode} />
           </TableCell>
         </TableRow>
-      ))}
+        );
+      })}
     </TableBody>
   );
 }
