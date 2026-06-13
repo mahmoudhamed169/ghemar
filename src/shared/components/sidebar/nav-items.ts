@@ -15,13 +15,7 @@ export const navItems: NavItemType[] = [
   { labelKey: "overview",   href: "/overview",    icon: LayoutDashboard },
   { labelKey: "customers",  href: "/customers",   icon: Users },
   { labelKey: "drivers",    href: "/drivers",     icon: Home },
-  {
-    labelKey: "orders", href: "/orders", icon: ClipboardList,
-    children: [
-      { labelKey: "ordersRegular",      href: "/orders/regular" },
-      { labelKey: "ordersNewCustomers", href: "/orders/new-customers" },
-    ],
-  },
+  { labelKey: "orders", href: "/orders", icon: ClipboardList },
   { labelKey: "packages",   href: "/packages",    icon: CreditCard },
   { labelKey: "promoCodes", href: "/promo-codes", icon: Percent },
   { labelKey: "bags",       href: "/bags",        icon: Tag },

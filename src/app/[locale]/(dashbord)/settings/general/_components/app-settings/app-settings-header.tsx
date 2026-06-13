@@ -6,13 +6,14 @@ import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 
 interface AppSettingsHeaderProps {
+  initialLogo?: string;
   onLogoChange: (file: File) => void;
 }
 
-export default function AppSettingsHeader({ onLogoChange }: AppSettingsHeaderProps) {
+export default function AppSettingsHeader({ initialLogo, onLogoChange }: AppSettingsHeaderProps) {
   const t = useTranslations("Settings.general.appSettings");
   const [preview, setPreview] = useState(false);
-  const [localLogo, setLocalLogo] = useState("/logo.png");
+  const [localLogo, setLocalLogo] = useState(initialLogo ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,10 +33,10 @@ export default function AppSettingsHeader({ onLogoChange }: AppSettingsHeaderPro
         <div className="flex items-center gap-5">
           <div className="relative group">
             <div
-              className="relative w-24 h-24 rounded-2xl overflow-hidden border border-gray-200 shadow-sm cursor-pointer"
-              onClick={() => setPreview(true)}
+              className="relative w-24 h-24 rounded-2xl overflow-hidden border border-gray-200 shadow-sm cursor-pointer bg-gray-50"
+              onClick={() => localLogo ? setPreview(true) : undefined}
             >
-              <Image src={localLogo} alt={t("logoLabel")} fill className="object-cover" />
+              {localLogo && <Image src={localLogo} alt={t("logoLabel")} fill className="object-cover" />}
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <ZoomIn size={20} className="text-white" />
               </div>
@@ -56,7 +57,7 @@ export default function AppSettingsHeader({ onLogoChange }: AppSettingsHeaderPro
         </div>
       </div>
 
-      {preview && (
+      {preview && localLogo && (
         <div
           className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center"
           onClick={() => setPreview(false)}

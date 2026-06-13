@@ -31,7 +31,7 @@ export default function AppSettingsCard({ initialData }: AppSettingsCardProps) {
 
   return (
     <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 w-full">
-      <AppSettingsHeader onLogoChange={setLogoFile} />
+      <AppSettingsHeader initialLogo={data.appLogo} onLogoChange={setLogoFile} />
       <AppSettingsForm data={data} onChange={handleChange} />
       <AppSettingsActions
         onSave={handleSave}

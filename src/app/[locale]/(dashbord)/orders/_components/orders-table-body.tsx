@@ -1,5 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getTranslations } from "next-intl/server";
+import { ShoppingBag } from "lucide-react";
 import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
 import OrderStatusChanger from "./order-status-changer";
@@ -42,7 +43,15 @@ export default async function OrdersTableBody({ orders, page }: Props) {
           </TableCell>
 
           <TableCell className="text-center font-medium text-sm">
-            {order.orderNumber}
+            <div className="flex items-center justify-center gap-1.5">
+              {order.orderNumber}
+              {order.hasBagsDifference && (
+                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-sm px-2 py-1 rounded-full font-bold shrink-0">
+                  <ShoppingBag className="w-4 h-4" />
+                  {order.bagsDifferenceCount}
+                </span>
+              )}
+            </div>
           </TableCell>
 
           <TableCell className="text-center font-medium">

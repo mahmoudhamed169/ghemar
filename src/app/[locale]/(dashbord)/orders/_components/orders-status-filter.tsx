@@ -16,7 +16,7 @@ import OrderStatusBadge from "./order-status-badge"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type GroupKey = "all" | "new" | "package" | "laundry" | "return" | "terminal"
+type GroupKey = "all" | "new" | "package" | "pickup" | "laundry" | "return" | "terminal"
 
 interface Group {
   key: GroupKey
@@ -157,6 +157,55 @@ const PACKAGE_FLOW_SECTIONS: FlowSection[] = [
   SHARED_RETURN_SECTION,
 ]
 
+const UNIFIED_GROUPS: Group[] = [
+  { key: "all", label: "الكل", statuses: [] },
+  COMMON_NEW,
+  {
+    key: "package",
+    label: "تسليم الأكياس",
+    statuses: [
+      "driver_preparing_bags",
+      "driver_on_way_to_customer",
+      "bags_delivered_and_linked",
+      "first_bag_collected",
+    ],
+  },
+  {
+    key: "pickup",
+    label: "استلام الملابس",
+    statuses: [
+      "driver_on_way_to_pickup",
+      "driver_arrived_at_pickup",
+      "picked_up_from_customer",
+    ],
+  },
+  COMMON_LAUNDRY,
+  COMMON_RETURN,
+  COMMON_TERMINAL,
+]
+
+const UNIFIED_FLOW_SECTIONS: FlowSection[] = [
+  {
+    label: "بداية الطلب",
+    statuses: ["pending", "confirmed", "awaiting_payment", "driver_assigned"],
+  },
+  {
+    label: "تسليم الأكياس (طلبات الأكياس)",
+    statuses: [
+      "driver_preparing_bags",
+      "driver_on_way_to_customer",
+      "bags_delivered_and_linked",
+      "first_bag_collected",
+    ],
+  },
+  {
+    label: "استلام الملابس من العميل (طلبات الغسيل)",
+    statuses: ["driver_on_way_to_pickup", "driver_arrived_at_pickup", "picked_up_from_customer"],
+  },
+  SHARED_LAUNDRY_SECTION,
+  SHARED_RETURN_SECTION,
+]
+
 // ─── Flow preview ─────────────────────────────────────────────────────────────
 
 function FlowPreview({ sections }: { sections: FlowSection[] }) {
@@ -227,13 +276,23 @@ function FlowPreview({ sections }: { sections: FlowSection[] }) {
 
 // ─── Main filter ──────────────────────────────────────────────────────────────
 
-function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package" }) {
+function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package" | "unified" }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const groups = variant === "regular" ? REGULAR_GROUPS : PACKAGE_GROUPS
-  const flowSections = variant === "regular" ? NORMAL_FLOW_SECTIONS : PACKAGE_FLOW_SECTIONS
+  const groups =
+    variant === "unified"
+      ? UNIFIED_GROUPS
+      : variant === "regular"
+        ? REGULAR_GROUPS
+        : PACKAGE_GROUPS
+  const flowSections =
+    variant === "unified"
+      ? UNIFIED_FLOW_SECTIONS
+      : variant === "regular"
+        ? NORMAL_FLOW_SECTIONS
+        : PACKAGE_FLOW_SECTIONS
 
   const currentStatus = searchParams.get("status") ?? ""
   const initialGroup: GroupKey =
@@ -333,7 +392,7 @@ function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package"
   )
 }
 
-export default function OrdersStatusFilter({ variant }: { variant: "regular" | "package" }) {
+export default function OrdersStatusFilter({ variant }: { variant: "regular" | "package" | "unified" }) {
   return (
     <Suspense fallback={null}>
       <OrdersStatusFilterContent variant={variant} />
