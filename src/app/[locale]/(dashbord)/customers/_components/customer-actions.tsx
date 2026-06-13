@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,14 +21,21 @@ interface CustomerActionsProps {
 
 export default function CustomerActions({ customer }: CustomerActionsProps) {
   const t = useTranslations("customers.actions");
+  const router = useRouter();
+  const { locale } = useParams<{ locale: string }>();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
   const [notifyOpen, setNotifyOpen] = useState(false);
 
+  const handleOrderHistory = () => {
+    const name = encodeURIComponent(customer.name ?? customer.phone);
+    router.push(`/${locale}/customers/${customer._id}/orders?name=${name}`);
+  };
+
   const menuItems = [
     { label: t("sendNotification"), onClick: () => setNotifyOpen(true) },
     { label: t("viewDetails"), onClick: () => setDetailsOpen(true) },
-    { label: t("orderHistory"), onClick: () => {} },
+    { label: t("orderHistory"), onClick: handleOrderHistory },
   ];
 
   return (
