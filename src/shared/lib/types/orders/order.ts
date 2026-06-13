@@ -17,6 +17,7 @@ export type OrderStatus =
   | "at_laundry"
   | "ready_for_return"
   | "driver_on_way_to_laundry_pickup"
+  | "driver_arrived_at_laundry_pickup"
   | "picked_from_laundry"
   | "on_way_to_customer"
   | "driver_arrived_at_customer"
@@ -124,6 +125,8 @@ export interface Order {
   sortedItems: SortedItem[];
   firstPickupBags: string[];
   statusHistory: StatusHistory[];
+  hasBagsDifference?: boolean;
+  bagsDifferenceCount?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -152,5 +155,4 @@ export interface OrdersParams {
   cityId?: string;
   clientId?: string;
   driverId?: string;
-  isNewClient?: boolean;
 }

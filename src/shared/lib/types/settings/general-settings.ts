@@ -1,5 +1,6 @@
 export interface GeneralSettings {
   appName: string;
+  appLogo?: string;
   supportEmail: string;
   supportPhone: string;
   currency: string;

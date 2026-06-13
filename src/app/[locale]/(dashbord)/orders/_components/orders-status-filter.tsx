@@ -16,7 +16,7 @@ import OrderStatusBadge from "./order-status-badge"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type GroupKey = "all" | "new" | "package" | "laundry" | "return" | "terminal"
+type GroupKey = "all" | "new" | "package" | "pickup" | "laundry" | "return" | "terminal"
 
 interface Group {
   key: GroupKey
@@ -43,6 +43,34 @@ const COMMON_TERMINAL: Group = {
   statuses: ["completed", "cancelled", "problem_reported"],
 }
 
+const RETURN_STATUSES: OrderStatus[] = [
+  "driver_on_way_to_laundry_pickup",
+  "driver_arrived_at_laundry_pickup",
+  "picked_from_laundry",
+  "on_way_to_customer",
+  "driver_arrived_at_customer",
+  "delivered_to_customer",
+]
+
+const LAUNDRY_STATUSES: OrderStatus[] = [
+  "on_way_to_laundry",
+  "delivered_to_laundry",
+  "at_laundry",
+  "ready_for_return",
+]
+
+const COMMON_LAUNDRY: Group = {
+  key: "laundry",
+  label: "المغسلة",
+  statuses: LAUNDRY_STATUSES,
+}
+
+const COMMON_RETURN: Group = {
+  key: "return",
+  label: "الإرجاع",
+  statuses: RETURN_STATUSES,
+}
+
 const REGULAR_GROUPS: Group[] = [
   { key: "all", label: "الكل", statuses: [] },
   COMMON_NEW,
@@ -53,23 +81,10 @@ const REGULAR_GROUPS: Group[] = [
       "driver_on_way_to_pickup",
       "driver_arrived_at_pickup",
       "picked_up_from_customer",
-      "on_way_to_laundry",
-      "delivered_to_laundry",
-      "at_laundry",
-      "ready_for_return",
+      ...LAUNDRY_STATUSES,
     ],
   },
-  {
-    key: "return",
-    label: "الإرجاع",
-    statuses: [
-      "driver_on_way_to_laundry_pickup",
-      "picked_from_laundry",
-      "on_way_to_customer",
-      "driver_arrived_at_customer",
-      "delivered_to_customer",
-    ],
-  },
+  COMMON_RETURN,
   COMMON_TERMINAL,
 ]
 
@@ -86,10 +101,30 @@ const PACKAGE_GROUPS: Group[] = [
       "first_bag_collected",
     ],
   },
+  COMMON_LAUNDRY,
+  COMMON_RETURN,
   COMMON_TERMINAL,
 ]
 
 // ─── Flow sections per variant ────────────────────────────────────────────────
+
+const SHARED_LAUNDRY_SECTION: FlowSection = {
+  label: "المغسلة",
+  statuses: ["on_way_to_laundry", "delivered_to_laundry", "at_laundry", "ready_for_return"],
+}
+
+const SHARED_RETURN_SECTION: FlowSection = {
+  label: "الإرجاع للعميل",
+  statuses: [
+    "driver_on_way_to_laundry_pickup",
+    "driver_arrived_at_laundry_pickup",
+    "picked_from_laundry",
+    "on_way_to_customer",
+    "driver_arrived_at_customer",
+    "delivered_to_customer",
+    "completed",
+  ],
+}
 
 const NORMAL_FLOW_SECTIONS: FlowSection[] = [
   {
@@ -100,21 +135,8 @@ const NORMAL_FLOW_SECTIONS: FlowSection[] = [
     label: "استلام الملابس من العميل",
     statuses: ["driver_on_way_to_pickup", "driver_arrived_at_pickup", "picked_up_from_customer"],
   },
-  {
-    label: "المغسلة",
-    statuses: ["on_way_to_laundry", "delivered_to_laundry", "at_laundry", "ready_for_return"],
-  },
-  {
-    label: "الإرجاع للعميل",
-    statuses: [
-      "driver_on_way_to_laundry_pickup",
-      "picked_from_laundry",
-      "on_way_to_customer",
-      "driver_arrived_at_customer",
-      "delivered_to_customer",
-      "completed",
-    ],
-  },
+  SHARED_LAUNDRY_SECTION,
+  SHARED_RETURN_SECTION,
 ]
 
 const PACKAGE_FLOW_SECTIONS: FlowSection[] = [
@@ -131,21 +153,57 @@ const PACKAGE_FLOW_SECTIONS: FlowSection[] = [
       "first_bag_collected",
     ],
   },
+  SHARED_LAUNDRY_SECTION,
+  SHARED_RETURN_SECTION,
+]
+
+const UNIFIED_GROUPS: Group[] = [
+  { key: "all", label: "الكل", statuses: [] },
+  COMMON_NEW,
   {
-    label: "المغسلة",
-    statuses: ["on_way_to_laundry", "delivered_to_laundry", "at_laundry", "ready_for_return"],
-  },
-  {
-    label: "الإرجاع للعميل",
+    key: "package",
+    label: "تسليم الأكياس",
     statuses: [
-      "driver_on_way_to_laundry_pickup",
-      "picked_from_laundry",
-      "on_way_to_customer",
-      "driver_arrived_at_customer",
-      "delivered_to_customer",
-      "completed",
+      "driver_preparing_bags",
+      "driver_on_way_to_customer",
+      "bags_delivered_and_linked",
+      "first_bag_collected",
     ],
   },
+  {
+    key: "pickup",
+    label: "استلام الملابس",
+    statuses: [
+      "driver_on_way_to_pickup",
+      "driver_arrived_at_pickup",
+      "picked_up_from_customer",
+    ],
+  },
+  COMMON_LAUNDRY,
+  COMMON_RETURN,
+  COMMON_TERMINAL,
+]
+
+const UNIFIED_FLOW_SECTIONS: FlowSection[] = [
+  {
+    label: "بداية الطلب",
+    statuses: ["pending", "confirmed", "awaiting_payment", "driver_assigned"],
+  },
+  {
+    label: "تسليم الأكياس (طلبات الأكياس)",
+    statuses: [
+      "driver_preparing_bags",
+      "driver_on_way_to_customer",
+      "bags_delivered_and_linked",
+      "first_bag_collected",
+    ],
+  },
+  {
+    label: "استلام الملابس من العميل (طلبات الغسيل)",
+    statuses: ["driver_on_way_to_pickup", "driver_arrived_at_pickup", "picked_up_from_customer"],
+  },
+  SHARED_LAUNDRY_SECTION,
+  SHARED_RETURN_SECTION,
 ]
 
 // ─── Flow preview ─────────────────────────────────────────────────────────────
@@ -218,13 +276,23 @@ function FlowPreview({ sections }: { sections: FlowSection[] }) {
 
 // ─── Main filter ──────────────────────────────────────────────────────────────
 
-function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package" }) {
+function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package" | "unified" }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const groups = variant === "regular" ? REGULAR_GROUPS : PACKAGE_GROUPS
-  const flowSections = variant === "regular" ? NORMAL_FLOW_SECTIONS : PACKAGE_FLOW_SECTIONS
+  const groups =
+    variant === "unified"
+      ? UNIFIED_GROUPS
+      : variant === "regular"
+        ? REGULAR_GROUPS
+        : PACKAGE_GROUPS
+  const flowSections =
+    variant === "unified"
+      ? UNIFIED_FLOW_SECTIONS
+      : variant === "regular"
+        ? NORMAL_FLOW_SECTIONS
+        : PACKAGE_FLOW_SECTIONS
 
   const currentStatus = searchParams.get("status") ?? ""
   const initialGroup: GroupKey =
@@ -324,7 +392,7 @@ function OrdersStatusFilterContent({ variant }: { variant: "regular" | "package"
   )
 }
 
-export default function OrdersStatusFilter({ variant }: { variant: "regular" | "package" }) {
+export default function OrdersStatusFilter({ variant }: { variant: "regular" | "package" | "unified" }) {
   return (
     <Suspense fallback={null}>
       <OrdersStatusFilterContent variant={variant} />

@@ -7,7 +7,7 @@ import { AlertTriangle } from "lucide-react";
 interface CancelRedeemModalProps {
   open: boolean;
   onClose: () => void;
-  redeemId: number;
+  redeemId: string;
   userName: string;
 }
 

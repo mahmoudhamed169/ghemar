@@ -95,6 +95,10 @@ const STATUS_CONFIG: Record<OrderStatus, StatusConfig> = {
     style: "bg-violet-50 text-[#6D28D9] border-violet-200 hover:bg-violet-50",
     Icon: Navigation,
   },
+  driver_arrived_at_laundry_pickup: {
+    style: "bg-violet-100 text-[#5B21B6] border-violet-300 hover:bg-violet-100",
+    Icon: MapPin,
+  },
   picked_from_laundry: {
     style: "bg-purple-50 text-[#7C3AED] border-purple-200 hover:bg-purple-50",
     Icon: Package,

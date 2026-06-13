@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useTranslations } from "next-intl";
 import CustomerDetailsInfo from "./customer-details-info";
 import CustomerDetailsLocation from "./customer-details-location";
+import CustomerBagsEditor from "./customer-bags-editor";
 import { Customer } from "@/shared/lib/types/customers";
 
 interface CustomerDetailsModalProps {
@@ -25,6 +26,7 @@ export default function CustomerDetailsModal({
           {t("detailsTitle")} {customer.name ?? customer.phone}
         </h1>
         <CustomerDetailsInfo customer={customer} />
+        <CustomerBagsEditor customer={customer} />
         <CustomerDetailsLocation customer={customer} />
       </DialogContent>
     </Dialog>

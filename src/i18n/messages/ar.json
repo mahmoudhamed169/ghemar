@@ -77,7 +77,8 @@
     "settingsOperations": "اعدادات التشغيل",
     "settingsAdmins": "المشرفين والأدوار",
     "settingsTerms": "الشروط والأحكام",
-    "settingsZones": "مناطق التوصيل"
+    "settingsZones": "مناطق التوصيل",
+    "settingsContact": "بيانات التواصل"
   },
   "pagination": {
     "prev": "السابق",
@@ -149,6 +150,7 @@
       "at_laundry": "في المغسلة",
       "ready_for_return": "جاهز للإرجاع",
       "driver_on_way_to_laundry_pickup": "السائق في الطريق لاستلام الغسيل",
+      "driver_arrived_at_laundry_pickup": "السائق وصل للمغسلة",
       "picked_from_laundry": "تم الاستلام من المغسلة",
       "on_way_to_customer": "قيد التسليم",
       "driver_arrived_at_customer": "السائق وصل لموقع العميل",
@@ -168,7 +170,7 @@
       "sort_action": "اجراء الفرز",
       "actions": "إجراءات",
       "no_orders": "لا توجد طلبات",
-      "no_driver": "—",
+      "no_driver": "في انتظار تعيين سائق",
       "priority_express": "مستعجل",
       "priority_normal": "عادي"
     },
@@ -446,6 +448,31 @@
       "actions": "إجراءات",
       "noName": "—",
       "empty": "لا توجد بيانات"
+    },
+    "redeemTable": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "اسم المستخدم",
+      "phone": "رقم الجوال",
+      "points": "النقاط المستخدمة",
+      "description": "الوصف",
+      "date": "التاريخ والوقت",
+      "actions": "إجراءات",
+      "noName": "—",
+      "empty": "لا توجد عمليات استبدال"
+    },
+    "settings": {
+      "title": "قواعد كسب النقاط",
+      "pointsPerBag": "نقاط لكل كيس",
+      "redeemPointsPerBag": "نقاط استبدال الكيس",
+      "minRedemption": "الحد الأدنى للاستبدال",
+      "minRedemptionDesc": "أقل عدد نقاط يمكن استبداله",
+      "unit": "نقطة",
+      "helperBag": "كل كيس = {value} نقطة",
+      "helperRedeemBag": "استبدال كيس = {value} نقطة",
+      "saveChanges": "حفظ التغييرات",
+      "saveSuccess": "تم حفظ الإعدادات بنجاح",
+      "saveError": "حدث خطأ أثناء الحفظ"
     }
   },
   "Notifications": {
@@ -624,7 +651,15 @@
     "print": {
       "title": "طباعة الباركود",
       "print": "طباعة",
-      "cancel": "إلغاء"
+      "cancel": "إلغاء",
+      "readyTitle": "جاهز للطباعة",
+      "printNow": "طباعة الآن",
+      "later": "لاحقاً",
+      "singleLabel": "باركود",
+      "packageLabel": "كود تفعيل",
+      "singleTitle": "الباركودات",
+      "packageTitle": "أكواد التفعيل",
+      "successMessage": "تم إنشاء {count} {label} بنجاح — هل تريد طباعتها الآن؟"
     }
   },
   "Zones": {

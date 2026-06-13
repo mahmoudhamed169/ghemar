@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Loader2, UserCheck } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,7 @@ import {
 import { useUpdateOrderStatus } from "@/shared/lib/hooks/orders/use-update-order-status";
 import OrderStatusBadge from "./order-status-badge";
 import AssignDriverDialog from "./assign-driver-dialog";
+import DeliveredBagsDialog from "./delivered-bags-dialog";
 
 interface Props {
   orderId: string;
@@ -34,6 +35,7 @@ export default function OrderStatusChanger({
   const t = useTranslations("orders.status");
   const [confirmedStatus, setConfirmedStatus] = useState(currentStatus);
   const [assignOpen, setAssignOpen] = useState(false);
+  const [deliveredBagsOpen, setDeliveredBagsOpen] = useState(false);
   const { mutate: updateStatus, isPending } = useUpdateOrderStatus();
 
   useEffect(() => {
@@ -47,9 +49,34 @@ export default function OrderStatusChanger({
     return <span className="text-gray-300 text-sm select-none">—</span>;
   }
 
+  if (confirmedStatus === "ready_for_return") {
+    return (
+      <>
+        <button
+          onClick={() => setAssignOpen(true)}
+          disabled={isPending}
+          className="inline-flex items-center gap-1.5 px-3 h-8 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-sm text-gray-600 font-medium transition disabled:opacity-50"
+        >
+          <UserCheck className="w-3.5 h-3.5 shrink-0" />
+          <span>تعيين سائق</span>
+        </button>
+        <AssignDriverDialog
+          orderId={orderId}
+          open={assignOpen}
+          onOpenChange={setAssignOpen}
+          onSuccess={() => setConfirmedStatus("driver_on_way_to_laundry_pickup")}
+        />
+      </>
+    );
+  }
+
   const handleSelect = (newStatus: OrderStatus) => {
     if (newStatus === "driver_assigned") {
       setAssignOpen(true);
+      return;
+    }
+    if (newStatus === "delivered_to_customer") {
+      setDeliveredBagsOpen(true);
       return;
     }
     if (confirmedStatus === "delivered_to_laundry" && !isSorted) return;
@@ -59,6 +86,20 @@ export default function OrderStatusChanger({
       {
         onSuccess: (result) => {
           if (result.success) setConfirmedStatus(newStatus);
+        },
+      },
+    );
+  };
+
+  const handleDeliveredBagsConfirm = (bagsCount: number) => {
+    updateStatus(
+      { orderId, status: "delivered_to_customer", deliveredBagsCount: bagsCount },
+      {
+        onSuccess: (result) => {
+          if (result.success) {
+            setConfirmedStatus("delivered_to_customer");
+            setDeliveredBagsOpen(false);
+          }
         },
       },
     );
@@ -109,12 +150,18 @@ export default function OrderStatusChanger({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* router.refresh() is handled inside useAssignDriver; only update local optimistic state here */}
       <AssignDriverDialog
         orderId={orderId}
         open={assignOpen}
         onOpenChange={setAssignOpen}
         onSuccess={() => setConfirmedStatus("driver_assigned")}
+      />
+
+      <DeliveredBagsDialog
+        open={deliveredBagsOpen}
+        onOpenChange={setDeliveredBagsOpen}
+        isPending={isPending}
+        onConfirm={handleDeliveredBagsConfirm}
       />
     </>
   );

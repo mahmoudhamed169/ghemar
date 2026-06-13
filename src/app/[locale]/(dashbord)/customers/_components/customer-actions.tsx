@@ -11,6 +11,7 @@ import { MoreVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
 import CustomerDetailsModal from "./customer-details/customer-details-modal";
 import BlockUserModal from "@/shared/components/block-user-modal";
+import SendNotificationModal from "@/app/[locale]/(dashbord)/alerts/_components/send-notification-modal";
 import { Customer } from "@/shared/lib/types/customers";
 
 interface CustomerActionsProps {
@@ -21,9 +22,10 @@ export default function CustomerActions({ customer }: CustomerActionsProps) {
   const t = useTranslations("customers.actions");
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
+  const [notifyOpen, setNotifyOpen] = useState(false);
 
   const menuItems = [
-    { label: t("sendNotification"), onClick: () => {} },
+    { label: t("sendNotification"), onClick: () => setNotifyOpen(true) },
     { label: t("viewDetails"), onClick: () => setDetailsOpen(true) },
     { label: t("orderHistory"), onClick: () => {} },
   ];
@@ -74,6 +76,12 @@ export default function CustomerActions({ customer }: CustomerActionsProps) {
         onOpenChange={setBlockOpen}
         userName={customer.name ?? customer.phone}
         onConfirm={() => setBlockOpen(false)}
+      />
+      <SendNotificationModal
+        open={notifyOpen}
+        onOpenChange={setNotifyOpen}
+        recipientId={customer._id}
+        recipientRole="client"
       />
     </>
   );

@@ -12,8 +12,8 @@ function BounesFilterInner() {
   const searchParams = useSearchParams();
 
   const search = searchParams.get("search") ?? "";
-  const from = searchParams.get("from") ?? "";
-  const to = searchParams.get("to") ?? "";
+  const minPoints = searchParams.get("minPoints") ?? "";
+  const maxPoints = searchParams.get("maxPoints") ?? "";
 
   const updateParams = useCallback(
     (updates: Record<string, string>) => {
@@ -30,7 +30,7 @@ function BounesFilterInner() {
     [searchParams, pathname, router],
   );
 
-  const hasFilters = search || from || to;
+  const hasFilters = search || minPoints || maxPoints;
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
@@ -54,16 +54,16 @@ function BounesFilterInner() {
         <Input
           type="number"
           placeholder="من"
-          value={from}
-          onChange={(e) => updateParams({ from: e.target.value })}
+          value={minPoints}
+          onChange={(e) => updateParams({ minPoints: e.target.value })}
           className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
         <span className="text-gray-400 text-sm">الى</span>
         <Input
           type="number"
           placeholder="الى"
-          value={to}
-          onChange={(e) => updateParams({ to: e.target.value })}
+          value={maxPoints}
+          onChange={(e) => updateParams({ maxPoints: e.target.value })}
           className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
         {hasFilters && (

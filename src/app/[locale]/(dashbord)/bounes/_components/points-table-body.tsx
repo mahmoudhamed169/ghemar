@@ -3,10 +3,17 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getRewardsPoints } from "@/shared/lib/services/rewards/get-rewards-points";
 import PointsActions from "./points-actions";
 
-export default async function PointsTableBody() {
+interface Props {
+  page?: number;
+  search?: string;
+  minPoints?: number;
+  maxPoints?: number;
+}
+
+export default async function PointsTableBody({ page, search, minPoints, maxPoints }: Props) {
   const [t, { data: users, pagination }] = await Promise.all([
     getTranslations("Bounes.pointsTable"),
-    getRewardsPoints(),
+    getRewardsPoints({ page, search, minPoints, maxPoints }),
   ]);
 
   if (!users?.length) {

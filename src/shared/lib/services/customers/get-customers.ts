@@ -24,7 +24,7 @@ export async function getCustomers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30 },
+      next: { revalidate: 30, tags: ["customers"] },
     },
   )
 

@@ -27,7 +27,7 @@ export default function BannerItem({
         alt={banner.title}
         fill
         className="object-cover"
-        unoptimized
+        sizes="343px"
       />
 
       {!banner.isActive && (

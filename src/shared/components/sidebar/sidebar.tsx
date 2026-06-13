@@ -3,8 +3,13 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarContent from "./sidebar-content";
+import type { ContactInfo } from "@/shared/lib/services/content/get-contact";
 
-export default function Sidebar() {
+interface SidebarProps {
+  contact?: ContactInfo | null;
+}
+
+export default function Sidebar({ contact = null }: SidebarProps) {
   const [open, setOpen] = useState(false);
 
   return (
