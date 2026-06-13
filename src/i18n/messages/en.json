@@ -407,6 +407,31 @@
       "actions": "Actions",
       "noName": "—",
       "empty": "No data found"
+    },
+    "redeemTable": {
+      "serial": "Serial",
+      "id": "ID",
+      "name": "Username",
+      "phone": "Phone",
+      "points": "Points Used",
+      "description": "Description",
+      "date": "Date & Time",
+      "actions": "Actions",
+      "noName": "—",
+      "empty": "No redemptions found"
+    },
+    "settings": {
+      "title": "Points Earning Rules",
+      "pointsPerBag": "Points per Bag",
+      "redeemPointsPerBag": "Redeem Points per Bag",
+      "minRedemption": "Minimum Redemption",
+      "minRedemptionDesc": "Minimum points that can be redeemed",
+      "unit": "pts",
+      "helperBag": "Each bag = {value} pts",
+      "helperRedeemBag": "Redeem 1 bag = {value} pts",
+      "saveChanges": "Save Changes",
+      "saveSuccess": "Settings saved successfully",
+      "saveError": "An error occurred while saving"
     }
   },
   "Notifications": {

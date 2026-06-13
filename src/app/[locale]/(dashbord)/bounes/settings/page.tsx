@@ -1,5 +1,12 @@
-import React from "react";
+import { Suspense } from "react";
+import PointsRulesSection from "./_components/points-rules-section";
 
-export default function page() {
-  return <h1 className="text-3xl font-bold"> الإعدادات</h1>;
+export default function BounesSettingsPage() {
+  return (
+    <main className="space-y-6">
+      <Suspense>
+        <PointsRulesSection />
+      </Suspense>
+    </main>
+  );
 }
