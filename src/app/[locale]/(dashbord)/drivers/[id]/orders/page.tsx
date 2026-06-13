@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { parseOrdersSearchParams } from "@/shared/lib/utils/parse-orders-search-params";
 import { getOrders } from "@/shared/lib/services/orders/get-orders";
 import OrdersTable from "@/app/[locale]/(dashbord)/orders/_components/orders-table";
@@ -19,6 +20,7 @@ interface Props {
 export default async function DriverOrdersPage({ params, searchParams }: Props) {
   const { id: driverId } = await params;
   const resolved = await searchParams;
+  const t = await getTranslations("drivers.actions");
   const { currentPage, currentSearch, currentStatus, currentIsExpressWash } =
     parseOrdersSearchParams(resolved);
 
@@ -31,11 +33,13 @@ export default async function DriverOrdersPage({ params, searchParams }: Props) 
   });
 
   const totalPages = Math.ceil(pagination.total / Number(pagination.limit));
+  const name = resolved.name ? decodeURIComponent(resolved.name) : null;
 
   return (
-    <main className="space-y-6">
-      <h1 className="text-3xl font-bold">
-        سجل طلبات السائق{resolved.name ? ` — ${decodeURIComponent(resolved.name)}` : ""}
+    <main className="space-y-4 lg:space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-bold">
+        {t("order_history_page_title")}
+        {name && <span className="text-[#0C6175]"> — {name}</span>}
       </h1>
       <OrdersFilters />
       <OrdersStatusFilter variant="unified" />
