@@ -1,4 +1,5 @@
 import CustomersTable from "./_components/customers-table";
+import CustomerHeaderPage from "./_components/customer-page-header";
 
 interface Props {
   searchParams: Promise<{ page?: string; search?: string }>;
@@ -10,7 +11,8 @@ export default async function CustomersPage({ searchParams }: Props) {
   const currentSearch = search ?? "";
 
   return (
-    <main className="mt-6">
+    <main className="space-y-6">
+      <CustomerHeaderPage />
       <CustomersTable page={currentPage} search={currentSearch} />
     </main>
   );
