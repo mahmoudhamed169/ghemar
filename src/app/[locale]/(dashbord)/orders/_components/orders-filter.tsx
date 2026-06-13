@@ -62,7 +62,7 @@ function OrdersFiltersInner() {
           placeholder={t("search_placeholder")}
           value={searchValue}
           onChange={handleSearchChange}
-          className="w-full bg-white h-[55px] rounded-lg pr-10 border border-gray-200 shadow-sm"
+          className="w-full bg-white h-12 sm:h-[55px] rounded-lg pr-10 border border-gray-200 shadow-sm"
         />
       </div>
 

@@ -11,11 +11,11 @@ export default function ZonesHeaderPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between mt-1">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-1">
+        <h1 className="text-2xl lg:text-3xl font-bold">{t("title")}</h1>
         <Button
           onClick={() => setOpen(true)}
-          className="bg-[#0C6175] text-white w-[288px] h-[55px] rounded-lg text-lg hover:bg-[#097188]"
+          className="bg-[#0C6175] text-white w-full sm:w-[288px] h-12 sm:h-[55px] rounded-lg text-base sm:text-lg hover:bg-[#097188]"
         >
           {t("addButton")}
         </Button>

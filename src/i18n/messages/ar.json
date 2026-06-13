@@ -102,6 +102,7 @@
       "sendNotification": "ارسال اشعار",
       "viewDetails": "عرض التفاصيل",
       "orderHistory": "سجل الأوردرات",
+      "orderHistoryPageTitle": "سجل طلبات العميل",
       "blockUser": "حظر المستخدم",
       "detailsTitle": "تفاصيل العميل",
       "blockTitle": "حظر المستخدم",
@@ -292,6 +293,7 @@
       "send_notification": "ارسال اشعار",
       "view_details": "عرض التفاصيل",
       "order_history": "سجل الأوردرات",
+      "order_history_page_title": "سجل طلبات السائق",
       "block_user": "حظر المستخدم"
     },
     "details": {

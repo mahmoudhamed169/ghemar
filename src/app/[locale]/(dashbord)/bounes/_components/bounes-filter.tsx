@@ -33,7 +33,7 @@ function BounesFilterInner() {
   const hasFilters = search || minPoints || maxPoints;
 
   return (
-    <div className="flex flex-row items-center gap-4 w-full">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center w-full">
       <div className="relative flex-1">
         <Search
           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
@@ -43,12 +43,12 @@ function BounesFilterInner() {
           placeholder="ابحث"
           value={search}
           onChange={(e) => updateParams({ search: e.target.value })}
-          className="w-full bg-white h-[55px] rounded-xl pr-10 text-right border border-gray-200 shadow-sm"
+          className="w-full bg-white h-12 sm:h-[55px] rounded-xl pr-10 text-right border border-gray-200 shadow-sm"
         />
       </div>
 
-      <div className="flex flex-row items-center gap-3 shrink-0">
-        <p className="text-[#000709] font-medium text-[18px] whitespace-nowrap">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
+        <p className="text-[#000709] font-medium text-base whitespace-nowrap">
           فلتر حسب النقط
         </p>
         <Input
@@ -56,7 +56,7 @@ function BounesFilterInner() {
           placeholder="من"
           value={minPoints}
           onChange={(e) => updateParams({ minPoints: e.target.value })}
-          className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
+          className="w-20 h-12 sm:h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
         <span className="text-gray-400 text-sm">الى</span>
         <Input
@@ -64,14 +64,14 @@ function BounesFilterInner() {
           placeholder="الى"
           value={maxPoints}
           onChange={(e) => updateParams({ maxPoints: e.target.value })}
-          className="w-[80px] h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
+          className="w-20 h-12 sm:h-[55px] bg-white rounded-xl text-center border border-gray-200 shadow-sm"
         />
         {hasFilters && (
           <Button
             variant="ghost"
             size="sm"
             onClick={() => router.replace(pathname)}
-            className="text-red-500 hover:text-red-600 hover:bg-red-50 gap-1 px-3 h-[55px] rounded-xl"
+            className="text-red-500 hover:text-red-600 hover:bg-red-50 gap-1 px-3 h-12 sm:h-[55px] rounded-xl"
           >
             <X size={15} />
             مسح
