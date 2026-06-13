@@ -125,6 +125,8 @@ export interface Order {
   sortedItems: SortedItem[];
   firstPickupBags: string[];
   statusHistory: StatusHistory[];
+  hasBagsDifference?: boolean;
+  bagsDifferenceCount?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -153,5 +155,4 @@ export interface OrdersParams {
   cityId?: string;
   clientId?: string;
   driverId?: string;
-  isNewClient?: boolean;
 }

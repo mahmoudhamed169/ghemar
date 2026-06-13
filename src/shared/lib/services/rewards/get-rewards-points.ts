@@ -5,11 +5,17 @@ import { RewardsPointsResponse } from "../../types/rewards/rewards";
 export interface RewardsPointsParams {
   page?: number;
   limit?: number;
+  search?: string;
+  minPoints?: number;
+  maxPoints?: number;
 }
 
 export async function getRewardsPoints({
   page = 1,
   limit = 20,
+  search,
+  minPoints,
+  maxPoints,
 }: RewardsPointsParams = {}): Promise<RewardsPointsResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
@@ -17,6 +23,9 @@ export async function getRewardsPoints({
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    ...(search && { search }),
+    ...(minPoints !== undefined && { minPoints: String(minPoints) }),
+    ...(maxPoints !== undefined && { maxPoints: String(maxPoints) }),
   });
 
   const res = await fetch(

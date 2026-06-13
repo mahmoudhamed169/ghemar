@@ -47,6 +47,8 @@ export interface Customer {
   cityId?: CustomerCity;
   areaCode?: string;
   currentPackage: CustomerPackage | null;
+  purchasedBarcodesCount?: number;
+  receivedBagsCount?: number;
 }
 
 export interface CustomerPagination {

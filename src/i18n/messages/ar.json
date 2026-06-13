@@ -77,7 +77,8 @@
     "settingsOperations": "اعدادات التشغيل",
     "settingsAdmins": "المشرفين والأدوار",
     "settingsTerms": "الشروط والأحكام",
-    "settingsZones": "مناطق التوصيل"
+    "settingsZones": "مناطق التوصيل",
+    "settingsContact": "بيانات التواصل"
   },
   "pagination": {
     "prev": "السابق",
@@ -447,6 +448,31 @@
       "actions": "إجراءات",
       "noName": "—",
       "empty": "لا توجد بيانات"
+    },
+    "redeemTable": {
+      "serial": "الرقم التسلسلي",
+      "id": "ID",
+      "name": "اسم المستخدم",
+      "phone": "رقم الجوال",
+      "points": "النقاط المستخدمة",
+      "description": "الوصف",
+      "date": "التاريخ والوقت",
+      "actions": "إجراءات",
+      "noName": "—",
+      "empty": "لا توجد عمليات استبدال"
+    },
+    "settings": {
+      "title": "قواعد كسب النقاط",
+      "pointsPerBag": "نقاط لكل كيس",
+      "redeemPointsPerBag": "نقاط استبدال الكيس",
+      "minRedemption": "الحد الأدنى للاستبدال",
+      "minRedemptionDesc": "أقل عدد نقاط يمكن استبداله",
+      "unit": "نقطة",
+      "helperBag": "كل كيس = {value} نقطة",
+      "helperRedeemBag": "استبدال كيس = {value} نقطة",
+      "saveChanges": "حفظ التغييرات",
+      "saveSuccess": "تم حفظ الإعدادات بنجاح",
+      "saveError": "حدث خطأ أثناء الحفظ"
     }
   },
   "Notifications": {

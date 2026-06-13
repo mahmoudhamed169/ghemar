@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 import CancelRedeemModal from "./cancel-redeem-modal";
 
 interface RedeemActionsProps {
-  redeemId: number;
+  redeemId: string;
   userName: string;
 }
 

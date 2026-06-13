@@ -1,5 +1,5 @@
-import { redirect } from "@/i18n/navigation";
+import { redirect } from "next/navigation";
 
 export default function SettingsPage() {
-  redirect("/settings/general");
+  redirect("/ar/settings/general");
 }

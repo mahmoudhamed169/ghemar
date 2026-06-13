@@ -17,6 +17,7 @@ import {
 import { useUpdateOrderStatus } from "@/shared/lib/hooks/orders/use-update-order-status";
 import OrderStatusBadge from "./order-status-badge";
 import AssignDriverDialog from "./assign-driver-dialog";
+import DeliveredBagsDialog from "./delivered-bags-dialog";
 
 interface Props {
   orderId: string;
@@ -34,6 +35,7 @@ export default function OrderStatusChanger({
   const t = useTranslations("orders.status");
   const [confirmedStatus, setConfirmedStatus] = useState(currentStatus);
   const [assignOpen, setAssignOpen] = useState(false);
+  const [deliveredBagsOpen, setDeliveredBagsOpen] = useState(false);
   const { mutate: updateStatus, isPending } = useUpdateOrderStatus();
 
   useEffect(() => {
@@ -73,6 +75,10 @@ export default function OrderStatusChanger({
       setAssignOpen(true);
       return;
     }
+    if (newStatus === "delivered_to_customer") {
+      setDeliveredBagsOpen(true);
+      return;
+    }
     if (confirmedStatus === "delivered_to_laundry" && !isSorted) return;
 
     updateStatus(
@@ -80,6 +86,20 @@ export default function OrderStatusChanger({
       {
         onSuccess: (result) => {
           if (result.success) setConfirmedStatus(newStatus);
+        },
+      },
+    );
+  };
+
+  const handleDeliveredBagsConfirm = (bagsCount: number) => {
+    updateStatus(
+      { orderId, status: "delivered_to_customer", deliveredBagsCount: bagsCount },
+      {
+        onSuccess: (result) => {
+          if (result.success) {
+            setConfirmedStatus("delivered_to_customer");
+            setDeliveredBagsOpen(false);
+          }
         },
       },
     );
@@ -130,12 +150,18 @@ export default function OrderStatusChanger({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* router.refresh() is handled inside useAssignDriver; only update local optimistic state here */}
       <AssignDriverDialog
         orderId={orderId}
         open={assignOpen}
         onOpenChange={setAssignOpen}
         onSuccess={() => setConfirmedStatus("driver_assigned")}
+      />
+
+      <DeliveredBagsDialog
+        open={deliveredBagsOpen}
+        onOpenChange={setDeliveredBagsOpen}
+        isPending={isPending}
+        onConfirm={handleDeliveredBagsConfirm}
       />
     </>
   );
