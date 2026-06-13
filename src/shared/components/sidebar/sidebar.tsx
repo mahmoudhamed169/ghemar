@@ -6,17 +6,17 @@ import SidebarContent from "./sidebar-content";
 import type { ContactInfo } from "@/shared/lib/services/content/get-contact";
 
 interface SidebarProps {
-  contact: ContactInfo | null;
+  contact?: ContactInfo | null;
 }
 
-export default function Sidebar({ contact }: SidebarProps) {
+export default function Sidebar({ contact = null }: SidebarProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       {/* Desktop */}
       <aside className="hidden lg:flex w-[288px] h-full shrink-0">
-        <SidebarContent contact={contact} />
+        <SidebarContent />
       </aside>
 
       {/* Mobile */}
@@ -31,7 +31,7 @@ export default function Sidebar({ contact }: SidebarProps) {
             side="right"
             className="p-0 w-[288px] bg-[#0C6175] border-none [&>button]:hidden"
           >
-            <SidebarContent contact={contact} onClose={() => setOpen(false)} />
+            <SidebarContent onClose={() => setOpen(false)} />
           </SheetContent>
         </Sheet>
       </div>
