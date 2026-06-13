@@ -77,7 +77,8 @@
     "settingsOperations": "اعدادات التشغيل",
     "settingsAdmins": "المشرفين والأدوار",
     "settingsTerms": "الشروط والأحكام",
-    "settingsZones": "مناطق التوصيل"
+    "settingsZones": "مناطق التوصيل",
+    "settingsContact": "بيانات التواصل"
   },
   "pagination": {
     "prev": "السابق",

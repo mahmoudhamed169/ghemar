@@ -77,7 +77,8 @@
     "settingsOperations": "Operation Settings",
     "settingsAdmins": "Admins & Roles",
     "settingsTerms": "Terms & Conditions",
-    "settingsZones": "Delivery Zones"
+    "settingsZones": "Delivery Zones",
+    "settingsContact": "Contact Info"
   },
   "pagination": {
     "prev": "Previous",

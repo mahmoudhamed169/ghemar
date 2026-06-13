@@ -3,15 +3,20 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarContent from "./sidebar-content";
+import type { ContactInfo } from "@/shared/lib/services/content/get-contact";
 
-export default function Sidebar() {
+interface SidebarProps {
+  contact: ContactInfo | null;
+}
+
+export default function Sidebar({ contact }: SidebarProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       {/* Desktop */}
       <aside className="hidden lg:flex w-[288px] h-full shrink-0">
-        <SidebarContent />
+        <SidebarContent contact={contact} />
       </aside>
 
       {/* Mobile */}
@@ -26,7 +31,7 @@ export default function Sidebar() {
             side="right"
             className="p-0 w-[288px] bg-[#0C6175] border-none [&>button]:hidden"
           >
-            <SidebarContent onClose={() => setOpen(false)} />
+            <SidebarContent contact={contact} onClose={() => setOpen(false)} />
           </SheetContent>
         </Sheet>
       </div>

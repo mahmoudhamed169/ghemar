@@ -13,10 +13,12 @@ export function useUpdateOrderStatus() {
     mutationFn: ({
       orderId,
       status,
+      deliveredBagsCount,
     }: {
       orderId: string;
       status: OrderStatus;
-    }) => updateOrderStatusAction(orderId, status),
+      deliveredBagsCount?: number;
+    }) => updateOrderStatusAction(orderId, status, deliveredBagsCount),
     onSuccess: (result) => {
       if (!result.success) {
         toast.error(result.message ?? "فشل تغيير حالة الطلب");
