@@ -18,7 +18,7 @@ async function ContactSettingsSection() {
 export default function ContactSettingsPage() {
   return (
     <main className="space-y-6">
-      <h1 className="text-3xl font-bold">بيانات التواصل</h1>
+      <h1 className="text-2xl lg:text-3xl font-bold">بيانات التواصل</h1>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
         <div className="flex items-center gap-2 pb-2 border-b border-gray-100">

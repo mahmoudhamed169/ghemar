@@ -48,13 +48,13 @@ export default function PointsRulesForm({ initialData }: PointsRulesFormProps) {
   };
 
   return (
-    <section dir={dir} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 w-full">
+    <section dir={dir} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-8 w-full">
       <h2 className="text-xl font-bold text-start text-[#000709]">
         {t("title")}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="grid grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
           {/* نقاط لكل كيس */}
           <FieldCard
             label={t("pointsPerBag")}

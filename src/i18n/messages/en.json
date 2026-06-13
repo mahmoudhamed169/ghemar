@@ -102,6 +102,7 @@
       "sendNotification": "Send Notification",
       "viewDetails": "View Details",
       "orderHistory": "Order History",
+      "orderHistoryPageTitle": "Customer Order History",
       "blockUser": "Block User",
       "detailsTitle": "Customer Details",
       "blockTitle": "Block User",
@@ -281,6 +282,7 @@
       "send_notification": "Send Notification",
       "view_details": "View Details",
       "order_history": "Order History",
+      "order_history_page_title": "Driver Order History",
       "block_user": "Block User"
     },
     "details": {
