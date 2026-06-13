@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
   DropdownMenu,
@@ -16,14 +17,21 @@ import { Driver } from "@/shared/lib/types/drivers/driver";
 
 export default function DriverActions({ driver }: { driver: Driver }) {
   const t = useTranslations("drivers.actions");
+  const router = useRouter();
+  const { locale } = useParams<{ locale: string }>();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [blockOpen, setBlockOpen]     = useState(false);
   const [notifyOpen, setNotifyOpen]   = useState(false);
 
+  const handleOrderHistory = () => {
+    const name = encodeURIComponent(driver.name);
+    router.push(`/${locale}/drivers/${driver._id}/orders?name=${name}`);
+  };
+
   const menuItems = [
     { label: t("send_notification"), onClick: () => setNotifyOpen(true) },
     { label: t("view_details"),      onClick: () => setDetailsOpen(true) },
-    { label: t("order_history"),     onClick: () => {} },
+    { label: t("order_history"),     onClick: handleOrderHistory },
   ];
 
   return (
