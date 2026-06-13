@@ -2,8 +2,8 @@ import AddBages from "./add-bages";
 
 export default function PageHeader() {
   return (
-    <div className="flex items-center justify-between md:flex-row flex-col gap-4">
-      <h1 className="text-3xl font-bold"> الباركود</h1>
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <h1 className="text-2xl lg:text-3xl font-bold">الباركود</h1>
       <AddBages />
     </div>
   );

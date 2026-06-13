@@ -34,7 +34,7 @@ function CustomerFiltersInner() {
           placeholder={t("search")}
           defaultValue={searchParams.get("search") ?? ""}
           onChange={(e) => handleSearch(e.target.value)}
-          className="w-full bg-white h-[55px] rounded-lg pr-10 text-right border border-gray-200 shadow-sm"
+          className="w-full bg-white h-12 sm:h-[55px] rounded-lg pr-10 text-right border border-gray-200 shadow-sm"
         />
       </div>
     </div>

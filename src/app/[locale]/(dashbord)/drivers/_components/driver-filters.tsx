@@ -46,7 +46,7 @@ function DriverFiltersInner() {
           placeholder={t("search_placeholder")}
           defaultValue={searchParams.get("search") ?? ""}
           onChange={(e) => updateParam("search", e.target.value || null)}
-          className="w-full bg-white h-[55px] rounded-lg pr-10 border border-gray-200 shadow-sm"
+          className="w-full bg-white h-12 sm:h-[55px] rounded-lg pr-10 border border-gray-200 shadow-sm"
         />
       </div>
 
