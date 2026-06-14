@@ -78,6 +78,7 @@
     "settingsAdmins": "المشرفين والأدوار",
     "settingsTerms": "الشروط والأحكام",
     "settingsZones": "مناطق التوصيل",
+    "settingsBranches": "الفروع",
     "settingsContact": "بيانات التواصل"
   },
   "pagination": {
@@ -705,6 +706,7 @@
       "nameAr": "الاسم (عربي)",
       "name": "الاسم (إنجليزي)",
       "code": "الكود",
+      "coverageRadius": "نطاق التغطية",
       "lat": "خط العرض",
       "lng": "خط الطول",
       "deliveryAvailable": "التوصيل متاح",
