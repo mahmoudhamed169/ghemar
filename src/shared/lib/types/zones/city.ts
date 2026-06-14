@@ -15,6 +15,7 @@ export interface Area {
   nameAr: string;
   code: string;
   coordinates?: { lat: number; lng: number };
+  coverageRadius?: number;
   deliveryAvailable: boolean;
   driverIds: string[];
 }
@@ -76,6 +77,7 @@ export interface CreateAreaInput {
   nameAr: string;
   code: string;
   coordinates: { lat: number; lng: number };
+  coverageRadius: number;
   deliveryAvailable: boolean;
   driverIds: string[];
 }
