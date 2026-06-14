@@ -5,10 +5,15 @@ import ZoneStatusBadge from "./zone-status-badge";
 import CityStatusToggle from "./city-status-toggle";
 import ZoneActions from "./zone-actions";
 
-export default async function ZonesTableBody() {
+interface ZonesTableBodyProps {
+  search?: string;
+  isActive?: boolean;
+}
+
+export default async function ZonesTableBody({ search, isActive }: ZonesTableBodyProps) {
   const [t, { data: cities }] = await Promise.all([
     getTranslations("Zones.table"),
-    getCities(),
+    getCities({ search, isActive }),
   ]);
 
   if (!cities?.length) {

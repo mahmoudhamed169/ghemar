@@ -78,6 +78,7 @@
     "settingsAdmins": "Admins & Roles",
     "settingsTerms": "Terms & Conditions",
     "settingsZones": "Delivery Zones",
+    "settingsBranches": "Branches",
     "settingsContact": "Contact Info"
   },
   "pagination": {
@@ -664,6 +665,7 @@
       "nameAr": "Name (Arabic)",
       "name": "Name (English)",
       "code": "Code",
+      "coverageRadius": "Coverage Radius",
       "lat": "Latitude",
       "lng": "Longitude",
       "deliveryAvailable": "Delivery Available",

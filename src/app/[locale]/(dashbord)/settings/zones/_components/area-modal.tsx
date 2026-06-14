@@ -26,6 +26,7 @@ interface AreaModalProps {
 const INITIAL: CreateAreaInput = {
   name: "", nameAr: "", code: "",
   coordinates: { lat: 24.7136, lng: 46.6753 },
+  coverageRadius: 5,
   deliveryAvailable: true, driverIds: [],
 };
 
@@ -44,6 +45,7 @@ export default function AreaModal({ open, onOpenChange, cityId, initialData }: A
         name: initialData.name, nameAr: initialData.nameAr,
         code: initialData.code,
         coordinates: initialData.coordinates ?? { lat: 24.7136, lng: 46.6753 },
+        coverageRadius: initialData.coverageRadius ?? 5,
         deliveryAvailable: initialData.deliveryAvailable ?? true,
         driverIds: initialData.driverIds ?? [],
       });
@@ -102,21 +104,34 @@ export default function AreaModal({ open, onOpenChange, cityId, initialData }: A
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <Label>{t("code")} *</Label>
-            <Input
-              value={form.code}
-              dir="ltr"
-              onChange={(e) => set("code", e.target.value.toUpperCase())}
-              className="h-11 bg-[#F5F5F5] border-none"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <Label>{t("code")} *</Label>
+              <Input
+                value={form.code}
+                dir="ltr"
+                onChange={(e) => set("code", e.target.value.toUpperCase())}
+                className="h-11 bg-[#F5F5F5] border-none"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label>{t("coverageRadius")} (km)</Label>
+              <Input
+                type="number"
+                min={1}
+                value={form.coverageRadius}
+                dir="ltr"
+                onChange={(e) => set("coverageRadius", Number(e.target.value))}
+                className="h-11 bg-[#F5F5F5] border-none"
+              />
+            </div>
           </div>
 
           {/* Interactive Map */}
           <InteractiveMap
             lat={form.coordinates.lat}
             lng={form.coordinates.lng}
-            radius={800}
+            radius={form.coverageRadius * 1000}
             onPositionChange={(lat, lng) =>
               setForm((p) => ({ ...p, coordinates: { lat, lng } }))
             }

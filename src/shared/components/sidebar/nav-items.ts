@@ -30,6 +30,7 @@ export const navItems: NavItemType[] = [
       { labelKey: "settingsAdmins",     href: "/settings/admins" },
       { labelKey: "settingsTerms",      href: "/settings/terms" },
       { labelKey: "settingsZones",      href: "/settings/zones" },
+      { labelKey: "settingsBranches",   href: "/settings/branches" },
       { labelKey: "settingsContact",    href: "/settings/contact" },
     ],
   },
