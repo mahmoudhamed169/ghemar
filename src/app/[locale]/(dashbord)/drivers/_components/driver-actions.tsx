@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
 import BlockUserModal from "@/shared/components/block-user-modal";
 import DriverDetailsModal from "./driver-details/driver-details-modal";
+import EditDriverModal from "./edit-driver/edit-driver-modal";
 import SendNotificationModal from "@/app/[locale]/(dashbord)/alerts/_components/send-notification-modal";
 import { Driver } from "@/shared/lib/types/drivers/driver";
 
@@ -20,6 +21,7 @@ export default function DriverActions({ driver }: { driver: Driver }) {
   const router = useRouter();
   const { locale } = useParams<{ locale: string }>();
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editOpen, setEditOpen]       = useState(false);
   const [blockOpen, setBlockOpen]     = useState(false);
   const [notifyOpen, setNotifyOpen]   = useState(false);
 
@@ -31,6 +33,7 @@ export default function DriverActions({ driver }: { driver: Driver }) {
   const menuItems = [
     { label: t("send_notification"), onClick: () => setNotifyOpen(true) },
     { label: t("view_details"),      onClick: () => setDetailsOpen(true) },
+    { label: t("edit"),              onClick: () => setEditOpen(true) },
     { label: t("order_history"),     onClick: handleOrderHistory },
   ];
 
@@ -66,6 +69,11 @@ export default function DriverActions({ driver }: { driver: Driver }) {
       <DriverDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
+        driver={driver}
+      />
+      <EditDriverModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
         driver={driver}
       />
       <BlockUserModal

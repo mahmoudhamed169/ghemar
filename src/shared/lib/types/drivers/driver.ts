@@ -17,14 +17,38 @@ interface PerformanceMetrics {
   totalRatings: number;
 }
 
+export interface DriverBranch {
+  branchId: string;
+  assignedAreas: string[];
+}
+
+export interface CreateDriverPayload {
+  name: string;
+  phone: string;
+  cityId: string;
+  vehicleType: VehicleType | "";
+  vehiclePlate: string;
+  nationalId: string;
+  employeeId: string;
+  assignedAreas: string[];
+  branches: DriverBranch[];
+}
+
+export type UpdateDriverPayload = Partial<Omit<CreateDriverPayload, "vehicleType">> & {
+  vehicleType?: VehicleType;
+};
+
 export interface Driver {
   _id: string;
   name: string;
   phone: string;
+  nationalId?: string;
+  employeeId?: string;
   vehicleType: VehicleType;
   vehiclePlate: string;
   cityId: City;
   assignedAreas: string[];
+  branches?: DriverBranch[];
   status: DriverStatus;
   activityStatus?: DriverActivityStatus;
   isOnline: boolean;
