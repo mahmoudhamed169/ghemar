@@ -2,10 +2,8 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-// TODO: remove phone check once backend fixes role in verify-otp
-const TEMP_SUPER_ADMIN_PHONE = "+966500000000";
-function isSuperAdmin(role?: string | null, phone?: string | null) {
-  return role === "super_admin" || phone === TEMP_SUPER_ADMIN_PHONE;
+function isSuperAdmin(role?: string | null) {
+  return role === "super_admin";
 }
 
 const PUBLIC_PAGES = ["/login"];
@@ -54,7 +52,7 @@ export default async function middleware(req: NextRequest) {
 
   if (isLoggedIn && isSuperAdminRoute) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    if (!isSuperAdmin(token?.role as string, token?.phone as string)) {
+    if (!isSuperAdmin(token?.role as string)) {
       const locale = pathname.split("/")[1] ?? "ar";
       return NextResponse.redirect(new URL(`/${locale}/unauthorized`, req.url));
     }

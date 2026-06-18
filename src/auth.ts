@@ -39,14 +39,15 @@ export const authOptions = {
             return null;
           }
 
-          const { token, refreshToken, role, isProfileComplete, user } =
+          const { token, refreshToken, isProfileComplete, isBranchAdmin, user } =
             json.data;
 
           return {
             id: user.id,
             name: user.name,
             phone: user.phone,
-            role,
+            role: isBranchAdmin ? "admin" : "super_admin",
+            isBranchAdmin,
             accessToken: token,
             refreshToken,
             isProfileComplete,
@@ -73,6 +74,7 @@ export const authOptions = {
         token.name = user.name;
         token.phone = user.phone;
         token.role = user.role;
+        token.isBranchAdmin = user.isBranchAdmin;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.isProfileComplete = user.isProfileComplete;
@@ -86,6 +88,7 @@ export const authOptions = {
         name: token.name,
         phone: token.phone,
         role: token.role,
+        isBranchAdmin: token.isBranchAdmin,
       };
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;

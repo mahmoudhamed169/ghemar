@@ -15,7 +15,7 @@ export default async function AdminsPage({
   const { locale } = await params;
   const session = await getServerSession(authOptions);
 
-  if (!checkIsSuperAdmin(session?.user?.role, (session?.user as any)?.phone)) {
+  if (!checkIsSuperAdmin(session?.user?.role)) {
     redirect(`/${locale}/unauthorized`);
   }
 
