@@ -41,10 +41,11 @@ export const getOrders = cache(async function getOrders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 2, tags: ["orders"] },
+      next: { revalidate: 5, tags: ["orders"] },
     },
   );
 
+  if (res.status === 429) throw new Error("429: الخادم يقيّد الطلبات، أعد المحاولة بعد لحظة");
   if (!res.ok) throw new Error(`Failed to fetch orders: ${res.status}`);
   return res.json();
 });

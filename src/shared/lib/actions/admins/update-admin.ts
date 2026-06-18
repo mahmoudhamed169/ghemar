@@ -2,24 +2,21 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { CreateDriverPayload } from "../../types/drivers/driver";
+import { UpdateAdminPayload } from "../../types/admins/admin";
 
-interface CreateDriverResponse {
+interface AdminActionResponse {
   success: boolean;
   message: string;
-  data?: unknown;
 }
 
-export async function createDriver(
-  payload: CreateDriverPayload,
-): Promise<CreateDriverResponse> {
+export async function updateAdmin(id: string, payload: UpdateAdminPayload): Promise<AdminActionResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/drivers`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admins/${id}`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -31,10 +28,10 @@ export async function createDriver(
   const data = await res.json();
 
   if (!res.ok) {
-    return { success: false, message: data.message ?? "Failed to create driver" };
+    return { success: false, message: data.message ?? "Failed to update admin" };
   }
 
-  revalidateTag("drivers", {});
-  revalidatePath("/[locale]/drivers", "page");
-  return { success: true, message: data.message, data: data.data };
+  revalidateTag("admins", {});
+  revalidatePath("/[locale]/settings/admins", "page");
+  return { success: true, message: data.message };
 }

@@ -2,16 +2,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createDriver } from "../../actions/drivers/create-driver";
-
-interface CreateDriverPayload {
-  name: string;
-  phone: string;
-  cityId: string;
-  vehicleType: string;
-  vehiclePlate: string;
-  nationalId: string;
-  assignedAreas: string[];
-}
+import { CreateDriverPayload } from "../../types/drivers/driver";
 
 export function useCreateDriver() {
   const queryClient = useQueryClient();

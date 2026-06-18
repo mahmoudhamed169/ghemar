@@ -2,24 +2,25 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { CreateDriverPayload } from "../../types/drivers/driver";
+import { UpdateDriverPayload } from "../../types/drivers/driver";
 
-interface CreateDriverResponse {
+interface UpdateDriverResponse {
   success: boolean;
   message: string;
   data?: unknown;
 }
 
-export async function createDriver(
-  payload: CreateDriverPayload,
-): Promise<CreateDriverResponse> {
+export async function updateDriver(
+  id: string,
+  payload: UpdateDriverPayload,
+): Promise<UpdateDriverResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/drivers`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/drivers/${id}`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -31,7 +32,7 @@ export async function createDriver(
   const data = await res.json();
 
   if (!res.ok) {
-    return { success: false, message: data.message ?? "Failed to create driver" };
+    return { success: false, message: data.message ?? "Failed to update driver" };
   }
 
   revalidateTag("drivers", {});
