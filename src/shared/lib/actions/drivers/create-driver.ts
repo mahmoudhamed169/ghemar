@@ -34,7 +34,7 @@ export async function createDriver(
     return { success: false, message: data.message ?? "Failed to create driver" };
   }
 
-  revalidateTag("drivers");
+  revalidateTag("drivers", {});
   revalidatePath("/[locale]/drivers", "page");
   return { success: true, message: data.message, data: data.data };
 }

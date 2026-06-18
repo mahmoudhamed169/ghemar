@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 
-interface ServerFetchOptions extends Omit<RequestInit, "headers"> {
+interface ServerFetchOptions extends RequestInit {
   next?: NextFetchRequestConfig;
   params?: Record<string, string | number | boolean | undefined>;
 }
