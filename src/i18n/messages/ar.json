@@ -293,6 +293,7 @@
     "actions": {
       "send_notification": "ارسال اشعار",
       "view_details": "عرض التفاصيل",
+      "edit": "تعديل",
       "order_history": "سجل الأوردرات",
       "order_history_page_title": "سجل طلبات السائق",
       "block_user": "حظر المستخدم"
@@ -337,7 +338,56 @@
       },
       "national_id_label": "رقم الهوية",
       "national_id_placeholder": "1234567890",
-      "loading": "جاري الإضافة..."
+      "employee_id_label": "رقم الموظف",
+      "branches_and_areas_label": "الفروع والمناطق",
+      "add_branch_btn": "إضافة فرع",
+      "no_branches_added": "لم تُضف فروعاً بعد",
+      "branches_error": "تعذّر تحميل الفروع",
+      "cities_error": "تعذّر تحميل المدن",
+      "loading": "جاري الإضافة...",
+      "edit_loading": "جاري الحفظ...",
+      "edit_confirm": "حفظ التعديلات",
+      "edit_modal_title": "تعديل بيانات السائق"
+    }
+  },
+  "admins": {
+    "header": {
+      "title": "إدارة الأدمنز",
+      "addButton": "إضافة أدمن جديد"
+    },
+    "table": {
+      "serial": "#",
+      "name": "الاسم",
+      "phone": "رقم الهاتف",
+      "role": "الدور",
+      "branch": "الفرع",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "no_admins": "لا يوجد أدمنز بعد"
+    },
+    "roles": {
+      "super_admin": "Super Admin",
+      "admin": "Admin"
+    },
+    "modal": {
+      "add_title": "إضافة أدمن جديد",
+      "edit_title": "تعديل الأدمن",
+      "name_label": "الاسم",
+      "name_placeholder": "اسم الأدمن",
+      "phone_label": "رقم الهاتف",
+      "phone_placeholder": "+966500000000",
+      "branch_label": "الفرع",
+      "branch_placeholder": "اختر الفرع",
+      "role_label": "الدور",
+      "role_display": "Admin — مدير فرع",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء"
+    },
+    "actions": {
+      "edit": "تعديل",
+      "delete": "حذف"
     }
   },
   "piece_types": {

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -12,11 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import BranchAreasRow from "./branch-areas-row";
+import BranchAreasRow from "../add-driver/branch-areas-row";
 import { City } from "@/shared/lib/types/cities/city";
 import { Branch } from "@/shared/lib/types/branches/branch";
-import { VehicleType, CreateDriverPayload } from "@/shared/lib/types/drivers/driver";
-import { useCreateDriver } from "@/shared/lib/hooks/drivers/use-create-driver";
+import { Driver, VehicleType, UpdateDriverPayload } from "@/shared/lib/types/drivers/driver";
+import { useUpdateDriver } from "@/shared/lib/hooks/drivers/use-update-driver";
 
 const VEHICLE_TYPES: VehicleType[] = ["car", "motorcycle", "van"];
 
@@ -25,15 +25,16 @@ interface BranchRow {
   assignedAreas: string[];
 }
 
-interface AddDriverFormProps {
+interface EditDriverFormProps {
+  driver: Driver;
   onSuccess: () => void;
 }
 
-export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
+export default function EditDriverForm({ driver, onSuccess }: EditDriverFormProps) {
   const locale = useLocale();
   const t = useTranslations("drivers.add");
 
-  const { mutate: createDriver, isPending } = useCreateDriver();
+  const { mutate: updateDriver, isPending } = useUpdateDriver();
 
   const [cities, setCities]     = useState<City[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
@@ -41,16 +42,19 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
   const [loadingBranches, setLoadingBranches] = useState(true);
   const [cityError, setCityError]     = useState(false);
   const [branchError, setBranchError] = useState(false);
-  const [branchRows, setBranchRows]   = useState<BranchRow[]>([]);
+
+  const [branchRows, setBranchRows] = useState<BranchRow[]>(
+    driver.branches?.map((b) => ({ branchId: b.branchId, assignedAreas: b.assignedAreas })) ?? [],
+  );
 
   const [form, setForm] = useState({
-    name:         "",
-    phone:        "",
-    nationalId:   "",
-    employeeId:   "",
-    vehicleType:  "" as VehicleType | "",
-    vehiclePlate: "",
-    cityId:       "",
+    name:         driver.name,
+    phone:        driver.phone,
+    nationalId:   driver.nationalId ?? "",
+    employeeId:   driver.employeeId ?? "",
+    vehicleType:  driver.vehicleType as VehicleType | "",
+    vehiclePlate: driver.vehiclePlate,
+    cityId:       typeof driver.cityId === "string" ? driver.cityId : driver.cityId._id,
   });
 
   useEffect(() => {
@@ -90,13 +94,13 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
     );
 
   const handleSubmit = () => {
-    if (!form.name || !form.phone || !form.cityId || !form.vehicleType || !form.vehiclePlate || !form.nationalId) return;
+    if (!form.name || !form.phone || !form.vehicleType) return;
 
-    const payload: CreateDriverPayload = {
+    const payload: UpdateDriverPayload = {
       name:         form.name,
       phone:        form.phone,
       cityId:       form.cityId,
-      vehicleType:  form.vehicleType,
+      vehicleType:  form.vehicleType as VehicleType,
       vehiclePlate: form.vehiclePlate,
       nationalId:   form.nationalId,
       employeeId:   form.employeeId,
@@ -106,7 +110,10 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
         .map((r) => ({ branchId: r.branchId, assignedAreas: r.assignedAreas })),
     };
 
-    createDriver(payload, { onSuccess: (res) => { if (res.success) onSuccess(); } });
+    updateDriver(
+      { id: driver._id, ...payload },
+      { onSuccess: (res) => { if (res.success) onSuccess(); } },
+    );
   };
 
   return (
@@ -115,12 +122,12 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-medium">{t("name_label")}</Label>
-          <Input placeholder={t("name_placeholder")} className="bg-gray-100 border-none h-11"
+          <Input className="bg-gray-100 border-none h-11"
             value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
         </div>
         <div className="space-y-2">
           <Label className="text-sm font-medium">{t("phone_label")}</Label>
-          <Input placeholder="+96251234567" className="bg-gray-100 border-none h-11" dir="ltr"
+          <Input className="bg-gray-100 border-none h-11" dir="ltr"
             value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
         </div>
       </div>
@@ -129,7 +136,7 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-medium">{t("national_id_label")}</Label>
-          <Input placeholder={t("national_id_placeholder")} className="bg-gray-100 border-none h-11" dir="ltr"
+          <Input className="bg-gray-100 border-none h-11" dir="ltr"
             value={form.nationalId} onChange={(e) => setForm((f) => ({ ...f, nationalId: e.target.value }))} />
         </div>
         <div className="space-y-2">
@@ -143,9 +150,10 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-medium">{t("vehicle_type_label")}</Label>
-          <Select onValueChange={(val) => setForm((f) => ({ ...f, vehicleType: val as VehicleType }))}>
+          <Select value={form.vehicleType}
+            onValueChange={(val) => setForm((f) => ({ ...f, vehicleType: val as VehicleType }))}>
             <SelectTrigger className="bg-gray-100 border-none h-11 w-full">
-              <SelectValue placeholder={t("vehicle_type_placeholder")} />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {VEHICLE_TYPES.map((type) => (
@@ -156,7 +164,7 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
         </div>
         <div className="space-y-2">
           <Label className="text-sm font-medium">{t("vehicle_plate_label")}</Label>
-          <Input placeholder={t("vehicle_plate_placeholder")} className="bg-gray-100 border-none h-11" dir="ltr"
+          <Input className="bg-gray-100 border-none h-11" dir="ltr"
             value={form.vehiclePlate} onChange={(e) => setForm((f) => ({ ...f, vehiclePlate: e.target.value }))} />
         </div>
       </div>
@@ -169,9 +177,9 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
         ) : cityError ? (
           <p className="text-sm text-red-500">{t("cities_error")}</p>
         ) : (
-          <Select onValueChange={(cityId) => setForm((f) => ({ ...f, cityId }))}>
+          <Select value={form.cityId} onValueChange={(cityId) => setForm((f) => ({ ...f, cityId }))}>
             <SelectTrigger className="bg-gray-100 border-none h-11 w-full">
-              <SelectValue placeholder={t("city_placeholder")} />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {cities.map((city) => (
@@ -194,7 +202,6 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
           </button>
         </div>
 
-        {loadingBranches && <div className="h-10 bg-gray-100 rounded-md animate-pulse" />}
         {branchError && <p className="text-sm text-red-500">{t("branches_error")}</p>}
         {!loadingBranches && !branchError && branchRows.length === 0 && (
           <p className="text-xs text-gray-400 text-center py-2">{t("no_branches_added")}</p>
@@ -211,7 +218,7 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
 
       <Button onClick={handleSubmit} disabled={isPending}
         className="w-full h-11 bg-[#0C6175] hover:bg-[#097188] text-white rounded-xl">
-        {isPending ? t("loading") : t("confirm")}
+        {isPending ? t("edit_loading") : t("edit_confirm")}
       </Button>
     </div>
   );

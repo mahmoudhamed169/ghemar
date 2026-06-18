@@ -282,6 +282,7 @@
     "actions": {
       "send_notification": "Send Notification",
       "view_details": "View Details",
+      "edit": "Edit",
       "order_history": "Order History",
       "order_history_page_title": "Driver Order History",
       "block_user": "Block User"
@@ -326,7 +327,56 @@
       },
       "national_id_label": "National ID",
       "national_id_placeholder": "1234567890",
-      "loading": "Adding..."
+      "employee_id_label": "Employee ID",
+      "branches_and_areas_label": "Branches & Areas",
+      "add_branch_btn": "Add Branch",
+      "no_branches_added": "No branches added yet",
+      "branches_error": "Failed to load branches",
+      "cities_error": "Failed to load cities",
+      "loading": "Adding...",
+      "edit_loading": "Saving...",
+      "edit_confirm": "Save Changes",
+      "edit_modal_title": "Edit Driver"
+    }
+  },
+  "admins": {
+    "header": {
+      "title": "Admins Management",
+      "addButton": "Add New Admin"
+    },
+    "table": {
+      "serial": "#",
+      "name": "Name",
+      "phone": "Phone",
+      "role": "Role",
+      "branch": "Branch",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions",
+      "no_admins": "No admins yet"
+    },
+    "roles": {
+      "super_admin": "Super Admin",
+      "admin": "Admin"
+    },
+    "modal": {
+      "add_title": "Add New Admin",
+      "edit_title": "Edit Admin",
+      "name_label": "Name",
+      "name_placeholder": "Admin name",
+      "phone_label": "Phone",
+      "phone_placeholder": "+966500000000",
+      "branch_label": "Branch",
+      "branch_placeholder": "Select branch",
+      "role_label": "Role",
+      "role_display": "Admin — Branch Manager",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
     }
   },
   "PromoCodes": {
