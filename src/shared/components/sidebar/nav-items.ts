@@ -8,29 +8,30 @@ export interface NavItemType {
   labelKey: string;
   href: string;
   icon: LucideIcon;
-  children?: Omit<NavItemType, "icon" | "children">[];
+  superAdminOnly?: boolean;
+  children?: (Omit<NavItemType, "icon" | "children"> & { superAdminOnly?: boolean })[];
 }
 
 export const navItems: NavItemType[] = [
   { labelKey: "overview",   href: "/overview",    icon: LayoutDashboard },
+  { labelKey: "orders",     href: "/orders",      icon: ClipboardList },
   { labelKey: "customers",  href: "/customers",   icon: Users },
   { labelKey: "drivers",    href: "/drivers",     icon: Home },
-  { labelKey: "orders", href: "/orders", icon: ClipboardList },
-  { labelKey: "packages",   href: "/packages",    icon: CreditCard },
-  { labelKey: "promoCodes", href: "/promo-codes", icon: Percent },
-  { labelKey: "bags",       href: "/bags",        icon: Tag },
-  { labelKey: "reports",    href: "/reports",     icon: BarChart2 },
-  { labelKey: "bonuses",    href: "/bounes",      icon: Map },
-  { labelKey: "alerts",     href: "/alerts",      icon: AlertCircle },
+  { labelKey: "packages",   href: "/packages",    icon: CreditCard,  superAdminOnly: true },
+  { labelKey: "promoCodes", href: "/promo-codes", icon: Percent,     superAdminOnly: true },
+  { labelKey: "bags",       href: "/bags",        icon: Tag,         superAdminOnly: true },
+  { labelKey: "reports",    href: "/reports",     icon: BarChart2,   superAdminOnly: true },
+  { labelKey: "bonuses",    href: "/bounes",      icon: Map,         superAdminOnly: true },
+  { labelKey: "alerts",     href: "/alerts",      icon: AlertCircle, superAdminOnly: true },
   {
-    labelKey: "settings", href: "/settings", icon: Settings,
+    labelKey: "settings", href: "/settings", icon: Settings, superAdminOnly: true,
     children: [
       { labelKey: "settingsGeneral",    href: "/settings/general" },
       { labelKey: "settingsOperations", href: "/settings/operations" },
-      { labelKey: "settingsAdmins",     href: "/settings/admins" },
+      { labelKey: "settingsAdmins",     href: "/settings/admins",   superAdminOnly: true },
       { labelKey: "settingsTerms",      href: "/settings/terms" },
       { labelKey: "settingsZones",      href: "/settings/zones" },
-      { labelKey: "settingsBranches",   href: "/settings/branches" },
+      { labelKey: "settingsBranches",   href: "/settings/branches", superAdminOnly: true },
       { labelKey: "settingsContact",    href: "/settings/contact" },
     ],
   },

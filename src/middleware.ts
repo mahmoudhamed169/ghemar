@@ -1,7 +1,24 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+
+// TODO: remove phone check once backend fixes role in verify-otp
+const TEMP_SUPER_ADMIN_PHONE = "+966500000000";
+function isSuperAdmin(role?: string | null, phone?: string | null) {
+  return role === "super_admin" || phone === TEMP_SUPER_ADMIN_PHONE;
+}
 
 const PUBLIC_PAGES = ["/login"];
+
+const SUPER_ADMIN_ROUTES = [
+  "/packages",
+  "/promo-codes",
+  "/bags",
+  "/reports",
+  "/bounes",
+  "/alerts",
+  "/settings",
+];
 
 const intlMiddleware = createMiddleware({
   locales: ["ar", "en"],
@@ -9,15 +26,14 @@ const intlMiddleware = createMiddleware({
   localePrefix: "always",
 });
 
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // ✅ قراءة الـ session token مباشرة من الـ cookie بدون next-auth
-  const token =
+  const rawToken =
     req.cookies.get("next-auth.session-token")?.value ||
     req.cookies.get("__Secure-next-auth.session-token")?.value;
 
-  const isLoggedIn = !!token;
+  const isLoggedIn = !!rawToken;
   const isPublicPage = PUBLIC_PAGES.some((page) => pathname.includes(page));
 
   if (!isLoggedIn && !isPublicPage) {
@@ -28,6 +44,20 @@ export default function middleware(req: NextRequest) {
   if (isLoggedIn && isPublicPage) {
     const locale = pathname.split("/")[1] ?? "ar";
     return NextResponse.redirect(new URL(`/${locale}`, req.url));
+  }
+
+  // check role for super_admin-only routes
+  const pathWithoutLocale = "/" + pathname.split("/").slice(2).join("/");
+  const isSuperAdminRoute = SUPER_ADMIN_ROUTES.some(
+    (route) => pathWithoutLocale === route || pathWithoutLocale.startsWith(route + "/"),
+  );
+
+  if (isLoggedIn && isSuperAdminRoute) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!isSuperAdmin(token?.role as string, token?.phone as string)) {
+      const locale = pathname.split("/")[1] ?? "ar";
+      return NextResponse.redirect(new URL(`/${locale}/unauthorized`, req.url));
+    }
   }
 
   return intlMiddleware(req);
