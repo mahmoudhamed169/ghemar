@@ -88,6 +88,8 @@
   "customers": {
     "title": "Customers Management",
     "search": "Search for a customer",
+    "branch_label": "Filter by branch",
+    "branch_all": "All Branches",
     "filterByPackage": "Filter by Package Type",
     "basicPackage": "Basic Package",
     "table": {
@@ -96,6 +98,7 @@
       "name": "Name",
       "phone": "Phone Number",
       "packageType": "Package Type",
+      "branch": "Branch",
       "actions": "Actions",
       "bags": "bags"
     },
@@ -130,7 +133,9 @@
       "priority_label": "Filter by priority",
       "priority_all": "All",
       "priority_express": "Express",
-      "priority_normal": "Normal"
+      "priority_normal": "Normal",
+      "branch_label": "Filter by branch",
+      "branch_all": "All Branches"
     },
     "status": {
       "all": "All",
@@ -165,6 +170,8 @@
     "table": {
       "serial": "Serial",
       "order_number": "Order Number",
+      "pickup_date": "Pickup Date",
+      "delivery_date": "Delivery Date",
       "driver_name": "Driver Name",
       "priority": "Priority",
       "order_status": "Order Status",
@@ -201,6 +208,10 @@
       "bag": "Bag",
       "order_type_laundry": "Laundry",
       "order_type_delivery": "Parcel Delivery",
+      "delivery_method": "Delivery Method",
+      "method_hand_to_hand": "Hand to Hand",
+      "method_leave_at_door": "Leave at Door",
+      "delivery_proof": "Delivery Proof",
       "print_tooltip": "Print Receipt"
     },
     "actions": {
@@ -585,7 +596,8 @@
       "all": "All",
       "completed": "Paid",
       "pending": "Pending",
-      "print": "Print"
+      "print": "Print Invoices",
+      "export_excel": "Export Excel"
     },
     "table": {
       "empty": "No invoices found",

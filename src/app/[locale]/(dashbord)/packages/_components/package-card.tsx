@@ -1,4 +1,4 @@
-import { SaudiRiyalIcon, ShoppingBag, Waves } from "lucide-react";
+import { SaudiRiyalIcon, ShoppingBag } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import PackageCardActions from "./package-card-actions";
@@ -45,12 +45,6 @@ export default async function PackageCard({ pkg }: PackageCardProps) {
           <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0C6175] shrink-0" />
           <span>
             {pkg.bagCount} {t("bagsPerMonth")}
-          </span>
-        </div>
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-[#000709]">
-          <Waves className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0C6175] shrink-0" />
-          <span>
-            {pkg.expressWashCount} {t("expressWash")}
           </span>
         </div>
       </div>

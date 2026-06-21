@@ -12,12 +12,18 @@ import {
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 import { useTranslations } from "next-intl"
+import { useSession } from "next-auth/react"
+import { checkIsSuperAdmin } from "@/shared/lib/utils/is-super-admin"
+
+interface Branch { _id: string; name: string }
 
 function OrdersFiltersInner() {
   const t = useTranslations("orders.filters")
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { data: session } = useSession()
+  const isSuperAdmin = checkIsSuperAdmin(session?.user?.role, (session?.user as any)?.isBranchAdmin)
 
   const updateParam = useCallback(
     (key: string, value: string | null) => {
@@ -34,9 +40,11 @@ function OrdersFiltersInner() {
   )
 
   const currentPriority = searchParams.get("isExpressWash") ?? "all"
+  const currentBranch = searchParams.get("branchId") ?? "all"
 
   const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "")
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const [branches, setBranches] = useState<Branch[]>([])
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -48,8 +56,14 @@ function OrdersFiltersInner() {
   }
 
   useEffect(() => {
+    if (isSuperAdmin) {
+      fetch("/api/branches")
+        .then((r) => r.json())
+        .then((res) => setBranches(res.data ?? []))
+        .catch(() => {})
+    }
     return () => clearTimeout(searchDebounceRef.current)
-  }, [])
+  }, [isSuperAdmin])
 
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
@@ -66,7 +80,31 @@ function OrdersFiltersInner() {
         />
       </div>
 
-      <div className="flex flex-row items-center gap-3 w-full sm:w-[300px] shrink-0">
+      {isSuperAdmin && (
+        <div className="flex flex-row items-center gap-3 w-full sm:w-[280px] shrink-0">
+          <p className="text-[#000709] font-medium text-[16px] sm:text-[18px] whitespace-nowrap">
+            {t("branch_label")}
+          </p>
+          <Select
+            value={currentBranch}
+            onValueChange={(value) =>
+              updateParam("branchId", value === "all" ? null : value)
+            }
+          >
+            <SelectTrigger className="flex-1 !h-[55px] bg-white border border-gray-200 rounded-lg shadow-sm px-3">
+              <SelectValue placeholder={t("branch_all")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("branch_all")}</SelectItem>
+              {branches.map((b) => (
+                <SelectItem key={b._id} value={b._id}>{b.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      <div className="flex flex-row items-center gap-3 w-full sm:w-[280px] shrink-0">
         <p className="text-[#000709] font-medium text-[16px] sm:text-[18px] whitespace-nowrap">
           {t("priority_label")}
         </p>

@@ -26,6 +26,7 @@ export interface CustomersParams {
   page?: number;
   limit?: number;
   search?: string;
+  branchId?: string;
 }
 
 export interface Customer {
@@ -49,6 +50,7 @@ export interface Customer {
   currentPackage: CustomerPackage | null;
   purchasedBarcodesCount?: number;
   receivedBagsCount?: number;
+  branchId?: string | { _id: string; name: string };
 }
 
 export interface CustomerPagination {

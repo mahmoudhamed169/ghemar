@@ -9,11 +9,12 @@ import { Customer } from "@/shared/lib/types/customers";
 interface Props {
   page: number;
   search: string;
+  branchId?: string;
 }
 
-export default async function CustomersTableBody({ page, search }: Props) {
+export default async function CustomersTableBody({ page, search, branchId }: Props) {
   const [{ data: customers }, t] = await Promise.all([
-    getCustomers({ page, search }),
+    getCustomers({ page, search, branchId }),
     getTranslations("customers.table"),
   ]);
 
@@ -49,6 +50,11 @@ export default async function CustomersTableBody({ page, search }: Props) {
             ) : (
               <span className="text-gray-400 text-sm">—</span>
             )}
+          </TableCell>
+          <TableCell className="text-center text-sm">
+            {typeof customer.branchId === "object" && customer.branchId !== null
+              ? customer.branchId.name
+              : <span className="text-gray-300">—</span>}
           </TableCell>
           <TableCell className="text-center">
             <Switch

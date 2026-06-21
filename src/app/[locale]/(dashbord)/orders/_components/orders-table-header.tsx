@@ -14,6 +14,12 @@ export default async function OrdersTableHeader() {
           {t("order_number")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
+          {t("pickup_date")}
+        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]">
+          {t("delivery_date")}
+        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]">
           {t("driver_name")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">

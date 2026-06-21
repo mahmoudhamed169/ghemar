@@ -88,6 +88,8 @@
   "customers": {
     "title": "إدارة العملاء",
     "search": "ابحث عن عميل",
+    "branch_label": "فلتر حسب الفرع",
+    "branch_all": "كل الفروع",
     "filterByPackage": "فلتر حسب نوع الباقة",
     "basicPackage": "الحقيبة الأساسية",
     "table": {
@@ -96,6 +98,7 @@
       "name": "الاسم",
       "phone": "رقم الهاتف",
       "packageType": "نوع الباقة",
+      "branch": "الفرع",
       "actions": "إجراءات",
       "bags": "أكياس"
     },
@@ -130,7 +133,9 @@
       "priority_label": "فلتر حسب الاولوية",
       "priority_all": "الكل",
       "priority_express": "مستعجل",
-      "priority_normal": "عادي"
+      "priority_normal": "عادي",
+      "branch_label": "فلتر حسب الفرع",
+      "branch_all": "كل الفروع"
     },
     "status": {
       "all": "الكل",
@@ -165,6 +170,8 @@
     "table": {
       "serial": "الرقم التسلسلي",
       "order_number": "رقم الطلب",
+      "pickup_date": "موعد الاستلام",
+      "delivery_date": "موعد التسليم",
       "driver_name": "اسم السائق",
       "priority": "الأولوية",
       "order_status": "حالة الأوردر",
@@ -201,6 +208,10 @@
       "bag": "كيس",
       "order_type_laundry": "غسيل",
       "order_type_delivery": "توصيل طرد",
+      "delivery_method": "طريقة التسليم",
+      "method_hand_to_hand": "يد بيد",
+      "method_leave_at_door": "تسليم عند الباب",
+      "delivery_proof": "صورة التسليم",
       "print_tooltip": "طباعة الفاتورة"
     },
     "actions": {
@@ -626,7 +637,8 @@
       "all": "الكل",
       "completed": "مدفوعة",
       "pending": "قيد الانتظار",
-      "print": "طباعة"
+      "print": "طباعة الفواتير",
+      "export_excel": "تصدير Excel"
     },
     "table": {
       "empty": "لا توجد فواتير",

@@ -38,6 +38,14 @@ export type UpdateDriverPayload = Partial<Omit<CreateDriverPayload, "vehicleType
   vehicleType?: VehicleType;
 };
 
+export interface AssignedAreaDetail {
+  _id: string;
+  areaCode: string;
+  name?: string;
+  nameAr?: string;
+  cityId?: { _id: string; name: string; nameAr: string };
+}
+
 export interface Driver {
   _id: string;
   name: string;
@@ -48,6 +56,7 @@ export interface Driver {
   vehiclePlate: string;
   cityId: City;
   assignedAreas: string[];
+  assignedAreasDetails?: AssignedAreaDetail[];
   branches?: DriverBranch[];
   status: DriverStatus;
   activityStatus?: DriverActivityStatus;

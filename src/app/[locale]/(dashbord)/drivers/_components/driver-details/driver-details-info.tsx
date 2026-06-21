@@ -24,8 +24,17 @@ export default function DriverDetailsInfo({ driver }: { driver: Driver }) {
     { label: t("avg_rating"),       value: String(driver.performanceMetrics.avgRating) },
     { label: t("error_rate"),       value: `${driver.performanceMetrics.errorRate}%` },
     {
-      label:     t("assigned_areas"),
-      value:     driver.assignedAreas.length ? driver.assignedAreas.join("، ") : "—",
+      label: t("assigned_areas"),
+      value: (() => {
+        const details = driver.assignedAreasDetails;
+        if (details && details.length > 0) {
+          return details.map((a) => a.nameAr || a.name || a.areaCode).join("، ");
+        }
+        if (driver.assignedAreas.length > 0) {
+          return driver.assignedAreas.join("، ");
+        }
+        return "—";
+      })(),
       fullWidth: true,
     },
   ];
