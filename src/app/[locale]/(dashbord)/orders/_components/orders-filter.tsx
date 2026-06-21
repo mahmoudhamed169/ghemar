@@ -11,19 +11,22 @@ import {
 } from "@/components/ui/select"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { useSession } from "next-auth/react"
 import { checkIsSuperAdmin } from "@/shared/lib/utils/is-super-admin"
 
-interface Branch { _id: string; name: string }
+interface Branch { _id: string; name: string; nameAr?: string }
 
 function OrdersFiltersInner() {
   const t = useTranslations("orders.filters")
+  const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { data: session } = useSession()
   const isSuperAdmin = checkIsSuperAdmin(session?.user?.role, (session?.user as any)?.isBranchAdmin)
+
+  const branchName = (b: Branch) => (locale === "ar" ? b.nameAr || b.name : b.name)
 
   const updateParam = useCallback(
     (key: string, value: string | null) => {
@@ -97,7 +100,7 @@ function OrdersFiltersInner() {
             <SelectContent>
               <SelectItem value="all">{t("branch_all")}</SelectItem>
               {branches.map((b) => (
-                <SelectItem key={b._id} value={b._id}>{b.name}</SelectItem>
+                <SelectItem key={b._id} value={b._id}>{branchName(b)}</SelectItem>
               ))}
             </SelectContent>
           </Select>

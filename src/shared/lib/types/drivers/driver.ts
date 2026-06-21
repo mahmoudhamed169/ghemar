@@ -80,6 +80,55 @@ export interface DriversResponse {
   pagination: DriversPagination;
 }
 
+/* ── Driver Detail (from /api/admin/drivers/:id) ── */
+
+export interface DriverDetailCityArea {
+  _id: string;
+  name: string;
+  nameAr?: string;
+  code: string;
+  coverageRadius?: number;
+  deliveryAvailable?: boolean;
+}
+
+export interface DriverDetailCity {
+  _id: string;
+  name: string;
+  nameAr?: string;
+  areas?: DriverDetailCityArea[];
+}
+
+export interface DriverDetailBranch {
+  _id: string;
+  branchId: {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    code?: string;
+  };
+  assignedAreas: string[];
+  assignedAreasDetails: AssignedAreaDetail[];
+}
+
+export interface DriverLiveStats {
+  totalOrders: number;
+  completedOrders: number;
+  cancelledOrders: number;
+  activeOrders: number;
+}
+
+export interface DriverDetail extends Omit<Driver, "cityId" | "branches"> {
+  cityId: DriverDetailCity;
+  branches?: DriverDetailBranch[];
+  liveStats?: DriverLiveStats;
+}
+
+export interface DriverDetailResponse {
+  success: boolean;
+  message: string;
+  data: DriverDetail;
+}
+
 export interface DriversParams {
   page?: number;
   limit?: number;

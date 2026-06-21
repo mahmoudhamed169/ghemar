@@ -50,7 +50,7 @@ export interface Customer {
   currentPackage: CustomerPackage | null;
   purchasedBarcodesCount?: number;
   receivedBagsCount?: number;
-  branchId?: string | { _id: string; name: string };
+  branchId?: string | { _id: string; name: string; nameAr?: string };
 }
 
 export interface CustomerPagination {

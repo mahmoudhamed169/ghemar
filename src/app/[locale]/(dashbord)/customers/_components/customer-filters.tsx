@@ -9,20 +9,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useSession } from "next-auth/react";
 import { checkIsSuperAdmin } from "@/shared/lib/utils/is-super-admin";
 
-interface Branch { _id: string; name: string }
+interface Branch { _id: string; name: string; nameAr?: string }
 
 function CustomerFiltersInner() {
   const t = useTranslations("customers");
+  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+
+  const branchName = (b: Branch) => (locale === "ar" ? b.nameAr || b.name : b.name);
 
   const isSuperAdmin = checkIsSuperAdmin(
     session?.user?.role,
@@ -86,7 +89,7 @@ function CustomerFiltersInner() {
             <SelectContent>
               <SelectItem value="all">{t("branch_all")}</SelectItem>
               {branches.map((b) => (
-                <SelectItem key={b._id} value={b._id}>{b.name}</SelectItem>
+                <SelectItem key={b._id} value={b._id}>{branchName(b)}</SelectItem>
               ))}
             </SelectContent>
           </Select>

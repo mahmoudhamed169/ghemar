@@ -143,12 +143,10 @@
       "confirmed": "Confirmed",
       "driver_assigned": "Driver Assigned",
       "awaiting_payment": "Awaiting Payment",
-
       "driver_preparing_bags": "Preparing Bags",
       "driver_on_way_to_customer": "Driver On The Way",
       "bags_delivered_and_linked": "Bags Delivered & Linked",
       "first_bag_collected": "First Bag Collected",
-
       "driver_on_way_to_pickup": "On Way to Pickup",
       "driver_arrived_at_pickup": "Driver Arrived at Pickup",
       "picked_up_from_customer": "Picked Up",
@@ -162,7 +160,6 @@
       "on_way_to_customer": "On Way to Delivery",
       "driver_arrived_at_customer": "Driver Arrived",
       "delivered_to_customer": "Delivered",
-
       "completed": "Completed",
       "cancelled": "Cancelled",
       "problem_reported": "Problem Reported"
@@ -172,6 +169,7 @@
       "order_number": "Order Number",
       "pickup_date": "Pickup Date",
       "delivery_date": "Delivery Date",
+      "branch": "Branch",
       "driver_name": "Driver Name",
       "priority": "Priority",
       "order_status": "Order Status",
@@ -301,15 +299,22 @@
     "details": {
       "title": "Driver Details",
       "join_date": "Join Date",
+      "phone": "Phone",
+      "employee_id": "Employee ID",
+      "national_id": "National ID",
       "vehicle_type": "Vehicle Type",
       "vehicle_plate": "Vehicle Plate",
       "city": "City",
       "total_orders": "Total Orders",
       "completed_orders": "Completed Orders",
+      "active_orders": "Active Orders",
+      "cancelled_orders": "Cancelled Orders",
       "avg_rating": "Average Rating",
       "error_rate": "Error Rate",
+      "branches": "Branches",
       "assigned_areas": "Assigned Areas",
       "location": "Location",
+      "load_error": "Failed to load data, please try again",
       "vehicle": {
         "car": "Car",
         "motorcycle": "Motorcycle",
@@ -687,7 +692,10 @@
     }
   },
   "Zones": {
-    "header": { "title": "Delivery Cities", "addButton": "Add City" },
+    "header": {
+      "title": "Delivery Cities",
+      "addButton": "Add City"
+    },
     "stats": {
       "totalCities": "Total Cities",
       "activeCities": "Active Cities",
@@ -703,7 +711,10 @@
       "actions": "Actions",
       "empty": "No cities yet"
     },
-    "status": { "active": "Active", "inactive": "Inactive" },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
     "cityModal": {
       "addTitle": "Add New City",
       "editTitle": "Edit City",
@@ -870,6 +881,21 @@
           "title": "Delay Alerts",
           "description": "Alert when delivery exceeds expected time"
         }
+      }
+    },
+    "contact": {
+      "social": {
+        "whatsapp": "WhatsApp",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "twitter": "Twitter / X",
+        "snapchat": "Snapchat",
+        "tiktok": "TikTok",
+        "youtube": "YouTube",
+        "linkedin": "LinkedIn",
+        "save": "Save Changes",
+        "saveSuccess": "Social media links saved successfully",
+        "saveError": "Failed to save social media links"
       }
     }
   }

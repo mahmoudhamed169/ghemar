@@ -31,7 +31,7 @@ export default async function OrdersTableBody({ orders, page }: Props) {
       <TableBody>
         <TableRow>
           <TableCell
-            colSpan={9}
+            colSpan={10}
             className="text-center text-gray-400 py-12 text-sm"
           >
             {t("no_orders")}
@@ -84,6 +84,10 @@ export default async function OrdersTableBody({ orders, page }: Props) {
             ) : (
               <span className="text-gray-300">—</span>
             )}
+          </TableCell>
+
+          <TableCell className="text-center text-sm">
+            {order.branchId?.nameAr || order.branchId?.name || <span className="text-gray-300">—</span>}
           </TableCell>
 
           <TableCell className="text-center font-medium">

@@ -81,6 +81,12 @@ interface City {
   name: string;
 }
 
+interface Branch {
+  _id: string;
+  name: string;
+  nameAr?: string;
+}
+
 interface Package {
   _id: string;
   name: string;
@@ -115,6 +121,7 @@ export interface Order {
   client: Client;
   driver?: Driver;
   cityId: City;
+  branchId?: Branch;
   packageId?: Package;
   pickup: Pickup;
   delivery: Delivery;
