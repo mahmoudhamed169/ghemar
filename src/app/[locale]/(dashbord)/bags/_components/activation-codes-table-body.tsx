@@ -44,7 +44,7 @@ export default function ActivationCodesTableBody({
 
           {/* Package */}
           <TableCell className="text-center text-sm">
-            {item.packageId.name}
+            {item.packageId?.name ?? "—"}
           </TableCell>
 
           {/* Status */}
@@ -62,7 +62,7 @@ export default function ActivationCodesTableBody({
 
           {/* Created By */}
           <TableCell className="text-center text-sm text-gray-600">
-            {item.createdBy.name}
+            {item.createdBy?.name ?? "—"}
           </TableCell>
 
           {/* Used By */}

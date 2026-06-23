@@ -17,13 +17,13 @@ export interface ActivationCodeCreatedBy {
 export interface ActivationCode {
   _id: string;
   code: string;
-  packageId: ActivationCodePackage;
+  packageId: ActivationCodePackage | null;
   isUsed: boolean;
-  createdBy: ActivationCodeCreatedBy;
+  createdBy: ActivationCodeCreatedBy | null;
   createdAt: string;
   updatedAt: string;
   usedAt?: string;
-  usedBy?: ActivationCodeUser;
+  usedBy?: ActivationCodeUser | null;
   __v: number;
 }
 

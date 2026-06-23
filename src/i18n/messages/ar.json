@@ -746,7 +746,13 @@
         "assigned": "معين",
         "inuse": "قيد الاستخدام",
         "voucher": "في المغسلة"
-      }
+      },
+      "searchPlaceholder": "بحث بالاسم أو الهاتف",
+      "barcodePlaceholder": "بحث بالباركود",
+      "statusAll": "كل الحالات",
+      "dateFrom": "من تاريخ",
+      "dateTo": "إلى تاريخ",
+      "packageAll": "كل الباقات"
     },
     "header": {
       "title": "إدارة الأكياس",
@@ -764,6 +770,14 @@
       "singleTitle": "الباركودات",
       "packageTitle": "أكواد التفعيل",
       "successMessage": "تم إنشاء {count} {label} بنجاح — هل تريد طباعتها الآن؟"
+    },
+    "activationFilter": {
+      "packageLabel": "الباقة",
+      "packageAll": "كل الباقات",
+      "statusLabel": "الحالة",
+      "statusAll": "الكل",
+      "statusAvailable": "متاح",
+      "statusUsed": "مستخدم"
     }
   },
   "Zones": {

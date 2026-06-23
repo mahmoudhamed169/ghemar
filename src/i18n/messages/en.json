@@ -707,7 +707,13 @@
         "assigned": "Assigned",
         "inuse": "In Use",
         "voucher": "At Laundry"
-      }
+      },
+      "searchPlaceholder": "Search by name or phone",
+      "barcodePlaceholder": "Search by barcode",
+      "statusAll": "All Statuses",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "packageAll": "All Packages"
     },
     "header": {
       "title": "Bags Management",
@@ -725,6 +731,14 @@
       "singleTitle": "Barcodes",
       "packageTitle": "Activation Codes",
       "successMessage": "{count} {label} created successfully — would you like to print now?"
+    },
+    "activationFilter": {
+      "packageLabel": "Package",
+      "packageAll": "All Packages",
+      "statusLabel": "Status",
+      "statusAll": "All",
+      "statusAvailable": "Available",
+      "statusUsed": "Used"
     }
   },
   "Zones": {
