@@ -69,7 +69,7 @@ export default function DriverActions({ driver }: { driver: Driver }) {
       <DriverDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        driver={driver}
+        driverId={driver._id}
       />
       <EditDriverModal
         open={editOpen}

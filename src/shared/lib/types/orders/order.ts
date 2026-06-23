@@ -29,7 +29,7 @@ export type OrderStatus =
 
 export type OrderType = "laundry_pickup" | "package_delivery";
 
-export type PickupMethod = "hand_to_hand";
+export type PickupMethod = "hand_to_hand" | "leave_at_door";
 
 interface Coordinates {
   lat: number;
@@ -60,6 +60,8 @@ interface Delivery {
   scheduledDate: string;
   scheduledTime: string;
   method: PickupMethod;
+  deliveredBagsCount?: number;
+  proofImage?: string;
 }
 
 interface Client {
@@ -77,6 +79,12 @@ interface Driver {
 interface City {
   _id: string;
   name: string;
+}
+
+interface Branch {
+  _id: string;
+  name: string;
+  nameAr?: string;
 }
 
 interface Package {
@@ -113,6 +121,7 @@ export interface Order {
   client: Client;
   driver?: Driver;
   cityId: City;
+  branchId?: Branch;
   packageId?: Package;
   pickup: Pickup;
   delivery: Delivery;
@@ -155,4 +164,5 @@ export interface OrdersParams {
   cityId?: string;
   clientId?: string;
   driverId?: string;
+  branchId?: string;
 }

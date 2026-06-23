@@ -8,6 +8,7 @@ export async function getCustomers({
   page = 1,
   limit = 7,
   search = "",
+  branchId,
 }: CustomersParams = {}): Promise<CustomersResponse> {
   const session = await getServerSession(authOptions)
   const token = session?.accessToken
@@ -16,6 +17,7 @@ export async function getCustomers({
     page: String(page),
     limit: String(limit),
     ...(search && { search }),
+    ...(branchId && { branchId }),
   })
 
   const res = await fetch(

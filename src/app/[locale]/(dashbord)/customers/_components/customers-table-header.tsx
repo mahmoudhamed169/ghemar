@@ -22,7 +22,10 @@ export default async function CustomersTableHeader() {
           {t("packageType")}
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
-         
+          {t("branch")}
+        </TableHead>
+        <TableHead className="text-center font-semibold text-[#6A7282]">
+
         </TableHead>
         <TableHead className="text-center font-semibold text-[#6A7282]">
           {t("actions")}

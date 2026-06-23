@@ -1,10 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Customer } from "@/shared/lib/types/customers";
+import { CustomerDetail } from "@/shared/lib/types/customers";
 
 interface Props {
-  customer: Customer;
+  customer: CustomerDetail;
 }
 
 export default function CustomerDetailsLocation({ customer }: Props) {
@@ -12,12 +12,7 @@ export default function CustomerDetailsLocation({ customer }: Props) {
 
   const address = customer.addresses?.[0];
 
-  const locationText = [
-    address?.area,
-    address?.street,
-    address?.building,
-    address?.city,
-  ]
+  const locationText = [address?.area, address?.street, address?.building, address?.city]
     .filter(Boolean)
     .join("، ");
 
@@ -25,12 +20,9 @@ export default function CustomerDetailsLocation({ customer }: Props) {
   const lng = address?.coordinates?.lng;
 
   return (
-    <div className="border border-[#00000014] rounded-xl p-4 flex flex-col gap-3">
-      <h3 className="font-semibold text-[#000709] text-right">
-        {t("location")}
-      </h3>
-
-      <p className="text-sm text-gray-500 text-right">{locationText || "-"}</p>
+    <div className="border border-[#00000014] rounded-xl p-4 flex flex-col gap-3" dir="rtl">
+      <h3 className="font-semibold text-[#000709]">{t("location")}</h3>
+      <p className="text-sm text-gray-500">{locationText || "—"}</p>
 
       <div className="w-full h-40 rounded-xl overflow-hidden">
         {lat && lng ? (
@@ -43,8 +35,8 @@ export default function CustomerDetailsLocation({ customer }: Props) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">
-            No Location
+          <div className="w-full h-full flex items-center justify-center text-sm text-gray-400 bg-gray-50 rounded-xl">
+            {t("noLocation")}
           </div>
         )}
       </div>

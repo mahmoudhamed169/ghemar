@@ -88,6 +88,8 @@
   "customers": {
     "title": "Customers Management",
     "search": "Search for a customer",
+    "branch_label": "Filter by branch",
+    "branch_all": "All Branches",
     "filterByPackage": "Filter by Package Type",
     "basicPackage": "Basic Package",
     "table": {
@@ -96,6 +98,7 @@
       "name": "Name",
       "phone": "Phone Number",
       "packageType": "Package Type",
+      "branch": "Branch",
       "actions": "Actions",
       "bags": "bags"
     },
@@ -120,7 +123,43 @@
       "usedBags": "Used Bags",
       "guaranteeBags": "Guarantee Bags",
       "totalAgreement": "Total Agreement",
-      "location": "Location"
+      "location": "Location",
+      "clientCode": "Client Code",
+      "phone": "Phone Number",
+      "branch": "Branch",
+      "city": "City",
+      "availableBags": "Available Bags",
+      "currentPoints": "Current Points",
+      "profileComplete": "Profile",
+      "yes": "Complete",
+      "no": "Incomplete",
+      "editInfo": "Edit Customer Info",
+      "name": "Name",
+      "email": "Email",
+      "language": "Preferred Language",
+      "langAr": "Arabic",
+      "langEn": "English",
+      "selectCity": "Select City",
+      "status": "Status",
+      "activeLabel": "Active",
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "saveSuccess": "Customer updated successfully",
+      "saveError": "Failed to update",
+      "bagsData": "Bags Data",
+      "purchasedBarcodes": "Purchased Barcodes",
+      "receivedBags": "Received Bags",
+      "recentOrders": "Recent Orders",
+      "noOrders": "No orders found",
+      "noLocation": "No location available",
+      "loadError": "Failed to load customer data",
+      "orderStatus": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "delivered": "Delivered",
+        "inProgress": "In Progress"
+      }
     }
   },
   "orders": {
@@ -130,7 +169,9 @@
       "priority_label": "Filter by priority",
       "priority_all": "All",
       "priority_express": "Express",
-      "priority_normal": "Normal"
+      "priority_normal": "Normal",
+      "branch_label": "Filter by branch",
+      "branch_all": "All Branches"
     },
     "status": {
       "all": "All",
@@ -138,12 +179,10 @@
       "confirmed": "Confirmed",
       "driver_assigned": "Driver Assigned",
       "awaiting_payment": "Awaiting Payment",
-
       "driver_preparing_bags": "Preparing Bags",
       "driver_on_way_to_customer": "Driver On The Way",
       "bags_delivered_and_linked": "Bags Delivered & Linked",
       "first_bag_collected": "First Bag Collected",
-
       "driver_on_way_to_pickup": "On Way to Pickup",
       "driver_arrived_at_pickup": "Driver Arrived at Pickup",
       "picked_up_from_customer": "Picked Up",
@@ -157,7 +196,6 @@
       "on_way_to_customer": "On Way to Delivery",
       "driver_arrived_at_customer": "Driver Arrived",
       "delivered_to_customer": "Delivered",
-
       "completed": "Completed",
       "cancelled": "Cancelled",
       "problem_reported": "Problem Reported"
@@ -165,6 +203,9 @@
     "table": {
       "serial": "Serial",
       "order_number": "Order Number",
+      "pickup_date": "Pickup Date",
+      "delivery_date": "Delivery Date",
+      "branch": "Branch",
       "driver_name": "Driver Name",
       "priority": "Priority",
       "order_status": "Order Status",
@@ -201,6 +242,10 @@
       "bag": "Bag",
       "order_type_laundry": "Laundry",
       "order_type_delivery": "Parcel Delivery",
+      "delivery_method": "Delivery Method",
+      "method_hand_to_hand": "Hand to Hand",
+      "method_leave_at_door": "Leave at Door",
+      "delivery_proof": "Delivery Proof",
       "print_tooltip": "Print Receipt"
     },
     "actions": {
@@ -290,15 +335,22 @@
     "details": {
       "title": "Driver Details",
       "join_date": "Join Date",
+      "phone": "Phone",
+      "employee_id": "Employee ID",
+      "national_id": "National ID",
       "vehicle_type": "Vehicle Type",
       "vehicle_plate": "Vehicle Plate",
       "city": "City",
       "total_orders": "Total Orders",
       "completed_orders": "Completed Orders",
+      "active_orders": "Active Orders",
+      "cancelled_orders": "Cancelled Orders",
       "avg_rating": "Average Rating",
       "error_rate": "Error Rate",
+      "branches": "Branches",
       "assigned_areas": "Assigned Areas",
       "location": "Location",
+      "load_error": "Failed to load data, please try again",
       "vehicle": {
         "car": "Car",
         "motorcycle": "Motorcycle",
@@ -585,7 +637,8 @@
       "all": "All",
       "completed": "Paid",
       "pending": "Pending",
-      "print": "Print"
+      "print": "Print Invoices",
+      "export_excel": "Export Excel"
     },
     "table": {
       "empty": "No invoices found",
@@ -654,7 +707,13 @@
         "assigned": "Assigned",
         "inuse": "In Use",
         "voucher": "At Laundry"
-      }
+      },
+      "searchPlaceholder": "Search by name or phone",
+      "barcodePlaceholder": "Search by barcode",
+      "statusAll": "All Statuses",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "packageAll": "All Packages"
     },
     "header": {
       "title": "Bags Management",
@@ -672,10 +731,21 @@
       "singleTitle": "Barcodes",
       "packageTitle": "Activation Codes",
       "successMessage": "{count} {label} created successfully — would you like to print now?"
+    },
+    "activationFilter": {
+      "packageLabel": "Package",
+      "packageAll": "All Packages",
+      "statusLabel": "Status",
+      "statusAll": "All",
+      "statusAvailable": "Available",
+      "statusUsed": "Used"
     }
   },
   "Zones": {
-    "header": { "title": "Delivery Cities", "addButton": "Add City" },
+    "header": {
+      "title": "Delivery Cities",
+      "addButton": "Add City"
+    },
     "stats": {
       "totalCities": "Total Cities",
       "activeCities": "Active Cities",
@@ -691,7 +761,10 @@
       "actions": "Actions",
       "empty": "No cities yet"
     },
-    "status": { "active": "Active", "inactive": "Inactive" },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
     "cityModal": {
       "addTitle": "Add New City",
       "editTitle": "Edit City",
@@ -858,6 +931,21 @@
           "title": "Delay Alerts",
           "description": "Alert when delivery exceeds expected time"
         }
+      }
+    },
+    "contact": {
+      "social": {
+        "whatsapp": "WhatsApp",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "twitter": "Twitter / X",
+        "snapchat": "Snapchat",
+        "tiktok": "TikTok",
+        "youtube": "YouTube",
+        "linkedin": "LinkedIn",
+        "save": "Save Changes",
+        "saveSuccess": "Social media links saved successfully",
+        "saveError": "Failed to save social media links"
       }
     }
   }

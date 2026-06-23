@@ -15,7 +15,7 @@ export default async function AdminsPage({
   const { locale } = await params;
   const session = await getServerSession(authOptions);
 
-  if (!checkIsSuperAdmin(session?.user?.role)) {
+  if (!checkIsSuperAdmin(session?.user?.role, (session?.user as any)?.isBranchAdmin)) {
     redirect(`/${locale}/unauthorized`);
   }
 
