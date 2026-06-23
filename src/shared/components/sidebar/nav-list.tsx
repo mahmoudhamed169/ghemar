@@ -10,7 +10,7 @@ interface NavListProps {
 
 export default function NavList({ onClose }: NavListProps) {
   const { data: session } = useSession();
-  const isSuperAdmin = checkIsSuperAdmin(session?.user?.role);
+  const isSuperAdmin = checkIsSuperAdmin(session?.user?.role, (session?.user as any)?.isBranchAdmin);
 
   const visibleItems = navItems
     .filter((item) => !item.superAdminOnly || isSuperAdmin)

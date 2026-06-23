@@ -1,6 +1,15 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { ShoppingBag } from "lucide-react";
+
+function formatDate(dateStr: string, locale: string) {
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString(locale === "ar" ? "ar-SA" : "en-GB", {
+    day: "numeric",
+    month: "short",
+  });
+}
 import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
 import OrderStatusChanger from "./order-status-changer";
@@ -15,13 +24,14 @@ interface Props {
 
 export default async function OrdersTableBody({ orders, page }: Props) {
   const t = await getTranslations("orders.table");
+  const locale = await getLocale();
 
   if (!orders.length) {
     return (
       <TableBody>
         <TableRow>
           <TableCell
-            colSpan={7}
+            colSpan={10}
             className="text-center text-gray-400 py-12 text-sm"
           >
             {t("no_orders")}
@@ -52,6 +62,32 @@ export default async function OrdersTableBody({ orders, page }: Props) {
                 </span>
               )}
             </div>
+          </TableCell>
+
+          <TableCell className="text-center text-sm">
+            {order.pickup?.scheduledDate ? (
+              <div className="flex flex-col items-center leading-tight">
+                <span>{formatDate(order.pickup.scheduledDate, locale)}</span>
+                <span className="text-gray-400 text-xs">{order.pickup.scheduledTime}</span>
+              </div>
+            ) : (
+              <span className="text-gray-300">—</span>
+            )}
+          </TableCell>
+
+          <TableCell className="text-center text-sm">
+            {order.delivery?.scheduledDate ? (
+              <div className="flex flex-col items-center leading-tight">
+                <span>{formatDate(order.delivery.scheduledDate, locale)}</span>
+                <span className="text-gray-400 text-xs">{order.delivery.scheduledTime}</span>
+              </div>
+            ) : (
+              <span className="text-gray-300">—</span>
+            )}
+          </TableCell>
+
+          <TableCell className="text-center text-sm">
+            {order.branchId?.nameAr || order.branchId?.name || <span className="text-gray-300">—</span>}
           </TableCell>
 
           <TableCell className="text-center font-medium">

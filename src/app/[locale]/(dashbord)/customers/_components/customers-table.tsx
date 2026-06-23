@@ -8,10 +8,11 @@ import { getCustomers } from "@/shared/lib/services/customers/get-customers";
 interface Props {
   page: number;
   search: string;
+  branchId?: string;
 }
 
-export default async function CustomersTable({ page, search }: Props) {
-  const { pagination } = await getCustomers({ page, search });
+export default async function CustomersTable({ page, search, branchId }: Props) {
+  const { pagination } = await getCustomers({ page, search, branchId });
   const totalPages = Math.ceil(pagination.total / Number(pagination.limit));
 
   return (
@@ -20,7 +21,7 @@ export default async function CustomersTable({ page, search }: Props) {
         <Table className="min-w-[750px]">
           <CustomersTableHeader />
           <Suspense fallback={null}>
-            <CustomersTableBody page={page} search={search} />
+            <CustomersTableBody page={page} search={search} branchId={branchId} />
           </Suspense>
         </Table>
       </div>

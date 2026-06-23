@@ -14,6 +14,8 @@ import {
   Package,
   Shirt,
   Printer,
+  DoorOpen,
+  Handshake,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -327,6 +329,11 @@ export default function OrderDetailsSheet({
               label={t("time")}
               value={order.delivery.scheduledTime}
             />
+            <DetailCard
+              icon={order.delivery.method === "leave_at_door" ? DoorOpen : Handshake}
+              label={t("delivery_method")}
+              value={order.delivery.method === "leave_at_door" ? t("method_leave_at_door") : t("method_hand_to_hand")}
+            />
             {order.delivery.address?.area && (
               <DetailCard
                 icon={MapPin}
@@ -342,6 +349,19 @@ export default function OrderDetailsSheet({
               />
             </div>
           </div>
+
+          {order.delivery.method === "leave_at_door" && order.delivery.proofImage && (
+            <>
+              <SectionTitle>{t("delivery_proof")}</SectionTitle>
+              <div className="w-full rounded-xl overflow-hidden border border-gray-100">
+                <img
+                  src={order.delivery.proofImage}
+                  alt={t("delivery_proof")}
+                  className="w-full object-cover max-h-64"
+                />
+              </div>
+            </>
+          )}
 
           <SectionTitle>{t("order_details")}</SectionTitle>
           <div className="grid grid-cols-2 gap-3">

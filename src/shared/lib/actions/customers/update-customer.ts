@@ -2,11 +2,16 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export interface UpdateCustomerInput {
+  name?: string;
+  email?: string;
   purchasedBarcodesCount?: number;
   receivedBagsCount?: number;
+  preferredLanguage?: "ar" | "en";
+  cityId?: string;
+  isActive?: boolean;
 }
 
 export async function updateCustomerAction(
@@ -31,6 +36,7 @@ export async function updateCustomerAction(
   if (!res.ok) return { success: false, message: "فشل تحديث بيانات العميل" };
 
   revalidateTag("customers", {});
+  revalidatePath("/[locale]/customers", "page");
 
   return { success: true };
 }

@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 import CustomerActions from "./customer-actions";
 import { getCustomers } from "@/shared/lib/services/customers/get-customers";
@@ -9,12 +9,14 @@ import { Customer } from "@/shared/lib/types/customers";
 interface Props {
   page: number;
   search: string;
+  branchId?: string;
 }
 
-export default async function CustomersTableBody({ page, search }: Props) {
-  const [{ data: customers }, t] = await Promise.all([
-    getCustomers({ page, search }),
+export default async function CustomersTableBody({ page, search, branchId }: Props) {
+  const [{ data: customers }, t, locale] = await Promise.all([
+    getCustomers({ page, search, branchId }),
     getTranslations("customers.table"),
+    getLocale(),
   ]);
 
   return (
@@ -49,6 +51,11 @@ export default async function CustomersTableBody({ page, search }: Props) {
             ) : (
               <span className="text-gray-400 text-sm">—</span>
             )}
+          </TableCell>
+          <TableCell className="text-center text-sm">
+            {typeof customer.branchId === "object" && customer.branchId !== null
+              ? (locale === "ar" ? customer.branchId.nameAr || customer.branchId.name : customer.branchId.name)
+              : <span className="text-gray-300">—</span>}
           </TableCell>
           <TableCell className="text-center">
             <Switch

@@ -5,6 +5,7 @@ interface RawSearchParams {
   search?: string;
   status?: string;
   isExpressWash?: string;
+  branchId?: string;
 }
 
 export function parseOrdersSearchParams(params: RawSearchParams) {
@@ -18,5 +19,6 @@ export function parseOrdersSearchParams(params: RawSearchParams) {
         : params.isExpressWash === "false"
           ? false
           : undefined,
+    currentBranchId: params.branchId ?? undefined,
   };
 }

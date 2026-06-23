@@ -31,7 +31,6 @@ interface FormState {
   nameAr: string;
   price: string;
   bagCount: string;
-  expressWashCount: string;
 }
 
 const INITIAL: FormState = {
@@ -39,7 +38,6 @@ const INITIAL: FormState = {
   nameAr: "",
   price: "",
   bagCount: "",
-  expressWashCount: "",
 };
 
 export default function PackageModal({
@@ -59,11 +57,10 @@ export default function PackageModal({
   useEffect(() => {
     if (mode === "edit" && pkg) {
       setForm({
-        name:             pkg.name,
-        nameAr:           pkg.nameAr,
-        price:            String(pkg.price),
-        bagCount:         String(pkg.bagCount),
-        expressWashCount: String(pkg.expressWashCount),
+        name:     pkg.name,
+        nameAr:   pkg.nameAr,
+        price:    String(pkg.price),
+        bagCount: String(pkg.bagCount),
       });
     } else {
       setForm(INITIAL);
@@ -77,8 +74,7 @@ export default function PackageModal({
     form.name.trim() &&
     form.nameAr.trim() &&
     form.price &&
-    form.bagCount &&
-    form.expressWashCount
+    form.bagCount
   );
 
   const isEditValid = !!(form.name.trim() && form.nameAr.trim() && form.price);
@@ -100,7 +96,7 @@ export default function PackageModal({
           nameAr:           form.nameAr.trim(),
           price:            Number(form.price),
           bagCount:         Number(form.bagCount),
-          expressWashCount: Number(form.expressWashCount),
+          expressWashCount: 0,
           currency:         "SAR",
         },
         { onSuccess },
@@ -178,37 +174,19 @@ export default function PackageModal({
 
           {/* Add only fields */}
           {mode === "add" && (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-sm font-medium text-[#000709]">
-                  {t("bagCount")}
-                </Label>
-                <Input
-                  type="number"
-                  placeholder="5"
-                  value={form.bagCount}
-                  min={1}
-                  onChange={(e) => handleChange("bagCount", e.target.value)}
-                  className="h-11 bg-[#F5F5F5] border-none"
-                  dir="ltr"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-sm font-medium text-[#000709]">
-                  {t("expressWashCount")}
-                </Label>
-                <Input
-                  type="number"
-                  placeholder="1"
-                  value={form.expressWashCount}
-                  min={0}
-                  onChange={(e) =>
-                    handleChange("expressWashCount", e.target.value)
-                  }
-                  className="h-11 bg-[#F5F5F5] border-none"
-                  dir="ltr"
-                />
-              </div>
+            <div className="flex flex-col gap-1.5">
+              <Label className="text-sm font-medium text-[#000709]">
+                {t("bagCount")}
+              </Label>
+              <Input
+                type="number"
+                placeholder="5"
+                value={form.bagCount}
+                min={1}
+                onChange={(e) => handleChange("bagCount", e.target.value)}
+                className="h-11 bg-[#F5F5F5] border-none"
+                dir="ltr"
+              />
             </div>
           )}
 

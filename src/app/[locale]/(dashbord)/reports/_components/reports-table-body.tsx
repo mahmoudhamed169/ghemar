@@ -62,7 +62,7 @@ export default async function ReportsTableBody({
             {formatInvoiceDate(invoice.createdAt, locale)}
           </TableCell>
           <TableCell className="text-center font-medium whitespace-nowrap">
-            {invoice.amount} {invoice.currency}
+            {Number.isInteger(invoice.amount) ? invoice.amount : invoice.amount.toFixed(2)} {invoice.currency}
           </TableCell>
           <TableCell className="text-center text-gray-600 whitespace-nowrap">
             {invoice.discountAmount || 0} {invoice.currency}

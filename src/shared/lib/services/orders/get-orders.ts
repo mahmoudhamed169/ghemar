@@ -14,6 +14,7 @@ export const getOrders = cache(async function getOrders({
   cityId,
   clientId,
   driverId,
+  branchId,
 }: OrdersParams = {}): Promise<OrdersResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
@@ -31,6 +32,7 @@ export const getOrders = cache(async function getOrders({
     ...(cityId && { cityId }),
     ...(clientId && { clientId }),
     ...(driverId && { driverId }),
+    ...(branchId && { branchId }),
   });
 
   const res = await fetch(

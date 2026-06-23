@@ -88,6 +88,8 @@
   "customers": {
     "title": "إدارة العملاء",
     "search": "ابحث عن عميل",
+    "branch_label": "فلتر حسب الفرع",
+    "branch_all": "كل الفروع",
     "filterByPackage": "فلتر حسب نوع الباقة",
     "basicPackage": "الحقيبة الأساسية",
     "table": {
@@ -96,6 +98,7 @@
       "name": "الاسم",
       "phone": "رقم الهاتف",
       "packageType": "نوع الباقة",
+      "branch": "الفرع",
       "actions": "إجراءات",
       "bags": "أكياس"
     },
@@ -120,7 +123,43 @@
       "usedBags": "عدد الأكياس المستخدمة",
       "guaranteeBags": "عدد أكياس الكفالات",
       "totalAgreement": "اجمالي الاتفاق",
-      "location": "الموقع"
+      "location": "الموقع",
+      "clientCode": "كود العميل",
+      "phone": "رقم الهاتف",
+      "branch": "الفرع",
+      "city": "المدينة",
+      "availableBags": "الأكياس المتاحة",
+      "currentPoints": "النقاط الحالية",
+      "profileComplete": "الملف الشخصي",
+      "yes": "مكتمل",
+      "no": "غير مكتمل",
+      "editInfo": "تعديل بيانات العميل",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "language": "اللغة المفضلة",
+      "langAr": "العربية",
+      "langEn": "الإنجليزية",
+      "selectCity": "اختر المدينة",
+      "status": "الحالة",
+      "activeLabel": "نشط",
+      "save": "حفظ التغييرات",
+      "cancel": "إلغاء",
+      "saveSuccess": "تم تحديث بيانات العميل",
+      "saveError": "فشل التحديث",
+      "bagsData": "بيانات الأكياس",
+      "purchasedBarcodes": "الباركودات المشتراة",
+      "receivedBags": "الأكياس المستلمة",
+      "recentOrders": "آخر الطلبات",
+      "noOrders": "لا توجد طلبات",
+      "noLocation": "لا يوجد موقع",
+      "loadError": "تعذّر تحميل بيانات العميل",
+      "orderStatus": {
+        "pending": "قيد الانتظار",
+        "completed": "مكتمل",
+        "cancelled": "ملغي",
+        "delivered": "تم التوصيل",
+        "inProgress": "جارٍ"
+      }
     }
   },
   "orders": {
@@ -130,7 +169,9 @@
       "priority_label": "فلتر حسب الاولوية",
       "priority_all": "الكل",
       "priority_express": "مستعجل",
-      "priority_normal": "عادي"
+      "priority_normal": "عادي",
+      "branch_label": "فلتر حسب الفرع",
+      "branch_all": "كل الفروع"
     },
     "status": {
       "all": "الكل",
@@ -138,12 +179,10 @@
       "confirmed": "مؤكد",
       "driver_assigned": "تم تعيين سائق",
       "awaiting_payment": "في انتظار الدفع",
-
       "driver_preparing_bags": "السائق يجهّز الأكياس",
       "driver_on_way_to_customer": "السائق في الطريق إليك",
       "bags_delivered_and_linked": "تم توصيل الأكياس وربطها",
       "first_bag_collected": "تم استلام أول كيس",
-
       "driver_on_way_to_pickup": "قيد الاستلام",
       "driver_arrived_at_pickup": "السائق وصل لموقع الاستلام",
       "picked_up_from_customer": "تم الاستلام",
@@ -157,7 +196,6 @@
       "on_way_to_customer": "قيد التسليم",
       "driver_arrived_at_customer": "السائق وصل لموقع العميل",
       "delivered_to_customer": "تم التسليم للعميل",
-
       "completed": "مكتمل",
       "cancelled": "ملغي",
       "problem_reported": "تم الإبلاغ عن مشكلة"
@@ -165,6 +203,9 @@
     "table": {
       "serial": "الرقم التسلسلي",
       "order_number": "رقم الطلب",
+      "pickup_date": "موعد الاستلام",
+      "delivery_date": "موعد التسليم",
+      "branch": "الفرع",
       "driver_name": "اسم السائق",
       "priority": "الأولوية",
       "order_status": "حالة الأوردر",
@@ -201,6 +242,10 @@
       "bag": "كيس",
       "order_type_laundry": "غسيل",
       "order_type_delivery": "توصيل طرد",
+      "delivery_method": "طريقة التسليم",
+      "method_hand_to_hand": "يد بيد",
+      "method_leave_at_door": "تسليم عند الباب",
+      "delivery_proof": "صورة التسليم",
       "print_tooltip": "طباعة الفاتورة"
     },
     "actions": {
@@ -257,7 +302,6 @@
       "done": "تم الفرز"
     }
   },
-
   "drivers": {
     "header": {
       "title": "ادارة السائقين"
@@ -301,15 +345,22 @@
     "details": {
       "title": "تفاصيل السائق",
       "join_date": "تاريخ الانضمام",
+      "phone": "رقم الهاتف",
+      "employee_id": "رقم الموظف",
+      "national_id": "رقم الهوية",
       "vehicle_type": "نوع المركبة",
       "vehicle_plate": "لوحة المركبة",
       "city": "المدينة",
       "total_orders": "إجمالي الطلبات",
       "completed_orders": "الطلبات المكتملة",
+      "active_orders": "الطلبات النشطة",
+      "cancelled_orders": "الطلبات الملغية",
       "avg_rating": "متوسط التقييم",
       "error_rate": "نسبة الأخطاء",
+      "branches": "الفروع",
       "assigned_areas": "المناطق المخصصة",
       "location": "الموقع",
+      "load_error": "فشل تحميل البيانات، حاول مرة أخرى",
       "vehicle": {
         "car": "سيارة",
         "motorcycle": "دراجة نارية",
@@ -559,7 +610,6 @@
       "unread": "غير مقروء"
     }
   },
-
   "Packages": {
     "empty": "لا توجد باقات",
     "header": {
@@ -626,7 +676,8 @@
       "all": "الكل",
       "completed": "مدفوعة",
       "pending": "قيد الانتظار",
-      "print": "طباعة"
+      "print": "طباعة الفواتير",
+      "export_excel": "تصدير Excel"
     },
     "table": {
       "empty": "لا توجد فواتير",
@@ -695,7 +746,13 @@
         "assigned": "معين",
         "inuse": "قيد الاستخدام",
         "voucher": "في المغسلة"
-      }
+      },
+      "searchPlaceholder": "بحث بالاسم أو الهاتف",
+      "barcodePlaceholder": "بحث بالباركود",
+      "statusAll": "كل الحالات",
+      "dateFrom": "من تاريخ",
+      "dateTo": "إلى تاريخ",
+      "packageAll": "كل الباقات"
     },
     "header": {
       "title": "إدارة الأكياس",
@@ -713,10 +770,21 @@
       "singleTitle": "الباركودات",
       "packageTitle": "أكواد التفعيل",
       "successMessage": "تم إنشاء {count} {label} بنجاح — هل تريد طباعتها الآن؟"
+    },
+    "activationFilter": {
+      "packageLabel": "الباقة",
+      "packageAll": "كل الباقات",
+      "statusLabel": "الحالة",
+      "statusAll": "الكل",
+      "statusAvailable": "متاح",
+      "statusUsed": "مستخدم"
     }
   },
   "Zones": {
-    "header": { "title": "مدن التوصيل", "addButton": "إضافة مدينة" },
+    "header": {
+      "title": "مدن التوصيل",
+      "addButton": "إضافة مدينة"
+    },
     "stats": {
       "totalCities": "إجمالي المدن",
       "activeCities": "المدن النشطة",
@@ -732,7 +800,10 @@
       "actions": "الإجراءات",
       "empty": "لا توجد مدن بعد"
     },
-    "status": { "active": "نشط", "inactive": "معطل" },
+    "status": {
+      "active": "نشط",
+      "inactive": "معطل"
+    },
     "cityModal": {
       "addTitle": "إضافة مدينة جديدة",
       "editTitle": "تعديل المدينة",
@@ -899,6 +970,21 @@
           "title": "تنبيهات التأخر",
           "description": "تنبيه عند تأخر التوصيل عن الوقت المحدد"
         }
+      }
+    },
+    "contact": {
+      "social": {
+        "whatsapp": "واتساب",
+        "facebook": "فيسبوك",
+        "instagram": "إنستغرام",
+        "twitter": "تويتر / X",
+        "snapchat": "سناب شات",
+        "tiktok": "تيك توك",
+        "youtube": "يوتيوب",
+        "linkedin": "لينكد إن",
+        "save": "حفظ التغييرات",
+        "saveSuccess": "تم حفظ روابط التواصل الاجتماعي",
+        "saveError": "حدث خطأ أثناء الحفظ"
       }
     }
   }

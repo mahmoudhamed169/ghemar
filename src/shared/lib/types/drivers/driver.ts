@@ -38,6 +38,14 @@ export type UpdateDriverPayload = Partial<Omit<CreateDriverPayload, "vehicleType
   vehicleType?: VehicleType;
 };
 
+export interface AssignedAreaDetail {
+  _id: string;
+  areaCode: string;
+  name?: string;
+  nameAr?: string;
+  cityId?: { _id: string; name: string; nameAr: string };
+}
+
 export interface Driver {
   _id: string;
   name: string;
@@ -48,6 +56,7 @@ export interface Driver {
   vehiclePlate: string;
   cityId: City;
   assignedAreas: string[];
+  assignedAreasDetails?: AssignedAreaDetail[];
   branches?: DriverBranch[];
   status: DriverStatus;
   activityStatus?: DriverActivityStatus;
@@ -69,6 +78,55 @@ export interface DriversResponse {
   message: string;
   data: Driver[];
   pagination: DriversPagination;
+}
+
+/* ── Driver Detail (from /api/admin/drivers/:id) ── */
+
+export interface DriverDetailCityArea {
+  _id: string;
+  name: string;
+  nameAr?: string;
+  code: string;
+  coverageRadius?: number;
+  deliveryAvailable?: boolean;
+}
+
+export interface DriverDetailCity {
+  _id: string;
+  name: string;
+  nameAr?: string;
+  areas?: DriverDetailCityArea[];
+}
+
+export interface DriverDetailBranch {
+  _id: string;
+  branchId: {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    code?: string;
+  };
+  assignedAreas: string[];
+  assignedAreasDetails: AssignedAreaDetail[];
+}
+
+export interface DriverLiveStats {
+  totalOrders: number;
+  completedOrders: number;
+  cancelledOrders: number;
+  activeOrders: number;
+}
+
+export interface DriverDetail extends Omit<Driver, "cityId" | "branches"> {
+  cityId: DriverDetailCity;
+  branches?: DriverDetailBranch[];
+  liveStats?: DriverLiveStats;
+}
+
+export interface DriverDetailResponse {
+  success: boolean;
+  message: string;
+  data: DriverDetail;
 }
 
 export interface DriversParams {
