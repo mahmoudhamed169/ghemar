@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Pencil, Check, X, Loader2, ShoppingBag, Barcode } from "lucide-react";
-import { Customer } from "@/shared/lib/types/customers";
+import { useTranslations } from "next-intl";
+import { CustomerDetail } from "@/shared/lib/types/customers";
 import { updateCustomerAction } from "@/shared/lib/actions/customers/update-customer";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 
 interface Props {
-  customer: Customer;
+  customer: CustomerDetail;
+  customerId: string;
 }
 
 interface FieldState {
@@ -18,9 +18,9 @@ interface FieldState {
   editing: boolean;
 }
 
-export default function CustomerBagsEditor({ customer }: Props) {
-  const router = useRouter();
-  const [, startTransition] = useTransition();
+export default function CustomerBagsEditor({ customer, customerId }: Props) {
+  const t = useTranslations("customers.details");
+  const queryClient = useQueryClient();
 
   const [barcodes, setBarcodes] = useState<FieldState>({
     value: customer.purchasedBarcodesCount ?? 0,
@@ -33,16 +33,16 @@ export default function CustomerBagsEditor({ customer }: Props) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (input: { purchasedBarcodesCount?: number; receivedBagsCount?: number }) =>
-      updateCustomerAction(customer._id, input),
+      updateCustomerAction(customerId, input),
     onSuccess: (result) => {
       if (result.success) {
-        toast.success("تم تحديث البيانات");
-        startTransition(() => router.refresh());
+        toast.success(t("saveSuccess"));
+        queryClient.invalidateQueries({ queryKey: ["customer", customerId] });
       } else {
-        toast.error(result.message ?? "فشل التحديث");
+        toast.error(result.message ?? t("saveError"));
       }
     },
-    onError: () => toast.error("حدث خطأ غير متوقع"),
+    onError: () => toast.error(t("saveError")),
   });
 
   const saveField = (field: "barcodes" | "bags") => {
@@ -66,14 +66,14 @@ export default function CustomerBagsEditor({ customer }: Props) {
   const fields = [
     {
       key: "barcodes" as const,
-      label: "الباركودات المشتراة",
+      label: t("purchasedBarcodes"),
       icon: Barcode,
       state: barcodes,
       setState: setBarcodes,
     },
     {
       key: "bags" as const,
-      label: "الأكياس المستلمة",
+      label: t("receivedBags"),
       icon: ShoppingBag,
       state: bags,
       setState: setBags,
@@ -81,9 +81,9 @@ export default function CustomerBagsEditor({ customer }: Props) {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" dir="rtl">
       <h3 className="text-sm font-semibold text-gray-500 border-t border-gray-100 pt-3">
-        بيانات الأكياس
+        {t("bagsData")}
       </h3>
       <div className="grid grid-cols-2 gap-3">
         {fields.map(({ key, label, icon: Icon, state, setState }) => (

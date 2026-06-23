@@ -77,7 +77,7 @@ export default function CustomerActions({ customer }: CustomerActionsProps) {
       <CustomerDetailsModal
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        customer={customer}
+        customerId={customer._id}
       />
       <BlockUserModal
         open={blockOpen}
