@@ -1,30 +1,33 @@
 export type RecipientRole = "client" | "driver" | "admin" | "all";
-export type NotificationType = "system" | "order" | "promo";
+export type NotificationType =
+  | "new_order"
+  | "express_order"
+  | "delivery_due_no_driver"
+  | "overdue_unassigned"
+  | "order_update"
+  | "driver_alert";
 
-export interface NotificationRecipient {
-  _id: string;
-  phone: string;
-  name: string;
+export interface NotificationData {
+  orderId?: string;
+  orderNumber?: string;
+  status?: string;
 }
 
 export interface Notification {
   _id: string;
-  recipient: NotificationRecipient;
-  recipientModel: string;
   type: NotificationType;
   title: string;
   titleAr: string;
   body: string;
   bodyAr: string;
+  data?: NotificationData;
   isRead: boolean;
   createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
 export interface NotificationPagination {
-  page: string;
-  limit: string;
+  page: number;
+  limit: number;
   total: number;
 }
 
@@ -35,6 +38,8 @@ export interface NotificationsResponse {
   pagination: NotificationPagination;
 }
 
+export type CreateNotificationType = "system" | "promo" | "order_update" | "driver_alert";
+
 export interface CreateNotificationBody {
   recipientId: string;
   recipientRole: RecipientRole;
@@ -42,7 +47,7 @@ export interface CreateNotificationBody {
   titleAr: string;
   body: string;
   bodyAr: string;
-  type: NotificationType;
+  type: CreateNotificationType;
   data?: Record<string, unknown>;
 }
 
