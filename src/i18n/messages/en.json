@@ -568,7 +568,11 @@
       "total": "Total Notifications",
       "delivered": "Delivered",
       "read": "Read",
-      "unread": "Unread"
+      "unread": "Unread",
+      "typeOrderUpdate": "Order Update",
+      "typeDriverAlert": "Driver Alert",
+      "recipientUser": "Client",
+      "recipientDriver": "Driver"
     }
   },
   "Packages": {
