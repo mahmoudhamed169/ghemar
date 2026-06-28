@@ -607,7 +607,15 @@
       "total": "إجمالي الإشعارات",
       "delivered": "تم الإرسال",
       "read": "مقروء",
-      "unread": "غير مقروء"
+      "unread": "غير مقروء",
+      "typeOrderUpdate": "تحديث طلب",
+      "typeDriverAlert": "تنبيه سائق",
+      "recipientUser": "عميل",
+      "recipientDriver": "سائق",
+      "typeNewOrder": "طلب جديد",
+      "typeExpressOrder": "طلب سريع",
+      "typeDeliveryDueNoDriver": "تسليم بدون سائق",
+      "typeOverdueUnassigned": "طلب متأخر"
     }
   },
   "Packages": {

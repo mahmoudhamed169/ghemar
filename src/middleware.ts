@@ -14,7 +14,6 @@ const SUPER_ADMIN_ROUTES = [
   "/bags",
   "/reports",
   "/bounes",
-  "/alerts",
   "/settings",
 ];
 

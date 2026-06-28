@@ -1,7 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { getNotifications } from "@/shared/lib/services/notifications/get-notifications";
-import { Bell, CheckCircle2 } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Notification } from "@/shared/lib/types/notifications/notification";
+import Pagination from "@/shared/components/pagination";
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("ar-SA", {
@@ -12,6 +13,24 @@ function formatDate(dateStr: string): string {
     minute: "2-digit",
   });
 }
+
+const TYPE_STYLES: Record<string, string> = {
+  new_order:              "bg-teal-50 text-teal-600",
+  express_order:          "bg-purple-50 text-purple-600",
+  delivery_due_no_driver: "bg-red-50 text-red-600",
+  overdue_unassigned:     "bg-orange-50 text-orange-600",
+  order_update:           "bg-blue-50 text-blue-600",
+  driver_alert:           "bg-amber-50 text-amber-600",
+};
+
+const TYPE_LABEL_KEY: Record<string, string> = {
+  new_order:              "typeNewOrder",
+  express_order:          "typeExpressOrder",
+  delivery_due_no_driver: "typeDeliveryDueNoDriver",
+  overdue_unassigned:     "typeOverdueUnassigned",
+  order_update:           "typeOrderUpdate",
+  driver_alert:           "typeDriverAlert",
+};
 
 function NotificationCard({
   notification,
@@ -37,7 +56,15 @@ function NotificationCard({
             <p className="text-xs text-gray-400">{notification.title}</p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+            {/* Type badge */}
+            <span
+              className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+                TYPE_STYLES[notification.type] ?? "bg-gray-50 text-gray-500"
+              }`}
+            >
+              {t(TYPE_LABEL_KEY[notification.type] ?? "typeOrderUpdate")}
+            </span>
             {/* Read badge */}
             <span
               className={`text-xs px-2.5 py-1 rounded-full font-medium ${
@@ -59,15 +86,15 @@ function NotificationCard({
           {notification.body}
         </p>
 
+        {/* Order number tag */}
+        {notification.data?.orderNumber && (
+          <span className="inline-block mt-2 text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-500 font-mono" dir="ltr">
+            #{notification.data.orderNumber}
+          </span>
+        )}
+
         {/* Footer */}
-        <div className="flex items-center justify-between mt-3 flex-wrap gap-2">
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-            <span className="font-medium text-gray-600">
-              {notification.recipient.name}
-            </span>
-            <span>·</span>
-            <span>{notification.recipient.phone}</span>
-          </div>
+        <div className="flex justify-end mt-3">
           <span className="text-xs text-gray-400">
             {formatDate(notification.createdAt)}
           </span>
@@ -77,9 +104,14 @@ function NotificationCard({
   );
 }
 
-export default async function NotificationsList() {
+const LIMIT = 20;
+
+export default async function NotificationsList({ page = 1 }: { page?: number }) {
   const t = await getTranslations("Notifications.list");
-  const { data: notifications, pagination } = await getNotifications();
+  const { data: notifications, pagination } = await getNotifications({
+    page,
+    limit: LIMIT,
+  });
 
   if (!notifications?.length) {
     return (
@@ -92,23 +124,17 @@ export default async function NotificationsList() {
     );
   }
 
+  const totalPages = Math.ceil(pagination.total / LIMIT);
+
   return (
     <div className="flex flex-col gap-3">
-      {/* Total */}
       <div className="flex items-center justify-between px-1">
         <p className="text-sm text-gray-500">
           {t("total")}:{" "}
-          <span className="font-semibold text-[#000709]">
-            {pagination.total}
-          </span>
+          <span className="font-semibold text-[#000709]">{pagination.total}</span>
         </p>
-        <div className="flex items-center gap-1.5 text-xs text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
-          <CheckCircle2 className="w-3.5 h-3.5" />
-          {t("delivered")}
-        </div>
       </div>
 
-      {/* Cards */}
       {notifications.map((notification) => (
         <NotificationCard
           key={notification._id}
@@ -116,6 +142,10 @@ export default async function NotificationsList() {
           t={t}
         />
       ))}
+
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} />
+      )}
     </div>
   );
 }

@@ -27,7 +27,7 @@ export async function getNotifications({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["notifications"] },
+      cache: "no-store",
     },
   );
 
