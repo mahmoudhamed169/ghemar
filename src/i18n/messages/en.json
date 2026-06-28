@@ -572,7 +572,11 @@
       "typeOrderUpdate": "Order Update",
       "typeDriverAlert": "Driver Alert",
       "recipientUser": "Client",
-      "recipientDriver": "Driver"
+      "recipientDriver": "Driver",
+      "typeNewOrder": "New Order",
+      "typeExpressOrder": "Express Order",
+      "typeDeliveryDueNoDriver": "Delivery Due No Driver",
+      "typeOverdueUnassigned": "Overdue Unassigned"
     }
   },
   "Packages": {
