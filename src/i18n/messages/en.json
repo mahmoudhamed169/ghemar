@@ -956,5 +956,34 @@
         "saveError": "Failed to save social media links"
       }
     }
+  },
+  "piece_types": {
+    "shirt": "Shirt",
+    "pants": "Pants",
+    "thobe": "Thobe",
+    "abaya": "Abaya",
+    "jacket": "Jacket",
+    "coat": "Coat",
+    "dress": "Dress",
+    "skirt": "Skirt",
+    "underwear": "Underwear",
+    "socks": "Socks",
+    "towel": "Towel",
+    "bedsheet": "Bed Sheet",
+    "pillowcase": "Pillowcase",
+    "blanket": "Blanket",
+    "curtain": "Curtain",
+    "tablecloth": "Tablecloth",
+    "kandura": "Kandura",
+    "hijab": "Hijab",
+    "suit_jacket": "Suit Jacket",
+    "suit_pants": "Suit Pants",
+    "tie": "Tie",
+    "sportswear": "Sportswear",
+    "swimwear": "Swimwear",
+    "kids_clothing": "Kids Clothing",
+    "shoes": "Shoes",
+    "bag": "Bag",
+    "carpet": "Carpet"
   }
 }
