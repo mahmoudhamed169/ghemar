@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import {
   Printer,
   DoorOpen,
   Handshake,
+  Check,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -179,6 +181,79 @@ function MapEmbed({ lat, lng }: { lat: number; lng: number }) {
   );
 }
 
+/* ─── activity timeline ─── */
+
+const ACTOR_MODEL_AR: Record<string, string> = {
+  System: "النظام",
+  Driver: "السائق",
+  Admin:  "المشرف",
+  User:   "العميل",
+};
+
+function ActivityTimeline({ order, ts }: { order: Order; ts: (k: string) => string }) {
+  const sorted = [...order.statusHistory].sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+  );
+
+  if (!sorted.length) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+        <Clock className="w-8 h-8 text-gray-200" />
+        <p className="text-sm">لا يوجد نشاط بعد</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      {/* vertical line */}
+      <div className="absolute right-[21px] top-3 bottom-3 w-px bg-gray-100" />
+
+      <div className="space-y-1">
+        {sorted.map((entry, i) => {
+          const date = new Date(entry.timestamp);
+          const dateStr = date.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
+          const timeStr = date.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+          const actorLabel = ACTOR_MODEL_AR[entry.actorModel] ?? entry.actorModel;
+          const statusLabel = ts(entry.status as Parameters<typeof ts>[0]);
+
+          return (
+            <div key={i} className="flex gap-4 items-start pr-1">
+              {/* checkmark icon */}
+              <div className="relative z-10 shrink-0 mt-0.5">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                  i === 0
+                    ? "bg-[#0C6175] shadow-sm shadow-[#0C6175]/30"
+                    : "bg-emerald-50 border border-emerald-200"
+                }`}>
+                  <Check className={`w-3.5 h-3.5 stroke-[3] ${i === 0 ? "text-white" : "text-emerald-500"}`} />
+                </div>
+              </div>
+
+              {/* content */}
+              <div className={`flex-1 pb-5 ${i === sorted.length - 1 ? "pb-0" : ""}`}>
+                <p className={`text-sm font-semibold ${i === 0 ? "text-[#0C6175]" : "text-[#000709]"}`}>
+                  {statusLabel}
+                </p>
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                  <span className="text-xs text-gray-400">{dateStr}</span>
+                  <span className="text-xs text-gray-300">·</span>
+                  <span className="text-xs text-gray-400">{timeStr}</span>
+                  <span className="text-xs text-gray-300">·</span>
+                  <span className="text-xs text-gray-500 font-medium">
+                    {actorLabel}
+                    {entry.actor && entry.actor !== "system" && ` — ${entry.actor}`}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ─── main ─── */
 
 export default function OrderDetailsSheet({
@@ -190,6 +265,8 @@ export default function OrderDetailsSheet({
   const r = useTranslations("orders.receipt");
   const ts = useTranslations("orders.status");
   const pt = useTranslations("piece_types");
+
+  const [activeTab, setActiveTab] = useState<"details" | "activity">("details");
 
   const statusLabel = ts(order.status as Parameters<typeof ts>[0]);
   const pickupCoords = order.pickup.address?.coordinates;
@@ -243,8 +320,43 @@ export default function OrderDetailsSheet({
           </div>
         </div>
 
+        {/* Tabs */}
+        <div className="flex gap-1 px-5 py-2 border-b bg-gray-50/60 shrink-0">
+          <button
+            onClick={() => setActiveTab("details")}
+            className={`flex-1 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              activeTab === "details"
+                ? "bg-white text-[#0C6175] shadow-sm"
+                : "text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            التفاصيل
+          </button>
+          <button
+            onClick={() => setActiveTab("activity")}
+            className={`flex-1 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              activeTab === "activity"
+                ? "bg-white text-[#0C6175] shadow-sm"
+                : "text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            النشاط
+            {order.statusHistory.length > 0 && (
+              <span className={`mr-1.5 text-xs px-1.5 py-0.5 rounded-full ${
+                activeTab === "activity" ? "bg-[#0C6175]/10 text-[#0C6175]" : "bg-gray-200 text-gray-500"
+              }`}>
+                {order.statusHistory.length}
+              </span>
+            )}
+          </button>
+        </div>
+
         {/* Body */}
         <div className="overflow-y-auto flex-1 px-5 py-4 space-y-4">
+          {activeTab === "activity" ? (
+            <ActivityTimeline order={order} ts={ts} />
+          ) : null}
+          {activeTab === "details" && (<>
           {pickupCoords && (
             <>
               <SectionTitle>{t("pickup_location")}</SectionTitle>
@@ -445,6 +557,7 @@ export default function OrderDetailsSheet({
               </div>
             </>
           )}
+          </>)}
         </div>
       </SheetContent>
     </Sheet>
