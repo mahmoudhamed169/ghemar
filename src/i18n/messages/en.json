@@ -246,7 +246,16 @@
       "method_hand_to_hand": "Hand to Hand",
       "method_leave_at_door": "Leave at Door",
       "delivery_proof": "Delivery Proof",
-      "print_tooltip": "Print Receipt"
+      "print_tooltip": "Print Receipt",
+      "estimated_pickup_time": "Estimated Pickup Time",
+      "actual_pickup_time": "Actual Pickup Time",
+      "delivery_slot": "Chosen Delivery Slot",
+      "delivery_slot_to": "to",
+      "delivery_slot_not_chosen": "Customer hasn't chosen a slot yet",
+      "delivery_reminders_sent": "Reminders Sent",
+      "needs_bags_delivery": "Needs Empty Bags",
+      "delivery_time_chosen": "Customer Chose Slot",
+      "delivery_time_not_chosen": "Slot Not Chosen"
     },
     "actions": {
       "view_details": "View Details",

@@ -51,6 +51,16 @@ function formatDate(dateStr?: string) {
   });
 }
 
+function formatDateTime(dateStr?: string) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  return (
+    d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" }) +
+    " " +
+    d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })
+  );
+}
+
 /* ─── print ─── */
 
 function buildReceiptHTML(
@@ -404,6 +414,24 @@ export default function OrderDetailsSheet({
               label={t("time")}
               value={order.pickup.scheduledTime}
             />
+            {order.estimatedPickupTime && (
+              <div className="col-span-2">
+                <DetailCard
+                  icon={Clock}
+                  label={t("estimated_pickup_time")}
+                  value={formatDateTime(order.estimatedPickupTime)}
+                />
+              </div>
+            )}
+            {order.actualPickupTime && (
+              <div className="col-span-2">
+                <DetailCard
+                  icon={Check}
+                  label={t("actual_pickup_time")}
+                  value={formatDateTime(order.actualPickupTime)}
+                />
+              </div>
+            )}
             {order.pickup.address?.area && (
               <DetailCard
                 icon={MapPin}
@@ -446,6 +474,40 @@ export default function OrderDetailsSheet({
               label={t("delivery_method")}
               value={order.delivery.method === "leave_at_door" ? t("method_leave_at_door") : t("method_hand_to_hand")}
             />
+
+            {/* Delivery slot status */}
+            <div className="col-span-2">
+              <div className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm ${
+                order.deliveryTimeChosen
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "bg-amber-50 text-amber-700"
+              }`}>
+                <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                  order.deliveryTimeChosen ? "bg-emerald-500" : "bg-amber-400"
+                }`} />
+                {order.deliveryTimeChosen ? t("delivery_time_chosen") : t("delivery_time_not_chosen")}
+                {typeof order.deliveryRemindersSent === "number" && order.deliveryRemindersSent > 0 && (
+                  <span className="mr-auto text-xs opacity-70">
+                    {order.deliveryRemindersSent} {t("delivery_reminders_sent")}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Chosen slot range */}
+            {order.chosenDeliverySlot && (
+              <div className="col-span-2">
+                <div className="bg-gray-50 rounded-xl px-3 py-2.5 flex flex-col gap-1">
+                  <span className="text-xs text-gray-400 font-medium">{t("delivery_slot")}</span>
+                  <div className="flex items-center gap-2 text-sm font-medium text-[#000709]" dir="ltr">
+                    <span>{formatDateTime(order.chosenDeliverySlot.start)}</span>
+                    <span className="text-gray-400 text-xs">{t("delivery_slot_to")}</span>
+                    <span>{formatDateTime(order.chosenDeliverySlot.end)}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {order.delivery.address?.area && (
               <DetailCard
                 icon={MapPin}
@@ -497,6 +559,14 @@ export default function OrderDetailsSheet({
                 label={t("package")}
                 value={order.packageId.nameAr}
               />
+            )}
+            {order.needsBagsDelivery && (
+              <div className="col-span-2">
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-orange-50 text-orange-700 text-sm">
+                  <Package className="w-4 h-4 shrink-0" />
+                  {t("needs_bags_delivery")}
+                </div>
+              </div>
             )}
           </div>
 

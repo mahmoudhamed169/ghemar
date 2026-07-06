@@ -109,8 +109,6 @@ export default function ZoneDetailsModal({
               </Label>
               <div className="h-44 w-full rounded-xl overflow-hidden border border-gray-200">
                 <ZoneMap
-                  lat={zone.coordinates.lat}
-                  lng={zone.coordinates.lng}
                   zoneName={zone.name}
                 />
               </div>

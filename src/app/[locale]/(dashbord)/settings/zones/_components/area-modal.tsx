@@ -8,12 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Area, CreateAreaInput } from "@/shared/lib/types/zones/city";
+import { Area, CreateAreaInput, PolygonPoint } from "@/shared/lib/types/zones/city";
 import { useCreateArea, useUpdateArea } from "@/shared/lib/hooks/zones/use-area-mutations";
 
 const InteractiveMap = dynamic(
   () => import("./zone-modal/ZoneMap"),
-  { ssr: false, loading: () => <div className="w-full h-48 rounded-xl bg-gray-100 animate-pulse" /> },
+  { ssr: false, loading: () => <div className="w-full h-64 rounded-xl bg-gray-100 animate-pulse" /> },
 );
 
 interface AreaModalProps {
@@ -23,11 +23,26 @@ interface AreaModalProps {
   initialData?: Area;
 }
 
+/** Convert GeoJSON polygon back to internal PolygonPoint[] for the map */
+function fromGeoJSON(geo: NonNullable<Area["polygon"]>): PolygonPoint[] {
+  const ring: [number, number][] = geo.coordinates?.[0] ?? [];
+  const points: PolygonPoint[] = ring.map(([lng, lat]) => ({ lat, lng }));
+  // Remove the closing duplicate point
+  if (
+    points.length > 1 &&
+    points[0].lat === points[points.length - 1].lat &&
+    points[0].lng === points[points.length - 1].lng
+  ) {
+    points.pop();
+  }
+  return points;
+}
+
 const INITIAL: CreateAreaInput = {
   name: "", nameAr: "", code: "",
-  coordinates: { lat: 24.7136, lng: 46.6753 },
-  coverageRadius: 5,
-  deliveryAvailable: true, driverIds: [],
+  polygon: [],
+  deliveryAvailable: true,
+  driverIds: [],
 };
 
 export default function AreaModal({ open, onOpenChange, cityId, initialData }: AreaModalProps) {
@@ -42,10 +57,10 @@ export default function AreaModal({ open, onOpenChange, cityId, initialData }: A
   useEffect(() => {
     if (initialData) {
       setForm({
-        name: initialData.name, nameAr: initialData.nameAr,
+        name: initialData.name,
+        nameAr: initialData.nameAr,
         code: initialData.code,
-        coordinates: initialData.coordinates ?? { lat: 24.7136, lng: 46.6753 },
-        coverageRadius: initialData.coverageRadius ?? 5,
+        polygon: initialData.polygon ? fromGeoJSON(initialData.polygon) : [],
         deliveryAvailable: initialData.deliveryAvailable ?? true,
         driverIds: initialData.driverIds ?? [],
       });
@@ -54,10 +69,10 @@ export default function AreaModal({ open, onOpenChange, cityId, initialData }: A
     }
   }, [initialData, open]);
 
-  const set = (field: string, value: unknown) =>
+  const set = <K extends keyof CreateAreaInput>(field: K, value: CreateAreaInput[K]) =>
     setForm((p) => ({ ...p, [field]: value }));
 
-  const isValid = !!form.name && !!form.nameAr && !!form.code;
+  const isValid = !!form.name && !!form.nameAr && !!form.code && form.polygon.length >= 3;
 
   const handleSave = () => {
     if (!isValid) return;
@@ -104,54 +119,26 @@ export default function AreaModal({ open, onOpenChange, cityId, initialData }: A
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1.5">
-              <Label>{t("code")} *</Label>
-              <Input
-                value={form.code}
-                dir="ltr"
-                onChange={(e) => set("code", e.target.value.toUpperCase())}
-                className="h-11 bg-[#F5F5F5] border-none"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>{t("coverageRadius")} (km)</Label>
-              <Input
-                type="number"
-                min={1}
-                value={form.coverageRadius}
-                dir="ltr"
-                onChange={(e) => set("coverageRadius", Number(e.target.value))}
-                className="h-11 bg-[#F5F5F5] border-none"
-              />
-            </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>{t("code")} *</Label>
+            <Input
+              value={form.code}
+              dir="ltr"
+              onChange={(e) => set("code", e.target.value.toUpperCase())}
+              className="h-11 bg-[#F5F5F5] border-none"
+            />
           </div>
 
-          {/* Interactive Map */}
           <InteractiveMap
-            lat={form.coordinates.lat}
-            lng={form.coordinates.lng}
-            radius={form.coverageRadius * 1000}
-            onPositionChange={(lat, lng) =>
-              setForm((p) => ({ ...p, coordinates: { lat, lng } }))
-            }
+            polygon={form.polygon}
+            onPolygonChange={(pts: PolygonPoint[]) => set("polygon", pts)}
           />
 
-          {/* Readonly coords display */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-              <Label className="text-xs text-gray-400">{t("lat")}</Label>
-              <p className="text-sm font-mono text-[#000709] bg-gray-50 rounded-lg px-3 py-2">
-                {form.coordinates.lat.toFixed(6)}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <Label className="text-xs text-gray-400">{t("lng")}</Label>
-              <p className="text-sm font-mono text-[#000709] bg-gray-50 rounded-lg px-3 py-2">
-                {form.coordinates.lng.toFixed(6)}
-              </p>
-            </div>
-          </div>
+          {form.polygon.length > 0 && form.polygon.length < 3 && (
+            <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+              أضف {3 - form.polygon.length} نقاط على الأقل لإغلاق المنطقة
+            </p>
+          )}
 
           <div className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
             <Label className="text-sm font-medium text-[#000709]">

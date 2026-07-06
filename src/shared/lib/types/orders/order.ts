@@ -114,10 +114,17 @@ export interface LinkedBag {
   linkedAt?: string;
 }
 
+interface ChosenDeliverySlot {
+  start: string;
+  end: string;
+  chosenAt: string;
+}
+
 export interface Order {
   _id: string;
   orderNumber: string;
   orderType: OrderType;
+  purchaseChannel?: string;
   client: Client;
   driver?: Driver;
   cityId: City;
@@ -130,12 +137,19 @@ export interface Order {
   status: OrderStatus;
   specialInstructions?: string;
   isExpressWash: boolean;
+  expressFeeStatus?: string;
+  estimatedPickupTime?: string;
+  actualPickupTime?: string;
+  deliveryTimeChosen?: boolean;
+  chosenDeliverySlot?: ChosenDeliverySlot;
+  deliveryRemindersSent?: number;
   bags: LinkedBag[];
   sortedItems: SortedItem[];
   firstPickupBags: string[];
   statusHistory: StatusHistory[];
   hasBagsDifference?: boolean;
   bagsDifferenceCount?: number;
+  needsBagsDelivery?: boolean;
   createdAt: string;
   updatedAt: string;
 }
