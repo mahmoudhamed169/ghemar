@@ -14,7 +14,7 @@ export function useCreateArea() {
       toast.success("تم إضافة المنطقة بنجاح");
       router.refresh();
     },
-    onError: () => toast.error("حدث خطأ أثناء إضافة المنطقة"),
+    onError: (err: Error) => toast.error(err.message || "حدث خطأ أثناء إضافة المنطقة"),
   });
 }
 

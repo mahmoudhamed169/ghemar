@@ -246,7 +246,16 @@
       "method_hand_to_hand": "يد بيد",
       "method_leave_at_door": "تسليم عند الباب",
       "delivery_proof": "صورة التسليم",
-      "print_tooltip": "طباعة الفاتورة"
+      "print_tooltip": "طباعة الفاتورة",
+      "estimated_pickup_time": "الوقت التقديري للاستلام",
+      "actual_pickup_time": "الوقت الفعلي للاستلام",
+      "delivery_slot": "فترة التسليم المختارة",
+      "delivery_slot_to": "إلى",
+      "delivery_slot_not_chosen": "لم يختر العميل الميعاد بعد",
+      "delivery_reminders_sent": "تذكيرات أُرسلت",
+      "needs_bags_delivery": "يحتاج أكياس فارغة",
+      "delivery_time_chosen": "اختار العميل الميعاد",
+      "delivery_time_not_chosen": "لم يختر الميعاد"
     },
     "actions": {
       "view_details": "عرض التفاصيل",
