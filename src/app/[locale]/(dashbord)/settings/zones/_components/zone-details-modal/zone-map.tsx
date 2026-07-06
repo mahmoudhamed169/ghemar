@@ -1,15 +1,14 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
+import { PolygonPoint } from "@/shared/lib/types/zones/city";
 
 interface ZoneMapProps {
-  lat: number;
-  lng: number;
+  polygon?: PolygonPoint[];
   zoneName: string;
 }
 
-export default function ZoneMap({ lat, lng, zoneName }: ZoneMapProps) {
+export default function ZoneMap({ polygon, zoneName }: ZoneMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<unknown>(null);
 
@@ -20,21 +19,31 @@ export default function ZoneMap({ lat, lng, zoneName }: ZoneMapProps) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (L.Icon.Default.prototype as any)._getIconUrl;
       L.Icon.Default.mergeOptions({
-        iconRetinaUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-        iconUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-        shadowUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+        iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
+        iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+        shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
       });
 
-      const map = L.map(mapRef.current!).setView([lat, lng], 14);
+      const points = polygon ?? [];
+      const defaultCenter: [number, number] = [24.7136, 46.6753];
 
+      const map = L.map(mapRef.current!).setView(defaultCenter, 13);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
 
-      L.marker([lat, lng]).addTo(map).bindPopup(zoneName).openPopup();
+      if (points.length >= 3) {
+        const latlngs = points.map((p) => [p.lat, p.lng] as [number, number]);
+        const poly = L.polygon(latlngs, {
+          color: "#0C6175",
+          fillColor: "#0C6175",
+          fillOpacity: 0.15,
+          weight: 2,
+        }).addTo(map).bindPopup(zoneName);
+        map.fitBounds(poly.getBounds(), { padding: [16, 16] });
+      } else if (points.length > 0) {
+        map.setView([points[0].lat, points[0].lng], 14);
+      }
 
       mapInstanceRef.current = map;
     });
@@ -45,7 +54,7 @@ export default function ZoneMap({ lat, lng, zoneName }: ZoneMapProps) {
         mapInstanceRef.current = null;
       }
     };
-  }, [lat, lng, zoneName]);
+  }, [polygon, zoneName]);
 
   return (
     <>

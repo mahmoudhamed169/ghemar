@@ -65,16 +65,6 @@ function NotificationCard({
             >
               {t(TYPE_LABEL_KEY[notification.type] ?? "typeOrderUpdate")}
             </span>
-            {/* Read badge */}
-            <span
-              className={`text-xs px-2.5 py-1 rounded-full font-medium ${
-                notification.isRead
-                  ? "bg-green-50 text-green-600"
-                  : "bg-orange-50 text-orange-500"
-              }`}
-            >
-              {notification.isRead ? t("read") : t("unread")}
-            </span>
           </div>
         </div>
 

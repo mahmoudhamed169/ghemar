@@ -9,13 +9,21 @@ export interface AreaDriversResponse {
   data: AreaDriver[];
 }
 
+/** Internal map drawing type — used only in the UI */
+export type PolygonPoint = { lat: number; lng: number };
+
+/** GeoJSON Polygon — what the backend expects/returns */
+export interface GeoJSONPolygon {
+  type: "Polygon";
+  coordinates: [number, number][][]; // [[[lng, lat], ...closed ring]]
+}
+
 export interface Area {
   _id?: string;
   name: string;
   nameAr: string;
   code: string;
-  coordinates?: { lat: number; lng: number };
-  coverageRadius?: number;
+  polygon?: GeoJSONPolygon;
   deliveryAvailable: boolean;
   driverIds: string[];
 }
@@ -76,8 +84,7 @@ export interface CreateAreaInput {
   name: string;
   nameAr: string;
   code: string;
-  coordinates: { lat: number; lng: number };
-  coverageRadius: number;
+  polygon: PolygonPoint[]; // converted to GeoJSON inside the server action
   deliveryAvailable: boolean;
   driverIds: string[];
 }
