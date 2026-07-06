@@ -12,7 +12,6 @@ import {
 import ZoneNameField from "./ZoneNameField";
 import ZoneLocationField from "./ZoneLocationField";
 import ZoneRadiusField from "./ZoneRadiusField";
-import ZoneMap from "./ZoneMap";
 import ZoneDriversGrid from "./ZoneDriversGrid";
 import ZoneModalActions from "./ZoneModalActions";
 import { ZoneFormData, Driver } from "./types";
@@ -90,16 +89,6 @@ export default function ZoneModal({
           <ZoneRadiusField
             value={form.radius}
             onChange={(v) => handleChange("radius", v)}
-          />
-
-          <ZoneMap
-            lat={form.lat}
-            lng={form.lng}
-            radius={form.radius}
-            onPositionChange={(lat, lng) => {
-              handleChange("lat", lat);
-              handleChange("lng", lng);
-            }}
           />
 
           <ZoneDriversGrid
