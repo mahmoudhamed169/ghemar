@@ -29,7 +29,7 @@ interface OrderDetailsSheetProps {
 
 /* ─── helpers ─── */
 
-function buildAddress(address?: Order["pickup"]["address"]) {
+function buildAddress(address?: NonNullable<Order["pickup"]>["address"]) {
   if (!address) return null;
   const parts = [
     address.street,
@@ -127,8 +127,8 @@ function buildReceiptHTML(
   ${row(r("address"), pickupAddress ?? undefined)}
   ${row(r("notes"), order.pickup.address?.notes)}
   ${hr}
-  ${row(r("pickup"), `${formatDate(order.pickup.scheduledDate)} — ${order.pickup.scheduledTime}`)}
-  ${row(r("delivery_label"), `${formatDate(order.delivery.scheduledDate)} — ${order.delivery.scheduledTime}`)}
+  ${order.pickup.scheduledDate ? row(r("pickup"), `${formatDate(order.pickup.scheduledDate)} — ${order.pickup.scheduledTime ?? ""}`) : ""}
+  ${order.delivery.scheduledDate ? row(r("delivery_label"), `${formatDate(order.delivery.scheduledDate)} — ${order.delivery.scheduledTime ?? ""}`) : ""}
   ${hr}
   ${row(r("order_type"), order.orderType === "laundry_pickup" ? r("order_type_laundry") : r("order_type_delivery"))}
   ${row(r("bag_count"), order.bagCount)}
@@ -407,12 +407,12 @@ export default function OrderDetailsSheet({
             <DetailCard
               icon={Calendar}
               label={t("date")}
-              value={formatDate(order.pickup.scheduledDate)}
+              value={formatDate(order.pickup.scheduledDate) ?? undefined}
             />
             <DetailCard
               icon={Clock}
               label={t("time")}
-              value={order.pickup.scheduledTime}
+              value={order.pickup.scheduledTime ?? undefined}
             />
             {order.estimatedPickupTime && (
               <div className="col-span-2">
@@ -462,12 +462,12 @@ export default function OrderDetailsSheet({
             <DetailCard
               icon={Calendar}
               label={t("date")}
-              value={formatDate(order.delivery.scheduledDate)}
+              value={formatDate(order.delivery.scheduledDate) ?? undefined}
             />
             <DetailCard
               icon={Clock}
               label={t("time")}
-              value={order.delivery.scheduledTime}
+              value={order.delivery.scheduledTime ?? undefined}
             />
             <DetailCard
               icon={order.delivery.method === "leave_at_door" ? DoorOpen : Handshake}
