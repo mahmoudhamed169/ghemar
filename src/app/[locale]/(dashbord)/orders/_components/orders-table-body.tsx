@@ -10,6 +10,18 @@ function formatDate(dateStr: string, locale: string) {
     month: "short",
   });
 }
+
+function formatTime(timeStr: string, locale: string) {
+  if (!timeStr) return null;
+  if (/^\d{2}:\d{2}/.test(timeStr)) return timeStr.slice(0, 5);
+  const d = new Date(timeStr);
+  if (isNaN(d.getTime())) return timeStr;
+  return d.toLocaleTimeString(locale === "ar" ? "ar-SA" : "en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: locale === "ar",
+  });
+}
 import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
 import OrderStatusChanger from "./order-status-changer";
@@ -64,25 +76,40 @@ export default async function OrdersTableBody({ orders, page }: Props) {
             </div>
           </TableCell>
 
-          <TableCell className="text-center text-sm">
-            {order.pickup?.scheduledDate ? (
-              <div className="flex flex-col items-center leading-tight">
-                <span>{formatDate(order.pickup.scheduledDate, locale)}</span>
-                <span className="text-gray-400 text-xs">{order.pickup.scheduledTime}</span>
+          {/* Pickup: actualPickupTime → done; estimatedPickupTime → pending */}
+          <TableCell className="text-center">
+            {order.actualPickupTime ? (
+              <div className="flex flex-col items-center leading-tight gap-0.5">
+                <span className="text-lg font-semibold text-emerald-700">{formatDate(order.actualPickupTime, locale)}</span>
+                <span className="text-emerald-500 text-base font-medium">{formatTime(order.actualPickupTime, locale)}</span>
+              </div>
+            ) : order.estimatedPickupTime ? (
+              <div className="flex flex-col items-center leading-tight gap-0.5">
+                <span className="text-lg font-semibold text-gray-600">{formatDate(order.estimatedPickupTime, locale)}</span>
+                <span className="text-gray-400 text-base font-medium">{formatTime(order.estimatedPickupTime, locale)}</span>
               </div>
             ) : (
-              <span className="text-gray-300">—</span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-600 border border-amber-200 whitespace-nowrap">
+                {t("no_pickup_date")}
+              </span>
             )}
           </TableCell>
 
-          <TableCell className="text-center text-sm">
+          {/* Delivery: scheduledDate from chosen slot */}
+          <TableCell className="text-center">
             {order.delivery?.scheduledDate ? (
-              <div className="flex flex-col items-center leading-tight">
-                <span>{formatDate(order.delivery.scheduledDate, locale)}</span>
-                <span className="text-gray-400 text-xs">{order.delivery.scheduledTime}</span>
+              <div className="flex flex-col items-center leading-tight gap-0.5">
+                <span className="text-lg font-semibold text-gray-800">{formatDate(order.delivery.scheduledDate, locale)}</span>
+                {order.chosenDeliverySlot && (
+                  <span className="text-gray-400 text-base font-medium">
+                    {formatTime(order.chosenDeliverySlot.start, locale)} – {formatTime(order.chosenDeliverySlot.end, locale)}
+                  </span>
+                )}
               </div>
             ) : (
-              <span className="text-gray-300">—</span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-50 text-slate-500 border border-slate-200 whitespace-nowrap">
+                {t("no_delivery_date")}
+              </span>
             )}
           </TableCell>
 

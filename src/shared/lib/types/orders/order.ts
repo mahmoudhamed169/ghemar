@@ -50,16 +50,16 @@ interface Address {
 
 interface Pickup {
   address?: Address;
-  scheduledDate: string;
-  scheduledTime: string;
-  method: PickupMethod;
+  scheduledDate?: string;
+  scheduledTime?: string;
+  method?: PickupMethod;
 }
 
 interface Delivery {
   address?: Address;
-  scheduledDate: string;
-  scheduledTime: string;
-  method: PickupMethod;
+  scheduledDate?: string;
+  scheduledTime?: string;
+  method?: PickupMethod;
   deliveredBagsCount?: number;
   proofImage?: string;
 }

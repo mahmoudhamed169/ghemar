@@ -214,6 +214,8 @@
       "actions": "إجراءات",
       "no_orders": "لا توجد طلبات",
       "no_driver": "في انتظار تعيين سائق",
+      "no_pickup_date": "لم يتم الاستلام",
+      "no_delivery_date": "لم يتم التسليم",
       "priority_express": "مستعجل",
       "priority_normal": "عادي"
     },
