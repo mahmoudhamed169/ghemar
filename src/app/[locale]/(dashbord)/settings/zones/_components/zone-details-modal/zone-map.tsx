@@ -28,9 +28,10 @@ export default function ZoneMap({ polygon, zoneName }: ZoneMapProps) {
       const defaultCenter: [number, number] = [24.7136, 46.6753];
 
       const map = L.map(mapRef.current!).setView(defaultCenter, 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        { attribution: "© Esri" },
+      ).addTo(map);
 
       if (points.length >= 3) {
         const latlngs = points.map((p) => [p.lat, p.lng] as [number, number]);

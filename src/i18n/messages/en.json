@@ -214,6 +214,8 @@
       "actions": "Actions",
       "no_orders": "No orders found",
       "no_driver": "Awaiting Driver Assignment",
+      "no_pickup_date": "Pickup Pending",
+      "no_delivery_date": "Delivery Pending",
       "priority_express": "Express",
       "priority_normal": "Normal"
     },
