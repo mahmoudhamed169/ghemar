@@ -1,10 +1,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { OverviewResponse } from "../../types/stats";
+import { OverviewResponse } from "../../types/overview/overview";
 
 export async function getOverview(): Promise<OverviewResponse> {
   const session = await getServerSession(authOptions);
-  console.log("SESSION:", JSON.stringify(session));
   const token = session?.accessToken;
 
   const res = await fetch(
@@ -15,9 +14,7 @@ export async function getOverview(): Promise<OverviewResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: {
-        revalidate: 10,
-      },
+      next: { revalidate: 10, tags: ["overview"] },
     },
   );
 

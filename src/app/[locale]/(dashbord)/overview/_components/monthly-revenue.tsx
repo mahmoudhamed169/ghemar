@@ -9,82 +9,77 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useTranslations, useLocale } from "next-intl";
+import { MonthlyRevenueItem } from "@/shared/lib/types/overview/overview";
+import { formatCurrency, formatNumber, niceMax } from "../_lib/format";
+import ChartCard from "./chart-card";
+import ChartEmpty from "./chart-empty";
+import ChartTooltip from "./chart-tooltip";
 
-export default function MonthlyRevenue() {
-  const t = useTranslations("overview.charts");
+const BAR_COLOR = "#0C6175";
+const AXIS_TICK = { fontSize: 11, fill: "#9ca3af" };
+
+export default function MonthlyRevenue({ data }: { data: MonthlyRevenueItem[] }) {
+  const t = useTranslations("overview");
   const locale = useLocale();
   const isRtl = locale === "ar";
+  const currency = t("currency");
 
-  const data = [
-    { monthKey: "jan", value: 28000 },
-    { monthKey: "feb", value: 32000 },
-    { monthKey: "mar", value: 29000 },
-    { monthKey: "apr", value: 46000 },
-  ].map((d) => ({ ...d, label: t(d.monthKey) }));
+  const total = data.reduce((sum, d) => sum + d.revenue, 0);
 
   return (
-    <div
-      className="bg-white flex flex-col h-full"
-      style={{
-        borderRadius: "12px",
-        padding: "21px",
-        border: "0.67px solid #0000001F",
-        gap: "12px",
-      }}
+    <ChartCard
+      title={t("charts.monthlyRevenue")}
+      subtitle={t("charts.lastMonths", { count: data.length })}
+      action={
+        <div className="flex flex-col items-end">
+          <span className="text-xs text-gray-400">{t("charts.periodTotal")}</span>
+          <span className="text-sm font-bold text-gray-900 tabular-nums">
+            {formatCurrency(total, currency)}
+          </span>
+        </div>
+      }
     >
-      <p className="font-bold text-gray-900 mb-5" dir={isRtl ? "rtl" : "ltr"}>
-        {t("monthlyRevenue")}
-      </p>
-
-      <ResponsiveContainer width="100%" height={220}>
-        <BarChart
-          data={data}
-          margin={{ top: 9, right: 10, left: 20, bottom: 0 }}
-          barCategoryGap="55%"
-        >
-          <CartesianGrid
-            strokeDasharray="5 5"
-            stroke="#e5e7eb"
-            vertical={false}
-          />
-          <XAxis
-            dataKey="label"
-            tick={{ fontSize: 11, fill: "#9ca3af" }}
-            axisLine={false}
-            tickLine={false}
-            reversed={isRtl}
-          />
-          <YAxis
-            tick={{ fontSize: 11, fill: "#9ca3af" }}
-            axisLine={false}
-            tickLine={false}
-            tickCount={5}
-            domain={[0, 60000]}
-            tickFormatter={(v) => v.toLocaleString()}
-            width={55}
-            orientation={isRtl ? "right" : "left"}
-          />
-          <Tooltip
-            contentStyle={{
-              borderRadius: "8px",
-              border: "none",
-              boxShadow: "0 4px 12px #0000001A",
-              fontSize: "12px",
-              direction: isRtl ? "rtl" : "ltr",
-            }}
-            formatter={(value) => [
-              (value as number)?.toLocaleString() + (isRtl ? " ر.س" : " SAR"),
-              t("revenue"),
-            ]}
-          />
-          <Bar
-            dataKey="value"
-            fill="#0C6175"
-            radius={[4, 4, 0, 0]}
-            barSize={83}
-          />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+      <div className="relative" dir="ltr">
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="5 5" stroke="#e5e7eb" vertical={false} />
+            <XAxis
+              dataKey="month"
+              tick={AXIS_TICK}
+              axisLine={false}
+              tickLine={false}
+              reversed={isRtl}
+            />
+            <YAxis
+              orientation={isRtl ? "right" : "left"}
+              tick={AXIS_TICK}
+              axisLine={false}
+              tickLine={false}
+              allowDecimals={false}
+              domain={[0, (max: number) => niceMax(max)]}
+              tickFormatter={(v: number) => formatNumber(v)}
+              width={48}
+            />
+            <Tooltip
+              cursor={{ fill: "#0C61750D" }}
+              content={(props) => (
+                <div dir={isRtl ? "rtl" : "ltr"}>
+                  <ChartTooltip
+                    active={props.active}
+                    label={props.label as string}
+                    payload={props.payload as never}
+                    rows={[
+                      { dataKey: "revenue", label: t("charts.revenue"), color: BAR_COLOR, format: (v) => formatCurrency(v, currency) },
+                    ]}
+                  />
+                </div>
+              )}
+            />
+            <Bar dataKey="revenue" fill={BAR_COLOR} radius={[4, 4, 0, 0]} maxBarSize={56} />
+          </BarChart>
+        </ResponsiveContainer>
+        {total === 0 && <ChartEmpty message={t("charts.noRevenue")} />}
+      </div>
+    </ChartCard>
   );
 }

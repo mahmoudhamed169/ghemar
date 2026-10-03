@@ -29,34 +29,52 @@
     }
   },
   "overview": {
+    "currency": "SAR",
     "stats": {
       "totalOrders": "Total Orders",
       "activeOrders": "Active Orders",
       "revenue": "Revenue",
       "activeDrivers": "Active Drivers",
-      "thisMonth": "This Month",
-      "now": "Now",
-      "ofTotal": "Of Total Drivers"
+      "vsLastMonth": "vs last month",
+      "vsPrevious": "vs previous period",
+      "driversOf": "{active} of {total}",
+      "activityRate": "Activity rate"
+    },
+    "summary": {
+      "title": "All-time totals",
+      "totalOrders": "All orders",
+      "activeOrders": "Active orders",
+      "completedOrders": "Completed orders",
+      "totalRevenue": "Total revenue",
+      "activeDrivers": "Active drivers"
     },
     "charts": {
       "ordersAndRevenue": "Orders & Revenue",
       "last7Days": "Last 7 days",
-      "ordersDistribution": "Orders Distribution",
-      "completed": "Completed",
-      "inProgress": "In Progress",
-      "pending": "Pending",
-      "issue": "Issue",
-      "monthlyRevenue": "Monthly Revenue (SAR)",
+      "orders": "Orders",
       "revenue": "Revenue",
+      "noTrend": "No orders or revenue in the last 7 days",
+      "ordersDistribution": "Orders Distribution",
+      "totalOrders": "Total orders",
+      "noOrders": "No orders yet",
+      "statuses": {
+        "completed": "Completed",
+        "in_progress": "In Progress",
+        "pending": "Pending",
+        "problem": "Issue"
+      },
       "packagesDistribution": "Packages Distribution",
-      "basic": "Basic",
-      "silver": "Silver",
-      "gold": "Gold",
-      "platinum": "Platinum",
-      "jan": "January",
-      "feb": "February",
-      "mar": "March",
-      "apr": "April"
+      "packagesTotal": "{count} subscriptions in total",
+      "noPackages": "No package subscriptions yet",
+      "monthlyRevenue": "Monthly Revenue",
+      "lastMonths": "Last {count} months",
+      "periodTotal": "Period total",
+      "noRevenue": "No revenue in this period"
+    },
+    "error": {
+      "title": "Couldn't load statistics",
+      "description": "Something went wrong while fetching dashboard data. Please try again.",
+      "retry": "Try again"
     }
   },
   "sidebar": {
