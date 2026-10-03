@@ -29,34 +29,52 @@
     }
   },
   "overview": {
+    "currency": "ر.س",
     "stats": {
       "totalOrders": "إجمالي الطلبات",
       "activeOrders": "الطلبات النشطة",
       "revenue": "الإيرادات",
       "activeDrivers": "السائقون النشطون",
-      "thisMonth": "هذا الشهر",
-      "now": "الآن",
-      "ofTotal": "من إجمالي السائقين"
+      "vsLastMonth": "مقارنة بالشهر الماضي",
+      "vsPrevious": "مقارنة بالفترة السابقة",
+      "driversOf": "{active} من {total}",
+      "activityRate": "نسبة النشاط"
+    },
+    "summary": {
+      "title": "الإجمالي العام",
+      "totalOrders": "كل الطلبات",
+      "activeOrders": "طلبات نشطة",
+      "completedOrders": "طلبات مكتملة",
+      "totalRevenue": "إجمالي الإيرادات",
+      "activeDrivers": "سائقون نشطون"
     },
     "charts": {
       "ordersAndRevenue": "الطلبات والإيرادات",
       "last7Days": "آخر 7 أيام",
-      "ordersDistribution": "توزيع الطلبات",
-      "completed": "مكتمل",
-      "inProgress": "جارٍ",
-      "pending": "قيد الانتظار",
-      "issue": "مشكلة",
-      "monthlyRevenue": "الإيرادات الشهرية (ر.س)",
+      "orders": "الطلبات",
       "revenue": "الإيرادات",
+      "noTrend": "لا توجد طلبات أو إيرادات خلال آخر 7 أيام",
+      "ordersDistribution": "توزيع الطلبات",
+      "totalOrders": "إجمالي الطلبات",
+      "noOrders": "لا توجد طلبات",
+      "statuses": {
+        "completed": "مكتمل",
+        "in_progress": "جارٍ",
+        "pending": "قيد الانتظار",
+        "problem": "مشكلة"
+      },
       "packagesDistribution": "توزيع الباقات",
-      "basic": "الأساسية",
-      "silver": "الفضية",
-      "gold": "الذهبية",
-      "platinum": "البلاتية",
-      "jan": "يناير",
-      "feb": "فبراير",
-      "mar": "مارس",
-      "apr": "أبريل"
+      "packagesTotal": "{count} اشتراك في المجموع",
+      "noPackages": "لا توجد اشتراكات في الباقات بعد",
+      "monthlyRevenue": "الإيرادات الشهرية",
+      "lastMonths": "آخر {count} أشهر",
+      "periodTotal": "إجمالي الفترة",
+      "noRevenue": "لا توجد إيرادات خلال هذه الفترة"
+    },
+    "error": {
+      "title": "تعذّر تحميل الإحصائيات",
+      "description": "حدث خطأ أثناء جلب بيانات لوحة التحكم. حاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
     }
   },
   "sidebar": {
