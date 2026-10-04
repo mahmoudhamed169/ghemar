@@ -7,16 +7,17 @@ import { Order } from "@/shared/lib/types/orders/order";
 interface Props {
   orders: Order[];
   page: number;
+  pageSize: number;
   totalPages: number;
 }
 
-export default function OrdersTable({ orders, page, totalPages }: Props) {
+export default function OrdersTable({ orders, page, pageSize, totalPages }: Props) {
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-5 flex flex-col gap-4">
       <div className="overflow-x-auto">
         <Table className="min-w-[900px]">
           <OrdersTableHeader />
-          <OrdersTableBody orders={orders} page={page} />
+          <OrdersTableBody orders={orders} offset={(page - 1) * pageSize} />
         </Table>
       </div>
       <Pagination currentPage={page} totalPages={totalPages} />

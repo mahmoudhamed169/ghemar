@@ -1,38 +1,51 @@
 import { CheckCircle, DollarSign, FileText, XCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getInvoiceStats } from "@/shared/lib/services/reports/get-invoice-stats";
-import { StatCard } from "./stat-card";
+import StatCard from "@/shared/components/stats/stat-card";
+import StatsRow from "@/shared/components/stats/stats-row";
+import StatsError from "@/shared/components/stats/stats-error";
+import { formatAmount } from "./invoice-modal/invoice-data";
 
 export default async function ReportsStats() {
   const t = await getTranslations("Reports.stats");
-  const { data } = await getInvoiceStats();
+
+  let data: Awaited<ReturnType<typeof getInvoiceStats>>["data"];
+  try {
+    ({ data } = await getInvoiceStats());
+  } catch {
+    return <StatsError />;
+  }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <StatsRow>
       <StatCard
         title={t("totalRevenue")}
-        value={`${data.totalRevenue} ${t("currency")}`}
+        value={`${formatAmount(data.totalRevenue)} ${t("currency")}`}
         icon={DollarSign}
-        iconClassName="bg-violet-100 text-violet-500"
+        iconBg="bg-violet-100"
+        iconColor="text-violet-500"
       />
       <StatCard
         title={t("invoicesThisMonth")}
-        value={data.invoicesThisMonth}
+        value={String(data.invoicesThisMonth)}
         icon={FileText}
-        iconClassName="bg-blue-100 text-blue-500"
+        iconBg="bg-blue-100"
+        iconColor="text-blue-500"
       />
       <StatCard
         title={t("paidInvoices")}
-        value={data.paidInvoices}
+        value={String(data.paidInvoices)}
         icon={CheckCircle}
-        iconClassName="bg-emerald-100 text-emerald-500"
+        iconBg="bg-emerald-100"
+        iconColor="text-emerald-500"
       />
       <StatCard
         title={t("unpaidInvoices")}
-        value={data.unpaidInvoices}
+        value={String(data.unpaidInvoices)}
         icon={XCircle}
-        iconClassName="bg-red-100 text-red-500"
+        iconBg="bg-red-100"
+        iconColor="text-red-500"
       />
-    </div>
+    </StatsRow>
   );
 }

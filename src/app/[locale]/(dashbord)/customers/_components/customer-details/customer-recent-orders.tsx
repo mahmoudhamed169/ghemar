@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { CustomerDetailRecentOrder } from "@/shared/lib/types/customers";
 import { PackageOpen } from "lucide-react";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
 interface Props {
   orders: CustomerDetailRecentOrder[];
@@ -43,7 +44,7 @@ export default function CustomerRecentOrders({ orders }: Props) {
                 {t(`orderStatus.${order.status}`) ?? order.status}
               </span>
               <span className="text-gray-400 text-xs" dir="ltr">
-                {new Date(order.createdAt).toLocaleDateString("en-GB")}
+                {formatRiyadhDate(order.createdAt, "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}
               </span>
             </div>
           ))}

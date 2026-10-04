@@ -9,6 +9,8 @@ interface StatCardProps {
   iconBg?: string;
   /** signed change; the sign decides the arrow and colour */
   trend?: { value: number; text: string; caption: string };
+  /** small grey line under the title when there is no trend */
+  caption?: string;
   footer?: ReactNode;
 }
 
@@ -25,6 +27,7 @@ export default function StatCard({
   iconColor = "text-green-500",
   iconBg = "bg-green-50",
   trend,
+  caption,
   footer,
 }: StatCardProps) {
   const style = trend ? trendStyle(trend.value) : null;
@@ -61,7 +64,9 @@ export default function StatCard({
         {value}
       </p>
       <p className="text-sm font-medium text-gray-700">{title}</p>
-      {trend && <p className="text-xs text-gray-400">{trend.caption}</p>}
+      {(trend?.caption ?? caption) && (
+        <p className="text-xs text-gray-400">{trend?.caption ?? caption}</p>
+      )}
       {footer}
     </div>
   );
