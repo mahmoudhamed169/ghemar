@@ -1,4 +1,5 @@
 import { type InvoiceData } from "./invoice-modal";
+import { formatAmount } from "./invoice-data";
 
 interface InvoicePrintLayoutProps {
   invoice: InvoiceData;
@@ -216,13 +217,13 @@ export default function InvoicePrintLayout({
           {[
             {
               label: "المبلغ الأساسي",
-              value: `﷼ ${invoice.baseAmount.toFixed(2)}`,
+              value: `﷼ ${formatAmount(invoice.baseAmount)}`,
               accent: false,
             },
-            { label: "الخصم", value: `− ﷼ ${invoice.discount}`, accent: true },
+            { label: "الخصم", value: `− ﷼ ${formatAmount(invoice.discount)}`, accent: true },
             {
               label: `ضريبة القيمة المضافة (%${invoice.vatPercent})`,
-              value: `﷼ ${vat.toFixed(2)}`,
+              value: `﷼ ${formatAmount(vat)}`,
               accent: false,
             },
           ].map(({ label, value, accent }) => (
@@ -262,7 +263,7 @@ export default function InvoicePrintLayout({
             }}
           >
             <span style={{ fontSize: 22, fontWeight: 700, color: "#ffffff" }}>
-              ﷼ {invoice.total}
+              ﷼ {formatAmount(invoice.total)}
             </span>
             <span
               style={{

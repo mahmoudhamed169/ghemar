@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { formatAmount } from "./invoice-data";
 
 interface InvoiceAmountsProps {
   baseAmount: number;
@@ -51,10 +52,10 @@ export default function InvoiceAmounts({
 
   return (
     <div className="border-t border-gray-100 pt-3 space-y-0.5">
-      <AmountRow label={t("baseAmount")} value={baseAmount.toFixed(2)} />
-      <AmountRow label={t("discount")} value={String(discount)} />
-      <AmountRow label={`${t("vat")} (%${vatPercent})`} value={vat.toFixed(2)} />
-      <AmountRow label={t("total")} value={String(total)} isTotal />
+      <AmountRow label={t("baseAmount")} value={formatAmount(baseAmount)} />
+      <AmountRow label={t("discount")} value={formatAmount(discount)} />
+      <AmountRow label={`${t("vat")} (%${vatPercent})`} value={formatAmount(vat)} />
+      <AmountRow label={t("total")} value={formatAmount(total)} isTotal />
     </div>
   );
 }

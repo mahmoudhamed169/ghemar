@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { type InvoiceData } from "./invoice-modal";
+import { formatAmount } from "./invoice-data";
 
 export default function InvoiceActions({
   invoice,
@@ -223,21 +224,21 @@ export default function InvoiceActions({
     <div class="amounts-box">
       <div class="amt-row">
         <span class="amt-lbl">المبلغ الأساسي</span>
-        <span class="amt-val">﷼ ${invoice.baseAmount.toFixed(2)}</span>
+        <span class="amt-val">﷼ ${formatAmount(invoice.baseAmount)}</span>
       </div>
       <div class="amt-row">
         <span class="amt-lbl">الخصم</span>
-        <span class="amt-val disc">− ﷼ ${invoice.discount}</span>
+        <span class="amt-val disc">− ﷼ ${formatAmount(invoice.discount)}</span>
       </div>
       <div class="amt-row">
         <span class="amt-lbl">ضريبة القيمة المضافة (%${invoice.vatPercent})</span>
-        <span class="amt-val">﷼ ${vat.toFixed(2)}</span>
+        <span class="amt-val">﷼ ${formatAmount(vat)}</span>
       </div>
     </div>
 
     <div class="total-row">
       <span class="total-lbl">الإجمالي المستحق</span>
-      <span class="total-val">﷼ ${invoice.total}</span>
+      <span class="total-val">﷼ ${formatAmount(invoice.total)}</span>
     </div>
 
     <div class="note">
