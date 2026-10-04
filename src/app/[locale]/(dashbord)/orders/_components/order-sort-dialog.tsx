@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import {
@@ -31,6 +31,7 @@ export default function OrderSortDialog({
 }: OrderSortDialogProps) {
   const t = useTranslations("piece_types");
   const tSort = useTranslations("orders.sort");
+  const locale = useLocale();
   const [selected, setSelected] = useState<PieceEntry[]>([]);
   const { mutate: sort, isPending: isLoading } = useSortOrder();
 
@@ -85,7 +86,10 @@ export default function OrderSortDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm p-0 gap-0 overflow-hidden" dir="rtl">
+      <DialogContent
+        className="sm:max-w-2xl p-0 gap-0 overflow-hidden"
+        dir={locale === "ar" ? "rtl" : "ltr"}
+      >
         <DialogHeader className="px-5 pt-5 pb-4 border-b">
           <h2 className="text-base font-bold text-[#000709] mt-5">
             {tSort("dialog_title")} {orderId}
@@ -105,10 +109,10 @@ export default function OrderSortDialog({
           </div>
 
           <div>
-            <p className="text-xs text-gray-400 mb-3 text-left">
+            <p className="text-xs text-gray-400 mb-3">
               {tSort("select_types")}
             </p>
-            <div className="space-y-3 max-h-72 overflow-y-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[55vh] overflow-y-auto pe-1">
               {PIECE_TYPE_KEYS.map((key) => (
                 <PieceTypeRow
                   key={key}
