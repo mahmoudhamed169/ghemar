@@ -3,6 +3,7 @@
 import { useTranslations, useLocale } from "next-intl";
 import { CustomerDetail } from "@/shared/lib/types/customers";
 import { CheckCircle, XCircle } from "lucide-react";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
 interface Props {
   customer: CustomerDetail;
@@ -19,7 +20,7 @@ export default function CustomerDetailsInfo({ customer }: Props) {
   const fields = [
     {
       key: "joinDate",
-      value: new Date(customer.createdAt).toLocaleDateString("en-GB"),
+      value: formatRiyadhDate(customer.createdAt, "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" }) ?? "—",
     },
     {
       key: "clientCode",

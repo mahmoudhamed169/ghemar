@@ -1,14 +1,10 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { DriverDetail } from "@/shared/lib/types/drivers/driver";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr?: string) {
-  if (!dateStr) return "—";
-  return new Date(dateStr).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return formatRiyadhDate(dateStr, "ar-SA", { year: "numeric", month: "long", day: "numeric" }) ?? "—";
 }
 
 function InfoCard({

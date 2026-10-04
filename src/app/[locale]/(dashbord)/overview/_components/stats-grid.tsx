@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Truck, DollarSign, Activity, ShoppingBag } from "lucide-react";
 import { OverviewCards } from "@/shared/lib/types/overview/overview";
 import { formatCurrency, formatNumber, formatSigned } from "../_lib/format";
-import StatCard from "./stat-card";
+import StatCard from "@/shared/components/stats/stat-card";
 
 export default async function StatsGrid({ cards }: { cards: OverviewCards }) {
   const t = await getTranslations("overview");

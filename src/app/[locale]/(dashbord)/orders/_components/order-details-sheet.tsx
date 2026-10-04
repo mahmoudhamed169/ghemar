@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
+import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 
 interface OrderDetailsSheetProps {
   order: Order;
@@ -44,22 +45,13 @@ function buildAddress(address?: NonNullable<Order["pickup"]>["address"]) {
 }
 
 function formatDate(dateStr?: string) {
-  if (!dateStr) return null;
-  return new Date(dateStr).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return formatRiyadhDate(dateStr, "ar-SA", { year: "numeric", month: "long", day: "numeric" });
 }
 
 function formatDateTime(dateStr?: string) {
-  if (!dateStr) return null;
-  const d = new Date(dateStr);
-  return (
-    d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" }) +
-    " " +
-    d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })
-  );
+  const date = formatRiyadhDate(dateStr, "ar-SA");
+  const time = formatRiyadhTime(dateStr, "ar-SA");
+  return date && time ? `${date} ${time}` : null;
 }
 
 /* ─── print ─── */
@@ -70,15 +62,8 @@ function buildReceiptHTML(
   statusLabel: string,
 ): string {
   const pickupAddress = buildAddress(order.pickup.address);
-  const createdDate = new Date(order.createdAt).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const createdTime = new Date(order.createdAt).toLocaleTimeString("ar-SA", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const createdDate = formatDate(order.createdAt);
+  const createdTime = formatRiyadhTime(order.createdAt, "ar-SA");
   const hr = `<hr/>`;
 
   function row(label: string, value?: string | number | null, ltr = false) {
@@ -222,9 +207,8 @@ function ActivityTimeline({ order, ts }: { order: Order; ts: (k: string) => stri
 
       <div className="space-y-1">
         {sorted.map((entry, i) => {
-          const date = new Date(entry.timestamp);
-          const dateStr = date.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
-          const timeStr = date.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+          const dateStr = formatRiyadhDate(entry.timestamp, "ar-SA");
+          const timeStr = formatRiyadhTime(entry.timestamp, "ar-SA");
           const actorLabel = ACTOR_MODEL_AR[entry.actorModel] ?? entry.actorModel;
           const statusLabel = ts(entry.status as Parameters<typeof ts>[0]);
 

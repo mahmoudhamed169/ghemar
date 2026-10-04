@@ -2,11 +2,11 @@ import { getTranslations } from "next-intl/server";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getRedeemHistory } from "@/shared/lib/services/rewards/get-redeem-history";
 import RedeemActions from "./redeem-actions";
+import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr: string) {
-  const d = new Date(dateStr);
-  const date = d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
-  const time = d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+  const date = formatRiyadhDate(dateStr, "ar-SA") ?? "";
+  const time = formatRiyadhTime(dateStr, "ar-SA") ?? "";
   return { date, time };
 }
 

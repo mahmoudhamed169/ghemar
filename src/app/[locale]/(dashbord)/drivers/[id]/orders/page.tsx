@@ -32,7 +32,8 @@ export default async function DriverOrdersPage({ params, searchParams }: Props) 
     driverId,
   });
 
-  const totalPages = Math.ceil(pagination.total / Number(pagination.limit));
+  const pageSize = Number(pagination.limit) || orders.length;
+  const totalPages = Math.ceil(pagination.total / pageSize);
   const name = resolved.name ? decodeURIComponent(resolved.name) : null;
 
   return (
@@ -43,7 +44,7 @@ export default async function DriverOrdersPage({ params, searchParams }: Props) 
       </h1>
       <OrdersFilters />
       <OrdersStatusFilter variant="unified" />
-      <OrdersTable orders={orders} page={currentPage} totalPages={totalPages} />
+      <OrdersTable orders={orders} page={currentPage} pageSize={pageSize} totalPages={totalPages} />
       <AutoRefresh intervalMs={2000} />
     </main>
   );

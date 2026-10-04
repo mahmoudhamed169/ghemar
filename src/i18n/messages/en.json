@@ -178,6 +178,11 @@
         "delivered": "Delivered",
         "inProgress": "In Progress"
       }
+    },
+    "stats": {
+      "totalCustomers": "Total customers",
+      "allCustomers": "All registered customers",
+      "matchingFilters": "Matching current search & filters"
     }
   },
   "orders": {
@@ -236,7 +241,8 @@
       "no_delivery_date": "Delivery Pending",
       "priority_express": "Express",
       "priority_normal": "Normal",
-      "no_value": "—"
+      "no_value": "—",
+      "slot_not_set": "Not set"
     },
     "details": {
       "order_number_label": "Order Number",
@@ -330,6 +336,12 @@
       "already_sorted": "Already sorted",
       "start": "Start sorting",
       "done": "Sorted"
+    },
+    "stats": {
+      "total": "Total orders",
+      "active": "Active orders",
+      "completed": "Completed orders",
+      "problem": "Orders with issues"
     }
   },
   "drivers": {
@@ -429,6 +441,13 @@
       "edit_loading": "Saving...",
       "edit_confirm": "Save Changes",
       "edit_modal_title": "Edit Driver"
+    },
+    "stats": {
+      "total": "Total drivers",
+      "active": "Active drivers",
+      "available": "Available now",
+      "availableHint": "Online with no current order",
+      "suspended": "Suspended drivers"
     }
   },
   "admins": {
@@ -1050,5 +1069,9 @@
     "swimwear": "Swimwear",
     "kids_clothing": "Kids Clothing",
     "bag": "Bag"
+  },
+  "stats": {
+    "error": "Couldn't load statistics",
+    "retry": "Try again"
   }
 }
