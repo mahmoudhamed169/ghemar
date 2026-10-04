@@ -55,7 +55,9 @@ export default async function OrdersTableBody({ orders, page }: Props) {
 
   return (
     <TableBody>
-      {orders.map((order: Order, index: number) => (
+      {orders.map((order: Order, index: number) => {
+        const district = order.pickup?.address?.area || order.delivery?.address?.area;
+        return (
         <TableRow
           key={order._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
@@ -65,14 +67,24 @@ export default async function OrdersTableBody({ orders, page }: Props) {
           </TableCell>
 
           <TableCell className="text-center font-medium text-sm">
-            <div className="flex items-center justify-center gap-1.5">
-              {order.orderNumber}
-              {order.hasBagsDifference && (
-                <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-sm px-2 py-1 rounded-full font-bold shrink-0">
-                  <ShoppingBag className="w-4 h-4" />
-                  {order.bagsDifferenceCount}
+            <div className="flex flex-col items-center gap-1">
+              <span
+                className="max-w-44 truncate text-sm font-semibold text-[#000709]"
+                title={order.client?.name || undefined}
+              >
+                {order.client?.name || t("no_value")}
+              </span>
+              <div className="flex items-center justify-center gap-1.5">
+                <span className="text-xs text-gray-500" dir="ltr">
+                  {order.orderNumber}
                 </span>
-              )}
+                {order.hasBagsDifference && (
+                  <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-full font-bold shrink-0">
+                    <ShoppingBag className="w-3.5 h-3.5" />
+                    {order.bagsDifferenceCount}
+                  </span>
+                )}
+              </div>
             </div>
           </TableCell>
 
@@ -114,7 +126,19 @@ export default async function OrdersTableBody({ orders, page }: Props) {
           </TableCell>
 
           <TableCell className="text-center text-sm">
-            {order.branchId?.nameAr || order.branchId?.name || <span className="text-gray-300">—</span>}
+            <div className="flex flex-col items-center gap-0.5">
+              <span>
+                {order.branchId?.nameAr || order.branchId?.name || (
+                  <span className="text-gray-300">{t("no_value")}</span>
+                )}
+              </span>
+              <span
+                className="max-w-40 truncate text-xs text-gray-400"
+                title={district || undefined}
+              >
+                {district || t("no_value")}
+              </span>
+            </div>
           </TableCell>
 
           <TableCell className="text-center font-medium">
@@ -134,14 +158,14 @@ export default async function OrdersTableBody({ orders, page }: Props) {
               orderId={order._id}
               currentStatus={order.status}
               orderType={order.orderType}
-              isSorted={order.sortedItems.length > 0}
+              isSorted={(order.sortedItems?.length ?? 0) > 0}
             />
           </TableCell>
 
           <TableCell className="text-center">
             <OrderSortAction
               orderId={order._id}
-              isSorted={order.sortedItems.length > 0}
+              isSorted={(order.sortedItems?.length ?? 0) > 0}
               status={order.status}
             />
           </TableCell>
@@ -150,7 +174,8 @@ export default async function OrdersTableBody({ orders, page }: Props) {
             <OrderActions order={order} />
           </TableCell>
         </TableRow>
-      ))}
+        );
+      })}
     </TableBody>
   );
 }

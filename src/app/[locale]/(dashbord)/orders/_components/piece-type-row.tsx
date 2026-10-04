@@ -25,7 +25,7 @@ export default memo(function PieceTypeRow({
   return (
     <div
       onClick={() => onToggle(typeKey)}
-      className={`flex items-center justify-between p-3 rounded-xl border transition-all cursor-pointer select-none
+      className={`flex items-center justify-between gap-2 px-3 py-2 min-h-[52px] rounded-xl border transition-all cursor-pointer select-none
         ${
           checked
             ? "border-[#0C6175] bg-teal-50/50"

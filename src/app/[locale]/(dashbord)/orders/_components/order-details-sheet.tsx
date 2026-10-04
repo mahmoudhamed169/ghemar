@@ -20,6 +20,7 @@ import {
   Check,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
 
 interface OrderDetailsSheetProps {
   order: Order;
@@ -86,9 +87,9 @@ function buildReceiptHTML(
   }
 
   const bagsSection =
-    order.bags.length > 0
+    (order.bags?.length ?? 0) > 0
       ? `${hr}<div class="center bold" style="font-size:10px">${r("bag_barcodes")}</div>
-       ${order.bags.map((b) => `<div class="center" style="font-family:monospace;font-size:10px;letter-spacing:1px;margin:3px 0">${b.barcode}</div>`).join("")}`
+       ${(order.bags ?? []).map((b) => `<div class="center" style="font-family:monospace;font-size:10px;letter-spacing:1px;margin:3px 0">${b.barcode}</div>`).join("")}`
       : "";
 
   return `<!DOCTYPE html>
@@ -274,7 +275,7 @@ export default function OrderDetailsSheet({
   const t = useTranslations("orders.details");
   const r = useTranslations("orders.receipt");
   const ts = useTranslations("orders.status");
-  const pt = useTranslations("piece_types");
+  const pieceTypeLabel = usePieceTypeLabel();
 
   const [activeTab, setActiveTab] = useState<"details" | "activity">("details");
 
@@ -282,7 +283,7 @@ export default function OrderDetailsSheet({
   const pickupCoords = order.pickup.address?.coordinates;
   const pickupAddress = buildAddress(order.pickup.address);
   const deliveryAddress = buildAddress(order.delivery.address);
-  const hasBags = order.bags.length > 0;
+  const hasBags = (order.bags?.length ?? 0) > 0;
 
   const handlePrint = () => {
     const win = window.open(
@@ -571,14 +572,14 @@ export default function OrderDetailsSheet({
           </div>
 
           <SectionTitle>{t("sorted_items")}</SectionTitle>
-          {order.sortedItems.length === 0 ? (
+          {(order.sortedItems?.length ?? 0) === 0 ? (
             <div className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5">
               <Shirt className="w-4 h-4 text-gray-300 shrink-0" />
               <span className="text-sm text-gray-400">{t("sorting_not_started")}</span>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-2">
-              {order.sortedItems.map((item) => (
+              {(order.sortedItems ?? []).map((item) => (
                 <div
                   key={item._id}
                   className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5"
@@ -586,7 +587,7 @@ export default function OrderDetailsSheet({
                   <Shirt className="w-4 h-4 text-[#0C6175] shrink-0" />
                   <div className="flex flex-col gap-0.5 min-w-0">
                     <span className="text-xs text-gray-400 truncate">
-                      {pt(item.itemType as Parameters<typeof pt>[0])}
+                      {pieceTypeLabel(item.itemType)}
                     </span>
                     <span className="text-sm font-bold text-[#0C6175]">
                       × {item.count}
@@ -601,7 +602,7 @@ export default function OrderDetailsSheet({
             <>
               <SectionTitle>{t("bag_barcodes")}</SectionTitle>
               <div className="grid grid-cols-2 gap-3">
-                {order.bags.map((bag) => (
+                {(order.bags ?? []).map((bag) => (
                   <div
                     key={bag.bagId}
                     className="bg-gray-50 rounded-xl p-3 flex flex-col items-center gap-1"
