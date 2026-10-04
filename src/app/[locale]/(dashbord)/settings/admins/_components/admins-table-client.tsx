@@ -8,6 +8,7 @@ import AdminsTableHeader from "./admins-table-header";
 import AdminStatusToggle from "./admin-status-toggle";
 import AdminActions from "./admin-actions";
 import AdminModal from "./admin-modal";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 import { useDeleteAdmin } from "@/shared/lib/hooks/admins/use-admin-mutations";
 
 interface AdminsTableClientProps {
@@ -24,12 +25,7 @@ export default function AdminsTableClient({ admins, branches }: AdminsTableClien
     return branches.find((b) => b._id === branchId)?.nameAr ?? "—";
   };
 
-  const formatDate = (dateStr: string) =>
-    new Date(dateStr).toLocaleDateString("ar-SA", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const formatDate = (dateStr: string) => formatRiyadhDate(dateStr, "ar-SA");
 
   if (!admins.length) {
     return (

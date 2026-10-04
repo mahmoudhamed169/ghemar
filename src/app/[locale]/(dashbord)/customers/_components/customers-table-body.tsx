@@ -3,18 +3,16 @@ import { Switch } from "@/components/ui/switch";
 import { getTranslations, getLocale } from "next-intl/server";
 
 import CustomerActions from "./customer-actions";
-import { getCustomers } from "@/shared/lib/services/customers/get-customers";
 import { Customer } from "@/shared/lib/types/customers";
 
 interface Props {
-  page: number;
-  search: string;
-  branchId?: string;
+  customers: Customer[];
+  /** rows before this page: (page - 1) * pageSize */
+  offset: number;
 }
 
-export default async function CustomersTableBody({ page, search, branchId }: Props) {
-  const [{ data: customers }, t, locale] = await Promise.all([
-    getCustomers({ page, search, branchId }),
+export default async function CustomersTableBody({ customers, offset }: Props) {
+  const [t, locale] = await Promise.all([
     getTranslations("customers.table"),
     getLocale(),
   ]);
@@ -27,7 +25,7 @@ export default async function CustomersTableBody({ page, search, branchId }: Pro
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
           <TableCell className="text-center text-sm text-gray-500">
-            {(page - 1) * 20 + index + 1}
+            {offset + index + 1}
           </TableCell>
           <TableCell className="text-center font-medium text-sm">
             {customer._id.slice(-6).toUpperCase()}

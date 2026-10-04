@@ -1,26 +1,17 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getTranslations, getLocale } from "next-intl/server";
 import { ShoppingBag } from "lucide-react";
+import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr: string, locale: string) {
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return dateStr;
-  return d.toLocaleDateString(locale === "ar" ? "ar-SA" : "en-GB", {
-    day: "numeric",
-    month: "short",
-  });
+  return formatRiyadhDate(dateStr, locale, { day: "numeric", month: "short" }) ?? dateStr;
 }
 
 function formatTime(timeStr: string, locale: string) {
   if (!timeStr) return null;
+  // plain "HH:mm" values are already local slot times
   if (/^\d{2}:\d{2}/.test(timeStr)) return timeStr.slice(0, 5);
-  const d = new Date(timeStr);
-  if (isNaN(d.getTime())) return timeStr;
-  return d.toLocaleTimeString(locale === "ar" ? "ar-SA" : "en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: locale === "ar",
-  });
+  return formatRiyadhTime(timeStr, locale) ?? timeStr;
 }
 import OrderPriorityBadge from "./order-priority-badge";
 import OrderStatusBadge from "./order-status-badge";
@@ -31,10 +22,11 @@ import OrderSortAction from "./order-sort-action";
 
 interface Props {
   orders: Order[];
-  page: number;
+  /** rows before this page: (page - 1) * pageSize */
+  offset: number;
 }
 
-export default async function OrdersTableBody({ orders, page }: Props) {
+export default async function OrdersTableBody({ orders, offset }: Props) {
   const t = await getTranslations("orders.table");
   const locale = await getLocale();
 
@@ -63,7 +55,7 @@ export default async function OrdersTableBody({ orders, page }: Props) {
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
           <TableCell className="text-center text-sm text-gray-500">
-            {(page - 1) * 20 + index + 1}
+            {offset + index + 1}
           </TableCell>
 
           <TableCell className="text-center font-medium text-sm">
@@ -112,10 +104,12 @@ export default async function OrdersTableBody({ orders, page }: Props) {
             {order.delivery?.scheduledDate ? (
               <div className="flex flex-col items-center leading-tight gap-0.5">
                 <span className="text-lg font-semibold text-gray-800">{formatDate(order.delivery.scheduledDate, locale)}</span>
-                {order.chosenDeliverySlot && (
-                  <span className="text-gray-400 text-base font-medium">
+                {order.chosenDeliverySlot ? (
+                  <span className="text-gray-400 text-base font-medium whitespace-nowrap">
                     {formatTime(order.chosenDeliverySlot.start, locale)} – {formatTime(order.chosenDeliverySlot.end, locale)}
                   </span>
+                ) : (
+                  <span className="text-gray-400 text-sm">{t("slot_not_set")}</span>
                 )}
               </div>
             ) : (

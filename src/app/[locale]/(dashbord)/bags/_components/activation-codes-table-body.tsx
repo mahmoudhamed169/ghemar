@@ -1,11 +1,11 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ActivationCode } from "@/shared/lib/types/bags/activation-code";
 import ActivationCodePrintButton from "./activation-code-print-button";
+import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr: string) {
-  const d = new Date(dateStr);
-  const date = d.toLocaleDateString("ar-SA", { year: "numeric", month: "short", day: "numeric" });
-  const time = d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+  const date = formatRiyadhDate(dateStr, "ar-SA") ?? "";
+  const time = formatRiyadhTime(dateStr, "ar-SA") ?? "";
   return { date, time };
 }
 

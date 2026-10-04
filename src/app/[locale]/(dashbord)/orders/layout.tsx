@@ -1,6 +1,4 @@
 import React from "react";
-import OrdersFilters from "./_components/orders-filter";
-import OrdersStatusFilter from "./_components/orders-status-filter";
 import AutoRefresh from "@/shared/components/auto-refresh";
 import { revalidateOrders } from "@/shared/lib/actions/orders/revalidate-orders";
 
@@ -15,8 +13,6 @@ export default function OrdersLayout({ children }: { children: React.ReactNode }
           showButton
         />
       </div>
-      <OrdersFilters />
-      <OrdersStatusFilter variant="unified" />
       {children}
     </main>
   );

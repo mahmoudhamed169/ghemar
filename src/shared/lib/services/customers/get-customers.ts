@@ -2,11 +2,13 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth"
 import { CustomersParams, CustomersResponse } from "../../types/customers"
 
-const EMPTY: CustomersResponse = { success: true, message: "", data: [], pagination: { page: "1", limit: "7", total: 0 } };
+export const CUSTOMERS_PAGE_SIZE = 20;
+
+const EMPTY: CustomersResponse = { success: true, message: "", data: [], pagination: { page: "1", limit: String(CUSTOMERS_PAGE_SIZE), total: 0 } };
 
 export async function getCustomers({
   page = 1,
-  limit = 7,
+  limit = CUSTOMERS_PAGE_SIZE,
   search = "",
   branchId,
 }: CustomersParams = {}): Promise<CustomersResponse> {

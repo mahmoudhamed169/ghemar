@@ -178,6 +178,11 @@
         "delivered": "تم التوصيل",
         "inProgress": "جارٍ"
       }
+    },
+    "stats": {
+      "totalCustomers": "إجمالي العملاء",
+      "allCustomers": "كل العملاء المسجلين",
+      "matchingFilters": "حسب البحث والفلاتر الحالية"
     }
   },
   "orders": {
@@ -236,7 +241,8 @@
       "no_delivery_date": "لم يتم التسليم",
       "priority_express": "مستعجل",
       "priority_normal": "عادي",
-      "no_value": "—"
+      "no_value": "—",
+      "slot_not_set": "غير محدد"
     },
     "details": {
       "order_number_label": "رقم الطلب",
@@ -330,6 +336,12 @@
       "already_sorted": "تم الفرز مسبقاً",
       "start": "بدأ الفرز",
       "done": "تم الفرز"
+    },
+    "stats": {
+      "total": "إجمالي الطلبات",
+      "active": "الطلبات النشطة",
+      "completed": "الطلبات المكتملة",
+      "problem": "طلبات فيها مشكلة"
     }
   },
   "drivers": {
@@ -429,6 +441,13 @@
       "edit_loading": "جاري الحفظ...",
       "edit_confirm": "حفظ التعديلات",
       "edit_modal_title": "تعديل بيانات السائق"
+    },
+    "stats": {
+      "total": "إجمالي السائقين",
+      "active": "السائقون النشطون",
+      "available": "متاحون الآن",
+      "availableHint": "متصلون وبدون طلب حالي",
+      "suspended": "السائقون الموقوفون"
     }
   },
   "admins": {
@@ -1050,5 +1069,9 @@
         "saveError": "حدث خطأ أثناء الحفظ"
       }
     }
+  },
+  "stats": {
+    "error": "تعذّر تحميل الإحصائيات",
+    "retry": "إعادة المحاولة"
   }
 }

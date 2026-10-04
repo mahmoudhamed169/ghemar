@@ -4,11 +4,15 @@ import CodeStatusBadge from "./code-status-badge";
 import ActiveToggle from "./active-toggle";
 import EditCodeButton from "./edit-discount-code/edit-code-button";
 import { getPromoCodes } from "@/shared/lib/services/promocode/get-promo-codes";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
 function formatExpiryDate(dateStr: string, locale: string): string {
-  return new Date(dateStr).toLocaleDateString(
-    locale === "ar" ? "ar-SA" : "en-US",
-    { year: "numeric", month: "long", day: "numeric" },
+  return (
+    formatRiyadhDate(dateStr, locale === "ar" ? "ar-SA" : "en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }) ?? dateStr
   );
 }
 

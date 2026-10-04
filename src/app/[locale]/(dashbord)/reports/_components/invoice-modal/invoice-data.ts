@@ -1,14 +1,10 @@
 import { Invoice } from "@/shared/lib/types/reports/invoice";
 import type { InvoiceData } from "./invoice-modal";
+import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
 export function formatInvoiceDate(date?: string, locale = "ar") {
-  if (!date) return "-";
-
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(new Date(date));
+  // invoices keep Latin digits in Arabic, as before
+  return formatRiyadhDate(date, locale === "ar" ? "ar-u-nu-latn" : locale) ?? "-";
 }
 
 /** money values always show two decimals: 174.29999999999998 → "174.30" */

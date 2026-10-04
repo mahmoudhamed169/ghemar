@@ -3,15 +3,10 @@ import { getNotifications } from "@/shared/lib/services/notifications/get-notifi
 import { Bell } from "lucide-react";
 import { Notification } from "@/shared/lib/types/notifications/notification";
 import Pagination from "@/shared/components/pagination";
+import { formatRiyadhDateTime } from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return formatRiyadhDateTime(dateStr, "ar-SA") ?? "";
 }
 
 const TYPE_STYLES: Record<string, string> = {
