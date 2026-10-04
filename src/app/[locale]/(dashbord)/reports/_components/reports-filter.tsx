@@ -24,7 +24,12 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Invoice } from "@/shared/lib/types/reports/invoice";
-import { formatInvoiceDate, mapInvoiceToInvoiceData } from "./invoice-modal/invoice-data";
+import {
+  formatAmount,
+  formatInvoiceDate,
+  mapInvoiceToInvoiceData,
+  roundAmount,
+} from "./invoice-modal/invoice-data";
 
 /* ─── helpers ─── */
 
@@ -126,18 +131,18 @@ function buildInvoiceHtml(invoice: ReturnType<typeof mapInvoiceToInvoiceData>, i
       <div style="background:#f5fbfc;border-radius:12px;padding:16px 20px;border:1px solid #c5e8ef;">
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #c5e8ef;font-size:13px;">
           <span style="color:#4a7a85;font-weight:500;">المبلغ الأساسي</span>
-          <span style="font-weight:700;color:#000709;">﷼ ${invoice.baseAmount.toFixed(2)}</span>
+          <span style="font-weight:700;color:#000709;">﷼ ${formatAmount(invoice.baseAmount)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #c5e8ef;font-size:13px;">
           <span style="color:#4a7a85;font-weight:500;">الخصم</span>
-          <span style="font-weight:700;color:#c0392b;">− ﷼ ${invoice.discount}</span>
+          <span style="font-weight:700;color:#c0392b;">− ﷼ ${formatAmount(invoice.discount)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #c5e8ef;font-size:13px;">
           <span style="color:#4a7a85;font-weight:500;">ضريبة القيمة المضافة (%${invoice.vatPercent})</span>
-          <span style="font-weight:700;color:#000709;">﷼ ${vat.toFixed(2)}</span>
+          <span style="font-weight:700;color:#000709;">﷼ ${formatAmount(vat)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:14px 20px;background:#0C6175;border-radius:10px;">
-          <span style="font-size:22px;font-weight:700;color:#fff;">﷼ ${invoice.total}</span>
+          <span style="font-size:22px;font-weight:700;color:#fff;">﷼ ${formatAmount(invoice.total)}</span>
           <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);">الإجمالي المستحق</span>
         </div>
       </div>
@@ -199,9 +204,9 @@ function exportToExcel(invoices: Invoice[]) {
     "رقم الطلب": inv.orderId ?? "-",
     "الباقة": inv.packageId?.nameAr ?? inv.packageId?.name ?? "-",
     "تاريخ الإنشاء": formatInvoiceDate(inv.createdAt, "ar"),
-    "المبلغ": inv.amount,
+    "المبلغ": roundAmount(inv.amount),
     "العملة": inv.currency,
-    "الخصم": inv.discountAmount ?? 0,
+    "الخصم": roundAmount(inv.discountAmount),
     "الحالة": inv.status,
     "طريقة الدفع": inv.gateway ?? inv.method ?? "-",
   }));
