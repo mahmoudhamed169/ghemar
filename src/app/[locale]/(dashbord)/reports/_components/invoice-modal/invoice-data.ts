@@ -11,6 +11,16 @@ export function formatInvoiceDate(date?: string, locale = "ar") {
   }).format(new Date(date));
 }
 
+/** money values always show two decimals: 174.29999999999998 → "174.30" */
+export function formatAmount(value?: number | null) {
+  return (Number(value) || 0).toFixed(2);
+}
+
+/** rounds to two decimals but keeps a number (for Excel cells) */
+export function roundAmount(value?: number | null) {
+  return Math.round((Number(value) || 0) * 100) / 100;
+}
+
 export function getInvoicePackageName(invoice: Invoice, locale = "ar") {
   if (!invoice.packageId) return "-";
   return locale === "ar"
