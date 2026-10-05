@@ -11,6 +11,9 @@ interface AppSettingsFormProps {
 type FieldDef = {
   key: keyof GeneralSettings;
   type?: string;
+  min?: number;
+  step?: number;
+  hintKey?: string;
 };
 
 const FIELDS: FieldDef[] = [
@@ -19,6 +22,7 @@ const FIELDS: FieldDef[] = [
   { key: "supportPhone" },
   { key: "currency" },
   { key: "expressWashFee", type: "number" },
+  { key: "orderArrivalMinutes", type: "number", min: 0, step: 1, hintKey: "orderArrivalMinutesHint" },
 ];
 
 export default function AppSettingsForm({ data, onChange }: AppSettingsFormProps) {
@@ -34,19 +38,26 @@ export default function AppSettingsForm({ data, onChange }: AppSettingsFormProps
         paddingBottom: "24px",
       }}
     >
-      {FIELDS.map(({ key, type = "text" }) => (
+      {FIELDS.map(({ key, type = "text", min, step, hintKey }) => (
         <div key={key} className="flex flex-col gap-2">
           <label className="text-sm font-medium text-gray-700 text-right">
             {t(key)}
           </label>
           <input
             type={type}
+            min={min}
+            step={step}
             value={data[key] as string | number}
             onChange={(e) =>
               onChange(key, type === "number" ? Number(e.target.value) : e.target.value)
             }
             className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-right text-sm text-gray-600 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition"
           />
+          {hintKey && (
+            <p className="text-xs text-gray-400 text-right leading-relaxed">
+              {t(hintKey)}
+            </p>
+          )}
         </div>
       ))}
     </div>

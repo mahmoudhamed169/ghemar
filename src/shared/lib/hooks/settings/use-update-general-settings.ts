@@ -8,7 +8,7 @@ export function useUpdateGeneralSettings() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       data,
       logoFile,
     }: {
@@ -21,15 +21,21 @@ export function useUpdateGeneralSettings() {
       fd.append("supportPhone", data.supportPhone);
       fd.append("currency", data.currency);
       fd.append("expressWashFee", String(data.expressWashFee));
+      fd.append("orderArrivalMinutes", String(data.orderArrivalMinutes));
       if (logoFile) fd.append("appLogo", logoFile);
-      return updateGeneralSettingsAction(fd);
+
+      const result = await updateGeneralSettingsAction(fd);
+      if (!result.success) throw new Error(result.message ?? "");
+      return result;
     },
     onSuccess: () => {
       toast.success("تم حفظ الإعدادات بنجاح");
       router.refresh();
     },
-    onError: () => {
-      toast.error("حدث خطأ أثناء حفظ الإعدادات، حاول مرة أخرى");
+    onError: (error) => {
+      toast.error(
+        error.message || "حدث خطأ أثناء حفظ الإعدادات، حاول مرة أخرى",
+      );
     },
   });
 }
