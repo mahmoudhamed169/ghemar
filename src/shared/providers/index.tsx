@@ -4,6 +4,7 @@ import React from "react";
 import NextIntlProvider from "./components/next-intl.provider";
 import ReactQueryProvider from "./components/react-query.prodvider";
 import NextAuthProvider from "./components/next-auth-provider";
+import RealtimeNotificationsProvider from "./components/realtime-notifications-provider";
 import { Toaster } from "sonner";
 
 interface ProvidersProps {
@@ -25,7 +26,7 @@ export default function Providers({
         <NextAuthProvider>
           {/* <PushNotificationInit interests={["role-admin"]} /> */}
 
-          {children}
+          <RealtimeNotificationsProvider>{children}</RealtimeNotificationsProvider>
           <Toaster position="top-center" richColors duration={3000} />
         </NextAuthProvider>
       </ReactQueryProvider>
