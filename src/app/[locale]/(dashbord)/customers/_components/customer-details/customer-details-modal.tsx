@@ -7,6 +7,7 @@ import { useCustomer } from "@/shared/lib/hooks/customers/use-customer";
 import CustomerDetailsInfo from "./customer-details-info";
 import CustomerDetailsLocation from "./customer-details-location";
 import CustomerBagsEditor from "./customer-bags-editor";
+import CustomerBagsHistory from "./customer-bags-history";
 import CustomerEditForm from "./customer-edit-form";
 import CustomerRecentOrders from "./customer-recent-orders";
 
@@ -47,7 +48,13 @@ export default function CustomerDetailsModal({ open, onOpenChange, customerId }:
 
             <CustomerDetailsInfo customer={customer} />
             <CustomerEditForm customer={customer} customerId={customerId} />
-            <CustomerBagsEditor customer={customer} customerId={customerId} />
+            {/* keyed so the editor picks up counts changed by "add bags" */}
+            <CustomerBagsEditor
+              key={`${customer.purchasedBarcodesCount}-${customer.receivedBagsCount}`}
+              customer={customer}
+              customerId={customerId}
+            />
+            <CustomerBagsHistory customer={customer} customerId={customerId} />
             <CustomerRecentOrders orders={recentOrders} />
             <CustomerDetailsLocation customer={customer} />
           </>

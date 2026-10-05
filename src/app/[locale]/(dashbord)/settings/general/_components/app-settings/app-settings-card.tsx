@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { GeneralSettings } from "@/shared/lib/types/settings/general-settings";
 import { useUpdateGeneralSettings } from "@/shared/lib/hooks/settings/use-update-general-settings";
 import AppSettingsHeader from "./app-settings-header";
@@ -12,7 +14,12 @@ interface AppSettingsCardProps {
 }
 
 export default function AppSettingsCard({ initialData }: AppSettingsCardProps) {
-  const [data, setData] = useState<GeneralSettings>(initialData);
+  const t = useTranslations("Settings.general.appSettings");
+  const initial: GeneralSettings = {
+    ...initialData,
+    orderArrivalMinutes: initialData.orderArrivalMinutes ?? 0,
+  };
+  const [data, setData] = useState<GeneralSettings>(initial);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const { mutate: updateSettings, isPending } = useUpdateGeneralSettings();
 
@@ -21,11 +28,15 @@ export default function AppSettingsCard({ initialData }: AppSettingsCardProps) {
   };
 
   const handleSave = () => {
+    if (!Number.isInteger(data.orderArrivalMinutes) || data.orderArrivalMinutes < 0) {
+      toast.error(t("orderArrivalMinutesInvalid"));
+      return;
+    }
     updateSettings({ data, logoFile });
   };
 
   const handleCancel = () => {
-    setData(initialData);
+    setData(initial);
     setLogoFile(null);
   };
 

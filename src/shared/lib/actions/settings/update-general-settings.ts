@@ -3,11 +3,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidateTag } from "next/cache";
-import { GeneralSettingsResponse } from "../../types/settings/general-settings";
+import { UpdateGeneralSettingsResult } from "../../types/settings/general-settings";
 
 export async function updateGeneralSettingsAction(
   formData: FormData,
-): Promise<GeneralSettingsResponse> {
+): Promise<UpdateGeneralSettingsResult> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
@@ -20,9 +20,12 @@ export async function updateGeneralSettingsAction(
     },
   );
 
-  if (!res.ok) throw new Error(`Failed to update general settings: ${res.status}`);
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    return { success: false, message: data?.message };
+  }
 
   revalidateTag("general-settings", "default");
 
-  return res.json();
+  return { success: true };
 }
