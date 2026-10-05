@@ -238,7 +238,7 @@
       "no_orders": "لا توجد طلبات",
       "no_driver": "في انتظار تعيين سائق",
       "no_pickup_date": "لم يتم الاستلام",
-      "no_delivery_date": "لم يتم التسليم",
+      "no_delivery_date": "لم يحدد موعد بعد",
       "priority_express": "مستعجل",
       "priority_normal": "عادي",
       "no_value": "—",
@@ -689,7 +689,13 @@
       "typeNewOrder": "طلب جديد",
       "typeExpressOrder": "طلب سريع",
       "typeDeliveryDueNoDriver": "تسليم بدون سائق",
-      "typeOverdueUnassigned": "طلب متأخر"
+      "typeOverdueUnassigned": "طلب متأخر",
+      "typeSystem": "النظام",
+      "typeOther": "إشعار",
+      "markAllRead": "تعليم الكل كمقروء",
+      "markAllReadError": "تعذر تعليم الإشعارات كمقروءة، حاول مرة أخرى",
+      "muteSound": "كتم صوت الإشعارات",
+      "unmuteSound": "تشغيل صوت الإشعارات"
     }
   },
   "Packages": {

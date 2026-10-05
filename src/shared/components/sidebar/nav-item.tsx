@@ -6,10 +6,11 @@ import { useState } from "react";
 import type { NavItemType } from "./nav-items";
 
 interface NavItemProps extends NavItemType {
+  badge?: number;
   onClose?: () => void;
 }
 
-export default function NavItem({ labelKey, href, icon: Icon, children, onClose }: NavItemProps) {
+export default function NavItem({ labelKey, href, icon: Icon, children, badge, onClose }: NavItemProps) {
   const t = useTranslations("sidebar");
   const pathname = usePathname();
   const isActive = pathname === href || pathname.startsWith(href + "/");
@@ -78,6 +79,11 @@ export default function NavItem({ labelKey, href, icon: Icon, children, onClose 
       >
         <Icon size={18} className={isActive ? "text-[#F5A623]" : "text-white/65"} />
         <span className="flex-1">{t(labelKey)}</span>
+        {!!badge && (
+          <span className="min-w-6 h-6 px-1.5 rounded-full bg-[#F5A623] text-white text-xs font-bold flex items-center justify-center tabular-nums">
+            {badge > 99 ? "99+" : badge}
+          </span>
+        )}
         {isActive && <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]" />}
       </Link>
     </li>
