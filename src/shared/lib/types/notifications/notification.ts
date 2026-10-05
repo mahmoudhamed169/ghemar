@@ -5,12 +5,20 @@ export type NotificationType =
   | "delivery_due_no_driver"
   | "overdue_unassigned"
   | "order_update"
-  | "driver_alert";
+  | "driver_alert"
+  | "system"
+  // the backend may add new types — the UI falls back to a default look
+  | (string & {});
 
 export interface NotificationData {
   orderId?: string;
   orderNumber?: string;
+  event?: string;
   status?: string;
+  clientName?: string;
+  clientPhone?: string;
+  driverName?: string;
+  driverPhone?: string;
 }
 
 export interface Notification {

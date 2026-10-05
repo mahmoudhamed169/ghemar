@@ -635,7 +635,13 @@
       "typeNewOrder": "New Order",
       "typeExpressOrder": "Express Order",
       "typeDeliveryDueNoDriver": "Delivery Due No Driver",
-      "typeOverdueUnassigned": "Overdue Unassigned"
+      "typeOverdueUnassigned": "Overdue Unassigned",
+      "typeSystem": "System",
+      "typeOther": "Notification",
+      "markAllRead": "Mark all as read",
+      "markAllReadError": "Couldn't mark notifications as read, please try again",
+      "muteSound": "Mute notification sound",
+      "unmuteSound": "Unmute notification sound"
     }
   },
   "Packages": {
