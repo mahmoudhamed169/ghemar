@@ -35,6 +35,7 @@ export const PIECE_TYPE_KEYS = [
   "pajama_trousers",
   "pants",
   "police_suit",
+  "medical_suit",
   "socks",
   "towel",
   "school_dress",

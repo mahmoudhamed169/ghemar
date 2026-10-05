@@ -102,6 +102,43 @@ export interface CustomerDetail {
   addresses: CustomerAddress[];
 }
 
+export interface AddCustomerBagsInput {
+  /** whole number from 1 to 1000 — additions only */
+  count: number;
+  reason?: string;
+}
+
+export interface AddCustomerBagsData {
+  userId: string;
+  addedBags: number;
+  availableBags: number;
+  purchasedBarcodesCount: number;
+  adjustmentId: string;
+}
+
+export interface AddCustomerBagsResult {
+  success: boolean;
+  message?: string;
+  data?: AddCustomerBagsData;
+}
+
+export interface CustomerBagsHistoryItem {
+  _id: string;
+  count: number;
+  reason?: string;
+  balanceBefore: number;
+  balanceAfter: number;
+  createdAt: string;
+  admin?: { _id: string; name?: string; phone?: string } | null;
+}
+
+export interface CustomerBagsHistoryResponse {
+  success: boolean;
+  message: string;
+  data: CustomerBagsHistoryItem[];
+  pagination: { page: number; limit: number; total: number };
+}
+
 export interface CustomerDetailResponse {
   success: boolean;
   message: string;
