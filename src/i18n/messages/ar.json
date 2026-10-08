@@ -90,6 +90,7 @@
     "reports": "الفواتير والتقارير المالية",
     "bonuses": "المكافآت والنقاط",
     "alerts": "الاشعارات",
+    "sentNotifications": "سجل الإشعارات المرسلة",
     "settings": "الاعدادات",
     "settingsGeneral": "الاعدادات العامة",
     "settingsOperations": "اعدادات التشغيل",
@@ -721,6 +722,59 @@
       "markAllReadError": "تعذر تعليم الإشعارات كمقروءة، حاول مرة أخرى",
       "muteSound": "كتم صوت الإشعارات",
       "unmuteSound": "تشغيل صوت الإشعارات"
+    }
+  },
+  "SentNotifications": {
+    "title": "سجل الإشعارات المرسلة",
+    "retentionNote": "{days, plural, one {الإشعارات تُحذف تلقائيًا بعد يوم واحد من إرسالها} two {الإشعارات تُحذف تلقائيًا بعد يومين من إرسالها} few {الإشعارات تُحذف تلقائيًا بعد # أيام من إرسالها} other {الإشعارات تُحذف تلقائيًا بعد # يومًا من إرسالها}}",
+    "refresh": "تحديث",
+    "refreshing": "جارٍ التحديث...",
+    "total": "إجمالي الإشعارات",
+    "empty": "{days, plural, one {لا توجد إشعارات مرسلة خلال آخر يوم} two {لا توجد إشعارات مرسلة خلال آخر يومين} few {لا توجد إشعارات مرسلة خلال آخر # أيام} other {لا توجد إشعارات مرسلة خلال آخر # يومًا}}",
+    "error": "تعذّر تحميل سجل الإشعارات",
+    "retry": "إعادة المحاولة",
+    "filters": {
+      "search": "ابحث في العنوان أو النص",
+      "recipientLabel": "المستلم",
+      "recipientAll": "الكل",
+      "typeLabel": "نوع الإشعار",
+      "typeAll": "كل الأنواع"
+    },
+    "table": {
+      "recipient": "المستلم",
+      "role": "النوع",
+      "type": "نوع الإشعار",
+      "title": "العنوان",
+      "body": "النص",
+      "sentAt": "وقت الإرسال",
+      "status": "الحالة",
+      "remaining": "الوقت الباقي",
+      "order": "الطلب"
+    },
+    "role": {
+      "client": "عميل",
+      "driver": "سائق"
+    },
+    "deletedAccount": "حساب محذوف",
+    "read": "مقروء",
+    "unread": "غير مقروء",
+    "openOrder": "فتح الطلب",
+    "remainingDays": "{count, plural, one {باقي يوم واحد} two {باقي يومان} few {باقي # أيام} other {باقي # يومًا}}",
+    "remainingHours": "{count, plural, one {باقي ساعة واحدة} two {باقي ساعتان} few {باقي # ساعات} other {باقي # ساعة}}",
+    "remainingLessThanHour": "باقي أقل من ساعة",
+    "types": {
+      "order_update": "تحديث طلب",
+      "driver_assigned": "تعيين سائق",
+      "bags_delivered": "تسليم الحقائب",
+      "delivery_complete": "اكتمال التسليم",
+      "payment_success": "دفع ناجح",
+      "payment_failed": "فشل الدفع",
+      "promo_offer": "عرض ترويجي",
+      "delay_alert": "تنبيه تأخير",
+      "driver_alert": "تنبيه سائق",
+      "new_order": "طلب جديد",
+      "system": "النظام",
+      "other": "إشعار"
     }
   },
   "Packages": {

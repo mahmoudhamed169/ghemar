@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Users, Home, ClipboardList,
   CreditCard, Percent, BarChart2, AlertCircle,
-  Settings, Tag, Map, type LucideIcon,
+  Settings, Tag, Map, History, type LucideIcon,
 } from "lucide-react";
 
 export interface NavItemType {
@@ -15,6 +15,7 @@ export interface NavItemType {
 export const navItems: NavItemType[] = [
   { labelKey: "overview",   href: "/overview",    icon: LayoutDashboard },
   { labelKey: "alerts",     href: "/alerts",      icon: AlertCircle },
+  { labelKey: "sentNotifications", href: "/sent-notifications", icon: History },
   { labelKey: "orders",     href: "/orders",      icon: ClipboardList },
   { labelKey: "customers",  href: "/customers",   icon: Users },
   { labelKey: "drivers",    href: "/drivers",     icon: Home },
