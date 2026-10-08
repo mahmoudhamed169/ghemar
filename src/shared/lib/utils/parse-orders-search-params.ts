@@ -6,6 +6,7 @@ interface RawSearchParams {
   status?: string;
   isExpressWash?: string;
   branchId?: string;
+  orderId?: string;
 }
 
 export function parseOrdersSearchParams(params: RawSearchParams) {
@@ -20,5 +21,10 @@ export function parseOrdersSearchParams(params: RawSearchParams) {
           ? false
           : undefined,
     currentBranchId: params.branchId ?? undefined,
+    // a Mongo id only — anything else would make the API fail
+    currentOrderId:
+      params.orderId && /^[a-f\d]{24}$/i.test(params.orderId)
+        ? params.orderId
+        : undefined,
   };
 }

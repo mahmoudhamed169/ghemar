@@ -8,12 +8,14 @@ interface AutoRefreshProps {
   intervalMs?: number
   action?: () => Promise<void>
   showButton?: boolean
+  title?: string
 }
 
 export default function AutoRefresh({
   intervalMs = 5000,
   action,
   showButton = false,
+  title = "تحديث الطلبات",
 }: AutoRefreshProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -60,7 +62,7 @@ export default function AutoRefresh({
       onClick={handleManualRefresh}
       disabled={isPending}
       className="flex items-center gap-2 text-sm text-white bg-[#0C6175] hover:bg-[#097188] px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
-      title="تحديث الطلبات"
+      title={title}
     >
       <RefreshCw
         className={`w-4 h-4 ${isPending ? "animate-spin" : ""}`}

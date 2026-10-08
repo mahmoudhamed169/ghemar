@@ -90,6 +90,7 @@
     "reports": "Invoices & Financial Reports",
     "bonuses": "Rewards & Points",
     "alerts": "Notifications",
+    "sentNotifications": "Sent Notifications Log",
     "settings": "Settings",
     "settingsGeneral": "General Settings",
     "settingsOperations": "Operation Settings",
@@ -666,6 +667,59 @@
       "markAllReadError": "Couldn't mark notifications as read, please try again",
       "muteSound": "Mute notification sound",
       "unmuteSound": "Unmute notification sound"
+    }
+  },
+  "SentNotifications": {
+    "title": "Sent Notifications Log",
+    "retentionNote": "{days, plural, one {Notifications are deleted automatically # day after they are sent} other {Notifications are deleted automatically # days after they are sent}}",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing...",
+    "total": "Total notifications",
+    "empty": "{days, plural, one {No notifications were sent in the last day} other {No notifications were sent in the last # days}}",
+    "error": "Could not load the sent notifications log",
+    "retry": "Try again",
+    "filters": {
+      "search": "Search title or text",
+      "recipientLabel": "Recipient",
+      "recipientAll": "All",
+      "typeLabel": "Notification type",
+      "typeAll": "All types"
+    },
+    "table": {
+      "recipient": "Recipient",
+      "role": "Role",
+      "type": "Notification type",
+      "title": "Title",
+      "body": "Text",
+      "sentAt": "Sent at",
+      "status": "Status",
+      "remaining": "Time left",
+      "order": "Order"
+    },
+    "role": {
+      "client": "Client",
+      "driver": "Driver"
+    },
+    "deletedAccount": "Deleted account",
+    "read": "Read",
+    "unread": "Unread",
+    "openOrder": "Open order",
+    "remainingDays": "{count, plural, one {# day left} other {# days left}}",
+    "remainingHours": "{count, plural, one {# hour left} other {# hours left}}",
+    "remainingLessThanHour": "Less than an hour left",
+    "types": {
+      "order_update": "Order update",
+      "driver_assigned": "Driver assigned",
+      "bags_delivered": "Bags delivered",
+      "delivery_complete": "Delivery complete",
+      "payment_success": "Payment successful",
+      "payment_failed": "Payment failed",
+      "promo_offer": "Promo offer",
+      "delay_alert": "Delay alert",
+      "driver_alert": "Driver alert",
+      "new_order": "New order",
+      "system": "System",
+      "other": "Notification"
     }
   },
   "Packages": {
