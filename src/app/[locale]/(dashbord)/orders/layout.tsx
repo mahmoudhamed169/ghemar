@@ -1,6 +1,7 @@
 import React from "react";
 import AutoRefresh from "@/shared/components/auto-refresh";
 import { revalidateOrders } from "@/shared/lib/actions/orders/revalidate-orders";
+import DeliveryEventsRefresher from "./_components/delivery-events-refresher";
 
 export default function OrdersLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function OrdersLayout({ children }: { children: React.ReactNode }
           showButton
         />
       </div>
+      <DeliveryEventsRefresher />
       {children}
     </main>
   );
