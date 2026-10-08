@@ -18,6 +18,10 @@ export function roundAmount(value?: number | null) {
 }
 
 export function getInvoicePackageName(invoice: Invoice, locale = "ar") {
+  // no package but tied to an order → the customer paid the urgent order fee
+  if (!invoice.packageId && invoice.orderId) {
+    return locale === "ar" ? "رسوم طلب مستعجل" : "Urgent order fee";
+  }
   if (!invoice.packageId) return "-";
   return locale === "ar"
     ? invoice.packageId.nameAr || invoice.packageId.name || "-"

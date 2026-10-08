@@ -36,7 +36,7 @@ export async function getRewardsPoints({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["rewards-points"] },
+      cache: "no-store",
     },
   );
 

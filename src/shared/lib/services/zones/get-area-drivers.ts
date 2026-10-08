@@ -16,7 +16,7 @@ export async function getAreaDrivers(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: [`area-drivers-${areaCode}`] },
+      cache: "no-store",
     },
   );
 

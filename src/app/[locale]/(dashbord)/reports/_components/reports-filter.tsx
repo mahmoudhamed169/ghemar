@@ -28,6 +28,7 @@ import {
   formatAmount,
   formatInvoiceDate,
   getInvoiceOrderNumber,
+  getInvoicePackageName,
   mapInvoiceToInvoiceData,
   roundAmount,
 } from "./invoice-modal/invoice-data";
@@ -203,7 +204,7 @@ function exportToExcel(invoices: Invoice[]) {
     "رقم الفاتورة": inv._id,
     "اسم العميل": inv.user?.name ?? "-",
     "رقم الطلب": getInvoiceOrderNumber(inv) || "-",
-    "الباقة": inv.packageId?.nameAr ?? inv.packageId?.name ?? "-",
+    "الباقة": getInvoicePackageName(inv, "ar"),
     "تاريخ الإنشاء": formatInvoiceDate(inv.createdAt, "ar"),
     "المبلغ": roundAmount(inv.amount),
     "العملة": inv.currency,
