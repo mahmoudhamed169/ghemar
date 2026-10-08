@@ -2,11 +2,13 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Bell, CheckCheck } from "lucide-react";
+import { Bell, CalendarCheck, CheckCheck, CheckCircle2, Clock, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Notification } from "@/shared/lib/types/notifications/notification";
 import { formatRiyadhDateTime } from "@/shared/lib/utils/riyadh-time";
 import { useRealtimeNotifications } from "@/shared/providers/components/realtime-notifications-provider";
+import { useRouter as useLocaleRouter } from "@/i18n/navigation";
+import { isDeliveryEvent } from "@/shared/lib/utils/delivery-events";
 
 const TYPE_STYLES: Record<string, string> = {
   new_order:              "bg-teal-50 text-teal-600",
@@ -26,6 +28,13 @@ const TYPE_LABEL_KEY: Record<string, string> = {
   order_update:           "typeOrderUpdate",
   driver_alert:           "typeDriverAlert",
   system:                 "typeSystem",
+};
+
+// delivery-slot alerts get their own icon; everything else keeps the bell
+const EVENT_ICONS: Record<string, { icon: LucideIcon; box: string; color: string }> = {
+  delivery_due_soon:    { icon: Clock,         box: "bg-amber-50",     color: "text-amber-600" },
+  delivery_due:         { icon: CheckCircle2,  box: "bg-emerald-50",   color: "text-emerald-600" },
+  delivery_time_chosen: { icon: CalendarCheck, box: "bg-[#0C6175]/10", color: "text-[#0C6175]" },
 };
 
 function NotificationCard({
@@ -48,16 +57,32 @@ function NotificationCard({
     ? notification.bodyAr || notification.body
     : notification.body || notification.bodyAr;
 
+  const localeRouter = useLocaleRouter();
+  const event = notification.data?.event;
+  const eventIcon = (event && EVENT_ICONS[event]) || null;
+  const Icon = eventIcon?.icon ?? Bell;
+  // a delivery-slot alert opens its order
+  const orderId = isDeliveryEvent(event) ? notification.data?.orderId : undefined;
+
+  function handleClick() {
+    if (unread) onRead();
+    if (orderId) localeRouter.push(`/orders?orderId=${encodeURIComponent(orderId)}`);
+  }
+
   return (
     <div
-      onClick={unread ? onRead : undefined}
+      onClick={unread || orderId ? handleClick : undefined}
       className={`bg-white rounded-2xl px-5 py-4 border shadow-sm flex items-start gap-4 ${
-        unread ? "border-[#0C6175]/40 cursor-pointer" : "border-gray-100"
-      }`}
+        unread ? "border-[#0C6175]/40" : "border-gray-100"
+      } ${unread || orderId ? "cursor-pointer" : ""}`}
     >
       {/* Icon */}
-      <div className="w-10 h-10 shrink-0 rounded-xl bg-[#0C6175]/10 flex items-center justify-center mt-0.5">
-        <Bell className="w-5 h-5 text-[#0C6175]" />
+      <div
+        className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center mt-0.5 ${
+          eventIcon?.box ?? "bg-[#0C6175]/10"
+        }`}
+      >
+        <Icon className={`w-5 h-5 ${eventIcon?.color ?? "text-[#0C6175]"}`} />
       </div>
 
       {/* Content */}

@@ -367,6 +367,36 @@
       "active": "Active orders",
       "completed": "Completed orders",
       "problem": "Orders with issues"
+    },
+    "delivery_time": {
+      "set": "Set delivery time",
+      "edit": "Edit delivery time",
+      "chosen_by_client": "Chosen by the client",
+      "chosen_by_admin": "Set by an admin",
+      "not_chosen": "No time chosen",
+      "due": "Delivery time reached",
+      "due_soon": "Less than an hour left",
+      "minutes_left": "{count, plural, one {# minute left} other {# minutes left}}",
+      "date": "Delivery date",
+      "start_time": "Start time",
+      "end_time": "End time",
+      "optional": "(optional)",
+      "hint": "Times are in Saudi time. If the end time is left empty it is set to two hours after the start.",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "success": "Delivery time set and the client was notified",
+      "errors": {
+        "start_required": "Choose the delivery date and start time",
+        "must_be_future": "The delivery time must be in the future",
+        "end_before_start": "The end time must be after the start time",
+        "client_already_chose": "The client has already chosen a delivery time",
+        "wrong_status": "A delivery time cannot be set in the current order status",
+        "invalid_date": "The date or time is not valid",
+        "other_branch": "This order belongs to another branch",
+        "not_found": "Order not found",
+        "unknown": "Could not save the delivery time, try again"
+      }
     }
   },
   "drivers": {
