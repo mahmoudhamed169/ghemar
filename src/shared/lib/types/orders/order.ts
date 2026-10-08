@@ -114,11 +114,19 @@ export interface LinkedBag {
   linkedAt?: string;
 }
 
-interface ChosenDeliverySlot {
+export interface ChosenDeliverySlot {
   start: string;
   end: string;
   chosenAt: string;
+  /** missing on older orders — treat as "client" */
+  chosenBy?: "client" | "admin";
 }
+
+/**
+ * Where the order stands against its delivery slot. null = not in a delivery
+ * stage (new, completed, cancelled, ...).
+ */
+export type DeliveryState = "not_chosen" | "scheduled" | "due_soon" | "due" | null;
 
 export interface Order {
   _id: string;
@@ -142,6 +150,10 @@ export interface Order {
   actualPickupTime?: string;
   deliveryTimeChosen?: boolean;
   chosenDeliverySlot?: ChosenDeliverySlot;
+  /** computed by the API at response time — recompute on screen as time passes */
+  deliveryState?: DeliveryState;
+  /** the admin may set / change the delivery time */
+  canSetDeliveryTime?: boolean;
   deliveryRemindersSent?: number;
   bags: LinkedBag[];
   sortedItems: SortedItem[];

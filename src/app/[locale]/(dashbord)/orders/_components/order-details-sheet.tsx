@@ -22,6 +22,7 @@ import {
 import { useTranslations } from "next-intl";
 import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
 import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
+import { DeliveryStateBadge, SetDeliveryTimeButton } from "./order-delivery-state";
 
 interface OrderDetailsSheetProps {
   order: Order;
@@ -259,6 +260,7 @@ export default function OrderDetailsSheet({
   const t = useTranslations("orders.details");
   const r = useTranslations("orders.receipt");
   const ts = useTranslations("orders.status");
+  const td = useTranslations("orders.delivery_time");
   const pieceTypeLabel = usePieceTypeLabel();
 
   const [activeTab, setActiveTab] = useState<"details" | "activity">("details");
@@ -483,13 +485,24 @@ export default function OrderDetailsSheet({
             {order.chosenDeliverySlot && (
               <div className="col-span-2">
                 <div className="bg-gray-50 rounded-xl px-3 py-2.5 flex flex-col gap-1">
-                  <span className="text-xs text-gray-400 font-medium">{t("delivery_slot")}</span>
+                  <span className="text-xs text-gray-400 font-medium">
+                    {t("delivery_slot")} ·{" "}
+                    {td(order.chosenDeliverySlot.chosenBy === "admin" ? "chosen_by_admin" : "chosen_by_client")}
+                  </span>
                   <div className="flex items-center gap-2 text-sm font-medium text-[#000709]" dir="ltr">
                     <span>{formatDateTime(order.chosenDeliverySlot.start)}</span>
                     <span className="text-gray-400 text-xs">{t("delivery_slot_to")}</span>
                     <span>{formatDateTime(order.chosenDeliverySlot.end)}</span>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Live delivery state + the admin's set/edit action */}
+            {(order.deliveryState || order.canSetDeliveryTime) && (
+              <div className="col-span-2 flex flex-wrap items-center gap-2">
+                <DeliveryStateBadge order={order} />
+                <SetDeliveryTimeButton order={order} className="ms-auto" />
               </div>
             )}
 

@@ -19,6 +19,12 @@ import OrderStatusChanger from "./order-status-changer";
 import OrderActions from "./order-actions";
 import { Order } from "@/shared/lib/types/orders/order";
 import OrderSortAction from "./order-sort-action";
+import {
+  DeliverySlotText,
+  DeliveryStateBadge,
+  OrderDeliveryRow,
+  SetDeliveryTimeButton,
+} from "./order-delivery-state";
 
 interface Props {
   orders: Order[];
@@ -49,11 +55,15 @@ export default async function OrdersTableBody({ orders, offset }: Props) {
     <TableBody>
       {orders.map((order: Order, index: number) => {
         const district = order.pickup?.address?.area || order.delivery?.address?.area;
+        // only what the delivery widgets need crosses to the client
+        const deliveryOrder = {
+          _id: order._id,
+          deliveryState: order.deliveryState,
+          chosenDeliverySlot: order.chosenDeliverySlot,
+          canSetDeliveryTime: order.canSetDeliveryTime,
+        };
         return (
-        <TableRow
-          key={order._id}
-          className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
-        >
+        <OrderDeliveryRow key={order._id} order={deliveryOrder}>
           <TableCell className="text-center text-sm text-gray-500">
             {offset + index + 1}
           </TableCell>
@@ -99,24 +109,24 @@ export default async function OrdersTableBody({ orders, offset }: Props) {
             )}
           </TableCell>
 
-          {/* Delivery: scheduledDate from chosen slot */}
+          {/* Delivery: the chosen slot, its live state and the admin's set/edit action */}
           <TableCell className="text-center">
-            {order.delivery?.scheduledDate ? (
-              <div className="flex flex-col items-center leading-tight gap-0.5">
-                <span className="text-lg font-semibold text-gray-800">{formatDate(order.delivery.scheduledDate, locale)}</span>
-                {order.chosenDeliverySlot ? (
-                  <span className="text-gray-400 text-base font-medium whitespace-nowrap">
-                    {formatTime(order.chosenDeliverySlot.start, locale)} – {formatTime(order.chosenDeliverySlot.end, locale)}
-                  </span>
-                ) : (
+            <div className="flex flex-col items-center gap-1.5">
+              {order.chosenDeliverySlot ? (
+                <DeliverySlotText slot={order.chosenDeliverySlot} />
+              ) : order.deliveryState === "not_chosen" ? null : order.delivery?.scheduledDate ? (
+                <div className="flex flex-col items-center leading-tight gap-0.5">
+                  <span className="text-lg font-semibold text-gray-800">{formatDate(order.delivery.scheduledDate, locale)}</span>
                   <span className="text-gray-400 text-sm">{t("slot_not_set")}</span>
-                )}
-              </div>
-            ) : (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-50 text-slate-500 border border-slate-200 whitespace-nowrap">
-                {t("no_delivery_date")}
-              </span>
-            )}
+                </div>
+              ) : (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-50 text-slate-500 border border-slate-200 whitespace-nowrap">
+                  {t("no_delivery_date")}
+                </span>
+              )}
+              <DeliveryStateBadge order={deliveryOrder} />
+              <SetDeliveryTimeButton order={deliveryOrder} />
+            </div>
           </TableCell>
 
           <TableCell className="text-center text-sm">
@@ -167,7 +177,7 @@ export default async function OrdersTableBody({ orders, offset }: Props) {
           <TableCell className="text-center">
             <OrderActions order={order} />
           </TableCell>
-        </TableRow>
+        </OrderDeliveryRow>
         );
       })}
     </TableBody>

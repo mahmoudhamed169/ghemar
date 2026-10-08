@@ -19,6 +19,8 @@ export interface NotificationData {
   clientPhone?: string;
   driverName?: string;
   driverPhone?: string;
+  deliverySlotStart?: string;
+  deliverySlotEnd?: string;
 }
 
 export interface Notification {
