@@ -7,6 +7,7 @@ import { InvoiceModalTrigger } from "./invoice-modal";
 import {
   formatAmount,
   formatInvoiceDate,
+  getInvoiceOrderNumber,
   getInvoicePackageName,
   mapInvoiceToInvoiceData,
 } from "./invoice-modal/invoice-data";
@@ -51,7 +52,7 @@ export default async function ReportsTableBody({
             {invoice._id}
           </TableCell>
           <TableCell className="text-center font-medium whitespace-nowrap">
-            {invoice.orderId || "-"}
+            {getInvoiceOrderNumber(invoice) || "-"}
           </TableCell>
           <TableCell className="text-center font-medium whitespace-nowrap">
             {invoice.user?.name || "-"}

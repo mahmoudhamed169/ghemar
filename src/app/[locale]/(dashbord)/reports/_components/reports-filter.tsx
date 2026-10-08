@@ -27,6 +27,7 @@ import { Invoice } from "@/shared/lib/types/reports/invoice";
 import {
   formatAmount,
   formatInvoiceDate,
+  getInvoiceOrderNumber,
   mapInvoiceToInvoiceData,
   roundAmount,
 } from "./invoice-modal/invoice-data";
@@ -201,7 +202,7 @@ function exportToExcel(invoices: Invoice[]) {
   const rows = invoices.map((inv) => ({
     "رقم الفاتورة": inv._id,
     "اسم العميل": inv.user?.name ?? "-",
-    "رقم الطلب": inv.orderId ?? "-",
+    "رقم الطلب": getInvoiceOrderNumber(inv) || "-",
     "الباقة": inv.packageId?.nameAr ?? inv.packageId?.name ?? "-",
     "تاريخ الإنشاء": formatInvoiceDate(inv.createdAt, "ar"),
     "المبلغ": roundAmount(inv.amount),
