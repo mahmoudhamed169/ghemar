@@ -24,6 +24,14 @@ export function getInvoicePackageName(invoice: Invoice, locale = "ar") {
     : invoice.packageId.name || invoice.packageId.nameAr || "-";
 }
 
+/** orderId comes back either as a plain id or as a populated order object */
+export function getInvoiceOrderNumber(invoice: Invoice) {
+  const order = invoice.orderId;
+  if (!order) return "";
+  if (typeof order === "object") return String(order.orderNumber ?? order._id ?? "");
+  return String(order);
+}
+
 export function mapInvoiceToInvoiceData(
   invoice: Invoice,
   locale = "ar",
@@ -31,7 +39,7 @@ export function mapInvoiceToInvoiceData(
   return {
     invoiceId: invoice._id,
     clientName: invoice.user?.name || "-",
-    orderNumber: invoice.orderId || invoice.packageId?._id || "-",
+    orderNumber: getInvoiceOrderNumber(invoice) || invoice.packageId?._id || "-",
     driverName: invoice.gateway || invoice.method || "-",
     date: formatInvoiceDate(invoice.createdAt, locale),
     baseAmount: invoice.amount,

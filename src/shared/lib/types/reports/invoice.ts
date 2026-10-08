@@ -15,11 +15,18 @@ export interface InvoicePackage {
   price?: number;
 }
 
+export interface InvoiceOrder {
+  _id: string;
+  orderNumber?: string | number;
+  status?: string;
+}
+
 export interface Invoice {
   _id: string;
   user?: InvoiceUser;
   packageId?: InvoicePackage;
-  orderId?: string;
+  /** the API returns either the raw id or the populated order */
+  orderId?: string | InvoiceOrder | null;
   method?: string;
   gateway?: string;
   amount: number;
