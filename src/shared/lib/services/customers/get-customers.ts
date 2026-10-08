@@ -30,7 +30,7 @@ export async function getCustomers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 60, tags: ["customers"] },
+      cache: "no-store",
     },
   )
 

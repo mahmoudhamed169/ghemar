@@ -14,6 +14,7 @@ export interface NavItemType {
 
 export const navItems: NavItemType[] = [
   { labelKey: "overview",   href: "/overview",    icon: LayoutDashboard },
+  { labelKey: "alerts",     href: "/alerts",      icon: AlertCircle },
   { labelKey: "orders",     href: "/orders",      icon: ClipboardList },
   { labelKey: "customers",  href: "/customers",   icon: Users },
   { labelKey: "drivers",    href: "/drivers",     icon: Home },
@@ -22,7 +23,6 @@ export const navItems: NavItemType[] = [
   { labelKey: "bags",       href: "/bags",        icon: Tag,         superAdminOnly: true },
   { labelKey: "reports",    href: "/reports",     icon: BarChart2,   superAdminOnly: true },
   { labelKey: "bonuses",    href: "/bounes",      icon: Map,         superAdminOnly: true },
-  { labelKey: "alerts",     href: "/alerts",      icon: AlertCircle },
   {
     labelKey: "settings", href: "/settings", icon: Settings, superAdminOnly: true,
     children: [

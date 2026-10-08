@@ -29,7 +29,7 @@ export async function getActivationCodes({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["activation-codes"] },
+      cache: "no-store",
     },
   );
 

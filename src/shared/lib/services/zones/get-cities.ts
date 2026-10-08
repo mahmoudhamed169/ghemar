@@ -21,7 +21,7 @@ export async function getCities(params?: GetCitiesParams): Promise<CitiesRespons
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    next: { revalidate: 30, tags: ["cities"] },
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error(`Failed to fetch cities: ${res.status}`);

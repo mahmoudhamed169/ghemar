@@ -29,7 +29,7 @@ export async function getBranches(params?: GetBranchesParams): Promise<BranchesR
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    next: { revalidate: 30, tags: ["branches"] },
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error(`Failed to fetch branches: ${res.status}`);

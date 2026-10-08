@@ -27,7 +27,7 @@ export async function getRedeemHistory({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["redeem-history"] },
+      cache: "no-store",
     },
   );
 

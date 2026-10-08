@@ -42,7 +42,7 @@ export async function getInvoices({
     {
       method: "GET",
       headers: getAuthHeaders(token),
-      next: { revalidate: 30, tags: ["invoices"] },
+      cache: "no-store",
     },
   );
 
@@ -59,7 +59,7 @@ export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
     {
       method: "GET",
       headers: getAuthHeaders(token),
-      next: { revalidate: 30, tags: ["invoices", `invoice-${id}`] },
+      cache: "no-store",
     },
   );
 

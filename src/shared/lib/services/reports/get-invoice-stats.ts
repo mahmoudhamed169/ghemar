@@ -14,7 +14,7 @@ export async function getInvoiceStats(): Promise<InvoiceStatsResponse> {
         "Content-Type": "application/json",
         ...(token && { Authorization: `Bearer ${token}` }),
       },
-      next: { revalidate: 30, tags: ["invoice-stats"] },
+      cache: "no-store",
     },
   );
 
