@@ -14,11 +14,12 @@ interface Props {
     status?: string;
     isExpressWash?: string;
     branchId?: string;
+    orderId?: string;
   }>;
 }
 
 export default async function OrdersPage({ searchParams }: Props) {
-  const { currentPage, currentSearch, currentStatus, currentIsExpressWash, currentBranchId } =
+  const { currentPage, currentSearch, currentStatus, currentIsExpressWash, currentBranchId, currentOrderId } =
     parseOrdersSearchParams(await searchParams);
 
   const { data: orders, pagination } = await getOrders({
@@ -27,6 +28,7 @@ export default async function OrdersPage({ searchParams }: Props) {
     status: currentStatus,
     isExpressWash: currentIsExpressWash,
     branchId: currentBranchId,
+    orderId: currentOrderId,
   });
 
   const pageSize = Number(pagination.limit) || orders.length;

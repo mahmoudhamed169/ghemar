@@ -179,4 +179,6 @@ export interface OrdersParams {
   clientId?: string;
   driverId?: string;
   branchId?: string;
+  /** narrows the list to one order */
+  orderId?: string;
 }
