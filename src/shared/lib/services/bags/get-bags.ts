@@ -36,7 +36,7 @@ export async function getBags({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 2, tags: ["bags"] },
+      cache: "no-store",
     },
   );
 

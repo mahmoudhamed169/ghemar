@@ -14,7 +14,7 @@ export async function getRewardsStats(): Promise<RewardsStatsResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 60, tags: ["rewards-stats"] },
+      cache: "no-store",
     },
   );
 

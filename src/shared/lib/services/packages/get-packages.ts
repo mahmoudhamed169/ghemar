@@ -14,7 +14,7 @@ export async function getPackages(): Promise<PackagesResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["packages"] },
+      cache: "no-store",
     },
   );
 

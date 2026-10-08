@@ -14,7 +14,7 @@ export async function getCitiesStats(): Promise<CityStatsResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["cities-stats"] },
+      cache: "no-store",
     },
   );
 

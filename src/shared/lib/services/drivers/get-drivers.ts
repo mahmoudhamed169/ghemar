@@ -30,7 +30,7 @@ export async function getDrivers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30 , tags: ["drivers"] },
+      cache: "no-store",
     },
   );
 

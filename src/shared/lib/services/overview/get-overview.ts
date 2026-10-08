@@ -14,7 +14,7 @@ export async function getOverview(): Promise<OverviewResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 10, tags: ["overview"] },
+      cache: "no-store",
     },
   );
 

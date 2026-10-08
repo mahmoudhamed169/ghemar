@@ -14,7 +14,7 @@ export async function getPromoCodes(): Promise<PromoCodesResponse> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 30, tags: ["promo-codes"] },
+      cache: "no-store",
     },
   );
 
