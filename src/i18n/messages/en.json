@@ -953,7 +953,7 @@
       },
       "orderHours": {
         "title": "Order Pause Hours",
-        "description": "Orders are still accepted during these hours, and the customer is notified of the pause time.",
+        "description": "Orders are not accepted during these hours, and the customer sees a message with the reopening time.",
         "timezoneNote": "All times are in Riyadh time ({timezone})",
         "closedNow": "Service is paused now until {reopensAt}",
         "closedNowNoTime": "Service is paused now",
