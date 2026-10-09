@@ -311,7 +311,8 @@
     },
     "actions": {
       "view_details": "View Details",
-      "assign_driver": "Assign Driver"
+      "assign_driver": "Assign Driver",
+      "change_driver": "Change driver"
     },
     "receipt": {
       "company_name": "Ghaymar Laundry",

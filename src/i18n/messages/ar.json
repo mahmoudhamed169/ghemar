@@ -311,7 +311,8 @@
     },
     "actions": {
       "view_details": "عرض التفاصيل",
-      "assign_driver": "تعيين سائق"
+      "assign_driver": "تعيين سائق",
+      "change_driver": "تغيير السائق"
     },
     "receipt": {
       "company_name": "غيمار للغسيل",
