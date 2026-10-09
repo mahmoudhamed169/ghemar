@@ -12,6 +12,7 @@ import {
 import OrderDetailsSheet from "./order-details-sheet";
 import AssignDriverDialog from "./assign-driver-dialog";
 import { Order } from "@/shared/lib/types/orders/order";
+import { useRowDetails } from "@/shared/components/details-row";
 
 interface OrderActionsProps {
   order: Order;
@@ -19,7 +20,11 @@ interface OrderActionsProps {
 
 export default function OrderActions({ order }: OrderActionsProps) {
   const t = useTranslations("orders.actions");
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  // clicking the row opens the same details as the menu item
+  const row = useRowDetails();
+  const [localOpen, setLocalOpen] = useState(false);
+  const detailsOpen = row ? row.open : localOpen;
+  const setDetailsOpen = row ? row.setOpen : setLocalOpen;
   const [assignOpen, setAssignOpen] = useState(false);
 
   const hasDriver = !!order.driver;

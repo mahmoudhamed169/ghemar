@@ -23,7 +23,8 @@ export default function DriverDetailsModal({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-full max-w-md p-0 flex flex-col overflow-hidden">
+      {/* the data-[side=left]:sm: prefix is needed to beat the sheet's own sm:max-w-sm cap */}
+      <SheetContent side="left" className="w-full max-w-md data-[side=left]:sm:max-w-xl p-0 flex flex-col overflow-hidden">
 
         {/* Header */}
         <div className="flex items-center px-5 pt-6 pb-4 border-b shrink-0">

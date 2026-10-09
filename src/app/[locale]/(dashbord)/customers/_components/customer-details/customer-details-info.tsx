@@ -56,7 +56,7 @@ export default function CustomerDetailsInfo({ customer }: Props) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3" dir="rtl">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3" dir="rtl">
       {fields.map((field) => (
         <div
           key={field.key}
