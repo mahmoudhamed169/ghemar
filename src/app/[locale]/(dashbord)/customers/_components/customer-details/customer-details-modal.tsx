@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useTranslations } from "next-intl";
 import { Loader2, AlertCircle } from "lucide-react";
 import { useCustomer } from "@/shared/lib/hooks/customers/use-customer";
@@ -26,7 +26,23 @@ export default function CustomerDetailsModal({ open, onOpenChange, customerId }:
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[95vw] max-w-2xl rounded-2xl px-4 sm:px-6 py-8 flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
+      {/* sm:max-w-* is needed: the base dialog caps the width at sm:max-w-sm */}
+      <DialogContent className="w-[95vw] max-w-3xl sm:max-w-3xl rounded-2xl p-0 flex flex-col gap-0 max-h-[90vh] overflow-hidden">
+        {/* the title stays in place while the content scrolls */}
+        <div className="shrink-0 border-b border-gray-100 px-5 sm:px-7 py-4 pr-12 sm:pr-14" dir="rtl">
+          <DialogTitle className="text-lg sm:text-xl font-bold text-[#000709]">
+            {t("actions.detailsTitle")} {customer ? (customer.name ?? customer.phone) : ""}
+          </DialogTitle>
+          {customer?.name && (
+            <p className="text-sm text-gray-500 mt-0.5" dir="ltr" style={{ textAlign: "right" }}>
+              {customer.phone}
+            </p>
+          )}
+        </div>
+
+        {/* shrink-0 on the sections: in a height-limited column, the ones with
+            overflow-hidden (the edit box) would otherwise be squashed flat */}
+        <div className="flex-1 overflow-y-auto px-5 sm:px-7 py-5 flex flex-col gap-5 [&>*]:shrink-0">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
             <Loader2 className="w-8 h-8 animate-spin text-[#0C6175]" />
@@ -42,10 +58,6 @@ export default function CustomerDetailsModal({ open, onOpenChange, customerId }:
 
         {customer && (
           <>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#000709] my-2" dir="rtl">
-              {t("actions.detailsTitle")} {customer.name ?? customer.phone}
-            </h1>
-
             <CustomerDetailsInfo customer={customer} />
             <CustomerEditForm customer={customer} customerId={customerId} />
             {/* keyed so the editor picks up counts changed by "add bags" */}
@@ -59,6 +71,7 @@ export default function CustomerDetailsModal({ open, onOpenChange, customerId }:
             <CustomerDetailsLocation customer={customer} />
           </>
         )}
+        </div>
       </DialogContent>
     </Dialog>
   );

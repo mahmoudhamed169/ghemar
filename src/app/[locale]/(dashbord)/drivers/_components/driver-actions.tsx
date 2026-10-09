@@ -15,12 +15,17 @@ import DriverDetailsModal from "./driver-details/driver-details-modal";
 import EditDriverModal from "./edit-driver/edit-driver-modal";
 import SendNotificationModal from "@/app/[locale]/(dashbord)/alerts/_components/send-notification-modal";
 import { Driver } from "@/shared/lib/types/drivers/driver";
+import { useRowDetails } from "@/shared/components/details-row";
 
 export default function DriverActions({ driver }: { driver: Driver }) {
   const t = useTranslations("drivers.actions");
   const router = useRouter();
   const { locale } = useParams<{ locale: string }>();
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  // clicking the row opens the same details as the menu item
+  const row = useRowDetails();
+  const [localOpen, setLocalOpen] = useState(false);
+  const detailsOpen = row ? row.open : localOpen;
+  const setDetailsOpen = row ? row.setOpen : setLocalOpen;
   const [editOpen, setEditOpen]       = useState(false);
   const [blockOpen, setBlockOpen]     = useState(false);
   const [notifyOpen, setNotifyOpen]   = useState(false);
