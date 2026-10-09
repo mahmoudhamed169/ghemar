@@ -23,6 +23,8 @@ export default function OrderActions({ order }: OrderActionsProps) {
   const [assignOpen, setAssignOpen] = useState(false);
 
   const hasDriver = !!order.driver;
+  // the driver can be changed (e.g. after automatic assignment) until the order is over
+  const isOver = ["completed", "cancelled", "delivered_to_customer"].includes(order.status);
 
   return (
     <>
@@ -44,11 +46,11 @@ export default function OrderActions({ order }: OrderActionsProps) {
             {t("view_details")}
           </DropdownMenuItem>
           <DropdownMenuItem
-            disabled={hasDriver}
+            disabled={hasDriver && isOver}
             className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-gray-700 focus:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onSelect={() => setAssignOpen(true)}
           >
-            {t("assign_driver")}
+            {t(hasDriver ? "change_driver" : "assign_driver")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
