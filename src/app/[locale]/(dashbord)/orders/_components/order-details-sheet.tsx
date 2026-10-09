@@ -210,7 +210,12 @@ function ActivityTimeline({ order, ts }: { order: Order; ts: (k: string) => stri
         {sorted.map((entry, i) => {
           const dateStr = formatRiyadhDate(entry.timestamp, "ar-SA");
           const timeStr = formatRiyadhTime(entry.timestamp, "ar-SA");
-          const actorLabel = ACTOR_MODEL_AR[entry.actorModel] ?? entry.actorModel;
+          // a driver assigned by the system = automatic assignment, not an admin
+          const isAutoAssigned =
+            entry.status === "driver_assigned" && entry.actorModel === "System";
+          const actorLabel = isAutoAssigned
+            ? "تعيين تلقائي"
+            : (ACTOR_MODEL_AR[entry.actorModel] ?? entry.actorModel);
           const statusLabel = ts(entry.status as Parameters<typeof ts>[0]);
 
           return (

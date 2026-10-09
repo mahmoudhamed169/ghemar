@@ -1022,7 +1022,11 @@
         },
         "autoAssignDrivers": {
           "title": "Auto-Assign Drivers",
-          "description": "Automatically assign orders to available drivers"
+          "descriptionOn": "When on, every new order is assigned automatically to the driver of the client's area as soon as it arrives. The driver must be active and online. If no driver is available the order stays waiting for manual assignment and you get a notification.",
+          "descriptionOff": "New orders stay waiting for manual assignment.",
+          "enabled": "Automatic driver assignment turned on",
+          "disabled": "Automatic driver assignment turned off",
+          "error": "Could not change automatic assignment, try again"
         }
       },
       "securitySettings": {

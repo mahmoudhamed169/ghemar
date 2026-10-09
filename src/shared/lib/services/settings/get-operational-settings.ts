@@ -14,7 +14,8 @@ export async function getOperationalSettings(): Promise<OperationalSettingsRespo
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      next: { revalidate: 60, tags: ["operational-settings"] },
+      // read from the server on every visit: another admin may have switched it
+      cache: "no-store",
     },
   );
 
