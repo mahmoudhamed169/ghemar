@@ -5,6 +5,7 @@ import { Driver, DriverStatus } from "@/shared/lib/types/drivers/driver";
 import DriverStatusBadge from "./driver-status-badge";
 import DriverStatusToggle from "./driver-status-toggle";
 import DriverActions from "./driver-actions";
+import DetailsRow from "@/shared/components/details-row";
 
 interface Props {
   page: number;
@@ -40,7 +41,7 @@ export default async function DriversTableBody({
   return (
     <TableBody>
       {drivers.map((driver: Driver, index: number) => (
-        <TableRow
+        <DetailsRow
           key={driver._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
@@ -70,7 +71,7 @@ export default async function DriversTableBody({
           <TableCell className="text-center">
             <DriverActions driver={driver} />
           </TableCell>
-        </TableRow>
+        </DetailsRow>
       ))}
     </TableBody>
   );

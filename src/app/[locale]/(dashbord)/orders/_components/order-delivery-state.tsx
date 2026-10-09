@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarClock } from "lucide-react";
-import { TableRow } from "@/components/ui/table";
+import DetailsRow from "@/shared/components/details-row";
 import { cn } from "@/lib/utils";
 import { Order } from "@/shared/lib/types/orders/order";
 import { useDeliveryClock } from "@/shared/lib/hooks/orders/use-delivery-clock";
@@ -35,7 +35,10 @@ const ROW_TINT: Record<string, string> = {
   due: "bg-emerald-500/10 hover:bg-emerald-500/20 border-s-emerald-500",
 };
 
-/** an orders-table row, tinted while its delivery slot is close or reached */
+/**
+ * An orders-table row: opens the order details when clicked, and is tinted
+ * while its delivery slot is close or reached.
+ */
 export function OrderDeliveryRow({
   order,
   children,
@@ -46,7 +49,7 @@ export function OrderDeliveryRow({
   const { state } = useLiveDeliveryState(order);
 
   return (
-    <TableRow
+    <DetailsRow
       className={cn(
         "hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100",
         // "!" keeps the edge line on the last row, where the table drops row borders
@@ -55,7 +58,7 @@ export function OrderDeliveryRow({
       )}
     >
       {children}
-    </TableRow>
+    </DetailsRow>
   );
 }
 

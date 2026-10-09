@@ -14,6 +14,7 @@ import CustomerDetailsModal from "./customer-details/customer-details-modal";
 import BlockUserModal from "@/shared/components/block-user-modal";
 import SendNotificationModal from "@/app/[locale]/(dashbord)/alerts/_components/send-notification-modal";
 import { Customer } from "@/shared/lib/types/customers";
+import { useRowDetails } from "@/shared/components/details-row";
 
 interface CustomerActionsProps {
   customer: Customer;
@@ -23,7 +24,11 @@ export default function CustomerActions({ customer }: CustomerActionsProps) {
   const t = useTranslations("customers.actions");
   const router = useRouter();
   const { locale } = useParams<{ locale: string }>();
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  // clicking the row opens the same details as the menu item
+  const row = useRowDetails();
+  const [localOpen, setLocalOpen] = useState(false);
+  const detailsOpen = row ? row.open : localOpen;
+  const setDetailsOpen = row ? row.setOpen : setLocalOpen;
   const [blockOpen, setBlockOpen] = useState(false);
   const [notifyOpen, setNotifyOpen] = useState(false);
 

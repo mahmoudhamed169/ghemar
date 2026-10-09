@@ -1,8 +1,9 @@
-import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { TableBody, TableCell } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { getTranslations, getLocale } from "next-intl/server";
 
 import CustomerActions from "./customer-actions";
+import DetailsRow from "@/shared/components/details-row";
 import { Customer } from "@/shared/lib/types/customers";
 
 interface Props {
@@ -20,7 +21,7 @@ export default async function CustomersTableBody({ customers, offset }: Props) {
   return (
     <TableBody>
       {customers.map((customer: Customer, index: number) => (
-        <TableRow
+        <DetailsRow
           key={customer._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
@@ -64,7 +65,7 @@ export default async function CustomersTableBody({ customers, offset }: Props) {
           <TableCell className="text-center">
             <CustomerActions customer={customer} />
           </TableCell>
-        </TableRow>
+        </DetailsRow>
       ))}
     </TableBody>
   );
