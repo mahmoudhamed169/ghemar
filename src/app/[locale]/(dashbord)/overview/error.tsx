@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { isRateLimitError } from "@/shared/lib/utils/rate-limit-error";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -12,6 +13,7 @@ interface ErrorProps {
 
 export default function OverviewError({ error, unstable_retry }: ErrorProps) {
   const t = useTranslations("overview.error");
+  const isRateLimit = isRateLimitError(error);
 
   useEffect(() => {
     console.error("Overview error:", error);
@@ -23,9 +25,13 @@ export default function OverviewError({ error, unstable_retry }: ErrorProps) {
         <AlertTriangle className="w-8 h-8 text-amber-400" />
       </div>
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-lg font-semibold text-gray-800">{t("title")}</h2>
-        <p className="text-sm text-gray-400 max-w-sm">{t("description")}</p>
-        {error.digest && (
+        <h2 className="text-lg font-semibold text-gray-800">
+          {isRateLimit ? t("rateLimitTitle") : t("title")}
+        </h2>
+        <p className="text-sm text-gray-400 max-w-sm">
+          {isRateLimit ? t("rateLimitDescription") : t("description")}
+        </p>
+        {error.digest && !isRateLimit && (
           <p className="text-xs text-gray-300 font-mono" dir="ltr">
             {error.digest}
           </p>

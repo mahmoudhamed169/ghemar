@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { RateLimitError } from "./rate-limit-error";
 
 interface ServerFetchOptions extends RequestInit {
   next?: NextFetchRequestConfig;
@@ -35,7 +36,7 @@ export async function serverFetch<T>(
   if (res.status === 429) {
     console.warn(`⚠️ [429] rate limited: ${path}`);
     if (fallback !== undefined) return fallback;
-    throw new Error(`429: Too many requests — ${path}`);
+    throw new RateLimitError(path);
   }
 
   if (!res.ok) {

@@ -2,6 +2,7 @@ import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { OrdersParams, OrdersResponse } from "../../types/orders/order";
+import { RateLimitError } from "../../utils/rate-limit-error";
 
 export const getOrders = cache(async function getOrders({
   page = 1,
@@ -49,7 +50,7 @@ export const getOrders = cache(async function getOrders({
     },
   );
 
-  if (res.status === 429) throw new Error("429: الخادم يقيّد الطلبات، أعد المحاولة بعد لحظة");
+  if (res.status === 429) throw new RateLimitError("orders");
   if (!res.ok) throw new Error(`Failed to fetch orders: ${res.status}`);
   return res.json();
 });
