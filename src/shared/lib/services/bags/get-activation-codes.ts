@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { RateLimitError } from "../../utils/rate-limit-error";
 import {
   ActivationCodesParams,
   ActivationCodesResponse,
@@ -33,6 +34,7 @@ export async function getActivationCodes({
     },
   );
 
+  if (res.status === 429) throw new RateLimitError("activation codes");
   if (!res.ok)
     throw new Error(`Failed to fetch activation codes: ${res.status}`);
 

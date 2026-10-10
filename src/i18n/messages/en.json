@@ -26,6 +26,9 @@
       "phone-start": "Number must start with 5",
       "otp-length": "Code must be 6 digits",
       "otp-numeric": "Must contain numbers only"
+    },
+    "errors": {
+      "too-many-requests": "Too many requests, please try again shortly"
     }
   },
   "overview": {
@@ -74,6 +77,8 @@
     "error": {
       "title": "Couldn't load statistics",
       "description": "Something went wrong while fetching dashboard data. Please try again.",
+      "rateLimitTitle": "Too many requests, try again shortly",
+      "rateLimitDescription": "The server is temporarily limiting requests. Wait a moment, then try again.",
       "retry": "Try again"
     }
   },

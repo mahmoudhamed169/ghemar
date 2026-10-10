@@ -6,11 +6,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="space-y-6">
       <PageHeader />
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-end gap-3">
         <BarcodeFilters />
+        <AutoRefresh intervalMs={60000} showButton title="تحديث الباركود" />
       </div>
       {children}
-      <AutoRefresh intervalMs={2000} />
     </main>
   );
 }

@@ -12,7 +12,7 @@ interface AutoRefreshProps {
 }
 
 export default function AutoRefresh({
-  intervalMs = 5000,
+  intervalMs = 60000,
   action,
   showButton = false,
   title = "تحديث الطلبات",

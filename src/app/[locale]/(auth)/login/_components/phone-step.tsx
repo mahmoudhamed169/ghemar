@@ -18,6 +18,7 @@ type Props = {
 
 export default function PhoneStep({ onSuccess }: Props) {
   const t = useTranslations("login-page.phone");
+  const tErrors = useTranslations("login-page.errors");
 
   const {
     register,
@@ -31,7 +32,9 @@ export default function PhoneStep({ onSuccess }: Props) {
     const result = await sendOtpAction(data.phone);
 
     if (!result.success) {
-      toast.error(result.message);
+      toast.error(
+        result.rateLimited ? tErrors("too-many-requests") : result.message,
+      );
       return;
     }
 

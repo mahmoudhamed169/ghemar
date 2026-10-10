@@ -8,6 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function sendOtpAction(phone: string): Promise<{
   success: boolean;
   message: string;
+  rateLimited?: boolean;
 }> {
   try {
     const res = await fetch(`${API_URL}/api/auth/send-otp`, {
@@ -15,6 +16,15 @@ export async function sendOtpAction(phone: string): Promise<{
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone: `+966${phone}` }),
     });
+
+    // the caller shows its own translated text for this one
+    if (res.status === 429) {
+      return {
+        success: false,
+        rateLimited: true,
+        message: "طلبات كثيرة، حاول مرة أخرى بعد قليل",
+      };
+    }
 
     const json = await res.json();
 
