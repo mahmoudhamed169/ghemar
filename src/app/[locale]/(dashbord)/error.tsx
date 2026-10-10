@@ -4,15 +4,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { isRateLimitError } from "@/shared/lib/utils/rate-limit-error";
 
 interface ErrorProps {
   error: Error & { digest?: string };
-  reset: () => void;
+  unstable_retry: () => void;
 }
 
-export default function DashboardError({ error, reset }: ErrorProps) {
+export default function DashboardError({ error, unstable_retry }: ErrorProps) {
   const router = useRouter();
-  const isRateLimit = error.message?.includes("429");
+  const isRateLimit = isRateLimitError(error);
 
   useEffect(() => {
     console.error("Dashboard error:", error.message);
@@ -29,7 +30,7 @@ export default function DashboardError({ error, reset }: ErrorProps) {
           {isRateLimit ? "429" : "خطأ"}
         </h1>
         <h2 className="text-xl font-semibold text-gray-800">
-          {isRateLimit ? "تجاوزت الحد المسموح من الطلبات" : "حدث خطأ غير متوقع"}
+          {isRateLimit ? "طلبات كثيرة، حاول بعد قليل" : "حدث خطأ غير متوقع"}
         </h2>
         <p className="text-sm text-gray-400 max-w-xs">
           {isRateLimit
@@ -40,7 +41,7 @@ export default function DashboardError({ error, reset }: ErrorProps) {
 
       <div className="flex gap-3">
         <Button
-          onClick={reset}
+          onClick={() => unstable_retry()}
           className="bg-[#0C6175] hover:bg-[#097188] text-white rounded-xl px-6 h-11 flex items-center gap-2"
         >
           <RefreshCw className="w-4 h-4" />

@@ -18,6 +18,7 @@ type Props = {
 
 export default function OtpStep({ phone, onBack }: Props) {
   const t = useTranslations("login-page.otp")
+  const tErrors = useTranslations("login-page.errors")
   const router = useRouter()
 
   const {
@@ -49,7 +50,8 @@ export default function OtpStep({ phone, onBack }: Props) {
 
   async function handleResend() {
     const result = await sendOtpAction(phone)
-    if (!result.success) toast.error(result.message)
+    if (!result.success)
+      toast.error(result.rateLimited ? tErrors("too-many-requests") : result.message)
     else toast.success(result.message)
   }
 

@@ -4,6 +4,7 @@ import { getOrders } from "@/shared/lib/services/orders/get-orders";
 import OrdersTable from "@/app/[locale]/(dashbord)/orders/_components/orders-table";
 import OrdersFilters from "@/app/[locale]/(dashbord)/orders/_components/orders-filter";
 import OrdersStatusFilter from "@/app/[locale]/(dashbord)/orders/_components/orders-status-filter";
+import OrdersLiveRefresher from "@/app/[locale]/(dashbord)/orders/_components/orders-live-refresher";
 import AutoRefresh from "@/shared/components/auto-refresh";
 
 interface Props {
@@ -38,14 +39,17 @@ export default async function DriverOrdersPage({ params, searchParams }: Props) 
 
   return (
     <main className="space-y-4 lg:space-y-6">
-      <h1 className="text-2xl lg:text-3xl font-bold">
-        {t("order_history_page_title")}
-        {name && <span className="text-[#0C6175]"> — {name}</span>}
-      </h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl lg:text-3xl font-bold">
+          {t("order_history_page_title")}
+          {name && <span className="text-[#0C6175]"> — {name}</span>}
+        </h1>
+        <AutoRefresh intervalMs={60000} showButton />
+      </div>
+      <OrdersLiveRefresher />
       <OrdersFilters />
       <OrdersStatusFilter variant="unified" />
       <OrdersTable orders={orders} page={currentPage} pageSize={pageSize} totalPages={totalPages} />
-      <AutoRefresh intervalMs={2000} />
     </main>
   );
 }

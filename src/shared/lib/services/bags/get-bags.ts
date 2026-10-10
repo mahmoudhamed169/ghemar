@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { BagsResponse, BagsParams } from "../../types/bags/bag";
+import { RateLimitError } from "../../utils/rate-limit-error";
 
 export async function getBags({
   page = 1,
@@ -40,6 +41,7 @@ export async function getBags({
     },
   );
 
+  if (res.status === 429) throw new RateLimitError("bags");
   if (!res.ok) throw new Error(`Failed to fetch bags: ${res.status}`);
 
   return res.json();
