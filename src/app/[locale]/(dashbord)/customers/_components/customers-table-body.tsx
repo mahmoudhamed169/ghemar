@@ -5,6 +5,8 @@ import { getTranslations, getLocale } from "next-intl/server";
 import CustomerActions from "./customer-actions";
 import DetailsRow from "@/shared/components/details-row";
 import { Customer } from "@/shared/lib/types/customers";
+import { SelectRowCheckbox } from "./labels/customers-selection";
+import LabelChip from "./labels/label-chip";
 
 interface Props {
   customers: Customer[];
@@ -25,6 +27,9 @@ export default async function CustomersTableBody({ customers, offset }: Props) {
           key={customer._id}
           className="hover:bg-gray-50 h-20 text-[#000709] border-b border-gray-100"
         >
+          <TableCell className="text-center">
+            <SelectRowCheckbox id={customer._id} label={customer.name ?? customer.phone} />
+          </TableCell>
           <TableCell className="text-center text-sm text-gray-500">
             {offset + index + 1}
           </TableCell>
@@ -33,6 +38,13 @@ export default async function CustomersTableBody({ customers, offset }: Props) {
           </TableCell>
           <TableCell className="text-center font-medium">
             {customer.name ?? "—"}
+            {!!customer.labels?.length && (
+              <div className="mt-1 flex flex-wrap justify-center gap-1">
+                {customer.labels.map((label) => (
+                  <LabelChip key={label._id} name={label.name} color={label.color} />
+                ))}
+              </div>
+            )}
           </TableCell>
           <TableCell className="text-center" dir="ltr">
             {customer.phone}
@@ -55,6 +67,9 @@ export default async function CustomersTableBody({ customers, offset }: Props) {
             {typeof customer.branchId === "object" && customer.branchId !== null
               ? (locale === "ar" ? customer.branchId.nameAr || customer.branchId.name : customer.branchId.name)
               : <span className="text-gray-300">—</span>}
+          </TableCell>
+          <TableCell className="text-center text-sm">
+            {customer.addresses?.[0]?.area || <span className="text-gray-300">—</span>}
           </TableCell>
           <TableCell className="text-center">
             <Switch
