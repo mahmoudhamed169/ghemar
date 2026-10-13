@@ -59,10 +59,15 @@ export interface CreateNotificationBody {
   bodyAr: string;
   type: CreateNotificationType;
   data?: Record<string, unknown>;
+  /** only with recipientId "all" + recipientRole "client": send to the customers carrying this label */
+  labelId?: string;
 }
 
 export interface CreateNotificationResponse {
   success: boolean;
   message: string;
-  data: Notification;
+  /** HTTP status, set when the request failed */
+  status?: number;
+  /** a broadcast returns how many recipients it reached instead of the notification */
+  data?: Partial<Notification> & { broadcast?: boolean; recipientCount?: number };
 }

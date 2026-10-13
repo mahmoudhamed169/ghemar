@@ -4,10 +4,10 @@ import { getCustomers } from "@/shared/lib/services/customers/get-customers";
 import StatCard from "@/shared/components/stats/stat-card";
 import StatsRow from "@/shared/components/stats/stats-row";
 import StatsError from "@/shared/components/stats/stats-error";
+import { CustomersFilter } from "@/shared/lib/types/customers/labels";
 
 interface Props {
-  search: string;
-  branchId?: string;
+  filter: CustomersFilter;
 }
 
 /**
@@ -15,18 +15,18 @@ interface Props {
  * GET /api/admin/users). Customers with a package and active/inactive counts
  * need a stats endpoint on the backend.
  */
-export default async function CustomersStats({ search, branchId }: Props) {
+export default async function CustomersStats({ filter }: Props) {
   const t = await getTranslations("customers.stats");
 
   let total: number;
   try {
-    const { pagination } = await getCustomers({ page: 1, limit: 1, search, branchId });
+    const { pagination } = await getCustomers({ page: 1, limit: 1, ...filter });
     total = pagination.total;
   } catch {
     return <StatsError />;
   }
 
-  const isFiltered = Boolean(search || branchId);
+  const isFiltered = Object.keys(filter).length > 0;
 
   return (
     <StatsRow>

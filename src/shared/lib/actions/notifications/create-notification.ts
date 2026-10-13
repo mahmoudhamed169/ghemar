@@ -26,9 +26,9 @@ export async function createNotificationAction(
     },
   );
 
-  const json = await res.json();
+  const json = await res.json().catch(() => ({}));
 
-  if (!res.ok) throw new Error(`Failed to create notification: ${res.status}`);
+  if (!res.ok) return { success: false, message: json?.message ?? "", status: res.status };
 
   revalidateTag("notifications", {});
 
