@@ -13,21 +13,28 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { RecipientRole } from "@/shared/lib/types/notifications/notification";
+import { useCustomerLabels } from "@/shared/lib/hooks/customers/use-customer-labels";
 import { useCreateNotification } from "@/shared/lib/hooks/notifications/use-create-notification";
 
 
 interface AudienceOption {
   role: RecipientRole;
   labelKey: string;
-  count: number;
   icon: React.ElementType;
 }
 
 const AUDIENCE: AudienceOption[] = [
-  { role: "client", labelKey: "clients", count: 284, icon: UserCheck },
-  { role: "driver", labelKey: "drivers", count: 24, icon: Clock },
-  { role: "all", labelKey: "all", count: 308, icon: Users },
+  { role: "client", labelKey: "clients", icon: UserCheck },
+  { role: "driver", labelKey: "drivers", icon: Clock },
+  { role: "all", labelKey: "all", icon: Users },
 ];
 
 interface FormState {
@@ -62,6 +69,14 @@ export default function SendNotificationModal({
   const isIndividual = !!recipientId;
   const [selectedRole, setSelectedRole] = useState<RecipientRole>("client");
   const [form, setForm] = useState<FormState>(INITIAL);
+  const [labelId, setLabelId] = useState("all");
+
+  // labels only narrow a broadcast to clients
+  const canPickLabel = !isIndividual && selectedRole === "client";
+  const { data: labels = [] } = useCustomerLabels(open && !isIndividual);
+  // a label that expired or was deleted drops out of the list
+  const activeLabelId =
+    canPickLabel && labels.some((l) => l._id === labelId) ? labelId : undefined;
 
   const { mutate: createNotification, isPending } = useCreateNotification();
 
@@ -87,10 +102,12 @@ export default function SendNotificationModal({
         body: form.body.trim(),
         bodyAr: form.bodyAr.trim(),
         type: "system",
+        ...(activeLabelId && { labelId: activeLabelId }),
       },
       {
         onSuccess: () => {
           setForm(INITIAL);
+          setLabelId("all");
           onOpenChange(false);
         },
       },
@@ -114,7 +131,7 @@ export default function SendNotificationModal({
                 {t("audience")}
               </Label>
               <div className="grid grid-cols-3 gap-3">
-                {AUDIENCE.map(({ role, labelKey, count, icon: Icon }) => {
+                {AUDIENCE.map(({ role, labelKey, icon: Icon }) => {
                   const selected = selectedRole === role;
                   return (
                     <button
@@ -135,15 +152,32 @@ export default function SendNotificationModal({
                         className={`w-5 h-5 ${selected ? "text-[#0C6175]" : "text-gray-400"}`}
                       />
                       <span className="text-xs font-semibold">{t(labelKey)}</span>
-                      <span
-                        className={`text-xs ${selected ? "text-[#0C6175]/70" : "text-gray-400"}`}
-                      >
-                        {count} {t("users")}
-                      </span>
                     </button>
                   );
                 })}
               </div>
+            </div>
+          )}
+
+          {/* Label — narrows a clients broadcast to one label */}
+          {canPickLabel && (
+            <div className="flex flex-col gap-2">
+              <Label className="text-sm font-medium text-[#000709]">
+                {t("targetLabel")}
+              </Label>
+              <Select value={activeLabelId ?? "all"} onValueChange={setLabelId}>
+                <SelectTrigger className="w-full !h-11 bg-[#F5F5F5] border-none px-3">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t("allClients")}</SelectItem>
+                  {labels.map((label) => (
+                    <SelectItem key={label._id} value={label._id}>
+                      {label.name} ({label.membersCount})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
 

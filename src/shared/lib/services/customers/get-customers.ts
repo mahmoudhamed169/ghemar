@@ -11,6 +11,9 @@ export async function getCustomers({
   limit = CUSTOMERS_PAGE_SIZE,
   search = "",
   branchId,
+  bagsFilter,
+  area,
+  labelId,
 }: CustomersParams = {}): Promise<CustomersResponse> {
   const session = await getServerSession(authOptions)
   const token = session?.accessToken
@@ -20,6 +23,9 @@ export async function getCustomers({
     limit: String(limit),
     ...(search && { search }),
     ...(branchId && { branchId }),
+    ...(bagsFilter && { bagsFilter }),
+    ...(area && { area }),
+    ...(labelId && { labelId }),
   })
 
   const res = await fetch(
@@ -35,6 +41,8 @@ export async function getCustomers({
   )
 
   if (res.status === 429) { console.warn("⚠️ get-customers: 429"); return EMPTY; }
+  // the label was deleted or has expired — the filters bar drops it from the URL
+  if (res.status === 404 && labelId) return EMPTY;
   if (!res.ok) throw new Error(`Failed to fetch customers: ${res.status}`)
   return res.json()
 }

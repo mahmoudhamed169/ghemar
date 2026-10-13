@@ -1,3 +1,5 @@
+import { CustomerLabelRef, CustomersFilter } from "./labels";
+
 export interface CustomerAddress {
   _id: string;
   label: string;
@@ -22,11 +24,9 @@ export interface CustomerCity {
   name: string;
 }
 
-export interface CustomersParams {
+export interface CustomersParams extends CustomersFilter {
   page?: number;
   limit?: number;
-  search?: string;
-  branchId?: string;
 }
 
 export interface Customer {
@@ -51,6 +51,7 @@ export interface Customer {
   purchasedBarcodesCount?: number;
   receivedBagsCount?: number;
   branchId?: string | { _id: string; name: string; nameAr?: string };
+  labels?: CustomerLabelRef[];
 }
 
 export interface CustomerPagination {
