@@ -4,19 +4,28 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { revalidatePath, revalidateTag } from "next/cache";
 import {
-  AddCustomerBagsInput,
-  AddCustomerBagsResult,
+  AdjustCustomerBagsInput,
+  AdjustCustomerBagsResult,
+  BagsAdjustmentType,
 } from "../../types/customers";
 
-export async function addCustomerBagsAction(
+/**
+ * Adds bags to a customer's balance (POST /bags) or deducts them
+ * (POST /bags/deduct). Neither notifies the customer. A deduction larger
+ * than the balance is refused with 400 and nothing is taken.
+ */
+export async function adjustCustomerBagsAction(
   customerId: string,
-  input: AddCustomerBagsInput,
-): Promise<AddCustomerBagsResult> {
+  type: BagsAdjustmentType,
+  input: AdjustCustomerBagsInput,
+): Promise<AdjustCustomerBagsResult> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
+  const path = type === "deduct" ? "bags/deduct" : "bags";
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/${customerId}/bags`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/${customerId}/${path}`,
     {
       method: "POST",
       headers: {

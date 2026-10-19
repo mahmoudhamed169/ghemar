@@ -103,28 +103,35 @@ export interface CustomerDetail {
   addresses: CustomerAddress[];
 }
 
-export interface AddCustomerBagsInput {
-  /** whole number from 1 to 1000 — additions only */
+export type BagsAdjustmentType = "add" | "deduct";
+
+export interface AdjustCustomerBagsInput {
+  /** whole number from 1 to 1000; a deduction can't take the balance below 0 */
   count: number;
   reason?: string;
 }
 
-export interface AddCustomerBagsData {
+export interface AdjustCustomerBagsData {
   userId: string;
-  addedBags: number;
+  /** set on an addition */
+  addedBags?: number;
+  /** set on a deduction */
+  deductedBags?: number;
   availableBags: number;
   purchasedBarcodesCount: number;
   adjustmentId: string;
 }
 
-export interface AddCustomerBagsResult {
+export interface AdjustCustomerBagsResult {
   success: boolean;
   message?: string;
-  data?: AddCustomerBagsData;
+  data?: AdjustCustomerBagsData;
 }
 
 export interface CustomerBagsHistoryItem {
   _id: string;
+  /** missing on entries made before deductions existed — those are additions */
+  type?: BagsAdjustmentType;
   count: number;
   reason?: string;
   balanceBefore: number;

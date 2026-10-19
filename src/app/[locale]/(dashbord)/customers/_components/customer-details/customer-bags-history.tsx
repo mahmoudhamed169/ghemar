@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CustomerDetail } from "@/shared/lib/types/customers";
 import { useCustomerBagsHistory } from "@/shared/lib/hooks/customers/use-customer-bags";
 import { formatRiyadhDateTime } from "@/shared/lib/utils/riyadh-time";
-import CustomerAddBags from "./customer-add-bags";
+import CustomerAdjustBags from "./customer-adjust-bags";
 
 const LIMIT = 10;
 
@@ -39,7 +39,10 @@ export default function CustomerBagsHistory({ customer, customerId }: Props) {
             <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0C6175]" />
           )}
         </h3>
-        <CustomerAddBags customer={customer} customerId={customerId} />
+        <div className="flex items-center gap-2">
+          <CustomerAdjustBags customer={customer} customerId={customerId} type="deduct" />
+          <CustomerAdjustBags customer={customer} customerId={customerId} type="add" />
+        </div>
       </div>
 
       {isLoading && (
@@ -77,8 +80,14 @@ export default function CustomerBagsHistory({ customer, customerId }: Props) {
                   <td className="px-3 py-2.5 text-xs text-gray-500 whitespace-nowrap">
                     {formatRiyadhDateTime(item.createdAt, locale) ?? "—"}
                   </td>
-                  <td className="px-3 py-2.5 font-bold text-emerald-600" dir="ltr">
-                    +{item.count}
+                  <td
+                    className={`px-3 py-2.5 font-bold ${
+                      item.type === "deduct" ? "text-red-600" : "text-emerald-600"
+                    }`}
+                    dir="ltr"
+                  >
+                    {item.type === "deduct" ? "-" : "+"}
+                    {item.count}
                   </td>
                   <td className="px-3 py-2.5 text-gray-600">{item.reason || "—"}</td>
                   <td className="px-3 py-2.5 text-gray-600">{item.balanceBefore}</td>
