@@ -3,15 +3,14 @@
 import { memo } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import QuantityControl from "./quantity-control";
-import { PieceTypeKey } from "@/shared/lib/constants/piece-types";
 
 interface PieceTypeRowProps {
-  typeKey: PieceTypeKey;
+  typeKey: string;
   type: string;
   checked: boolean;
   quantity: number;
-  onToggle: (key: PieceTypeKey) => void;
-  onQuantityChange: (key: PieceTypeKey, v: number) => void;
+  onToggle: (key: string) => void;
+  onQuantityChange: (key: string, v: number) => void;
 }
 
 export default memo(function PieceTypeRow({

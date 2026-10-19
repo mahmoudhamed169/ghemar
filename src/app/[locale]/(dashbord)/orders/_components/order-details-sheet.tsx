@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Order } from "@/shared/lib/types/orders/order";
+import { Order, SortedItem } from "@/shared/lib/types/orders/order";
 import {
   MapPin,
   Phone,
@@ -23,6 +23,7 @@ import { useTranslations } from "next-intl";
 import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
 import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 import { DeliveryStateBadge, SetDeliveryTimeButton } from "./order-delivery-state";
+import OrderSortEdit from "./order-sort-edit";
 
 interface OrderDetailsSheetProps {
   order: Order;
@@ -269,6 +270,11 @@ export default function OrderDetailsSheet({
   const pieceTypeLabel = usePieceTypeLabel();
 
   const [activeTab, setActiveTab] = useState<"details" | "activity">("details");
+  // pieces returned by an edit show right away; once the refreshed order
+  // arrives (a new sortedItems array) the server's copy takes over again
+  const [saved, setSaved] = useState<{ source: SortedItem[]; items: SortedItem[] } | null>(null);
+  const sortedItems =
+    saved && saved.source === order.sortedItems ? saved.items : (order.sortedItems ?? []);
 
   const statusLabel = ts(order.status as Parameters<typeof ts>[0]);
   const pickupCoords = order.pickup.address?.coordinates;
@@ -574,17 +580,26 @@ export default function OrderDetailsSheet({
             )}
           </div>
 
-          <SectionTitle>{t("sorted_items")}</SectionTitle>
-          {(order.sortedItems?.length ?? 0) === 0 ? (
+          <div className="flex items-center justify-between gap-2">
+            <SectionTitle>{t("sorted_items")}</SectionTitle>
+            <OrderSortEdit
+              orderId={order._id}
+              orderNumber={order.orderNumber}
+              status={order.status}
+              sortedItems={sortedItems}
+              onSaved={(items) => setSaved({ source: order.sortedItems, items })}
+            />
+          </div>
+          {sortedItems.length === 0 ? (
             <div className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5">
               <Shirt className="w-4 h-4 text-gray-300 shrink-0" />
               <span className="text-sm text-gray-400">{t("sorting_not_started")}</span>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-2">
-              {(order.sortedItems ?? []).map((item) => (
+              {sortedItems.map((item) => (
                 <div
-                  key={item._id}
+                  key={item._id ?? item.itemType}
                   className="bg-gray-50 rounded-xl p-3 flex items-center gap-2.5"
                 >
                   <Shirt className="w-4 h-4 text-[#0C6175] shrink-0" />
