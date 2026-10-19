@@ -1,10 +1,11 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  AddCustomerBagsInput,
+  AdjustCustomerBagsInput,
+  BagsAdjustmentType,
   CustomerBagsHistoryResponse,
   CustomerDetailResponse,
 } from "../../types/customers";
-import { addCustomerBagsAction } from "../../actions/customers/add-customer-bags";
+import { adjustCustomerBagsAction } from "../../actions/customers/adjust-customer-bags";
 
 async function fetchBagsHistory(
   id: string,
@@ -26,12 +27,12 @@ export function useCustomerBagsHistory(id: string, page: number, limit = 20) {
   });
 }
 
-export function useAddCustomerBags(customerId: string) {
+export function useAdjustCustomerBags(customerId: string, type: BagsAdjustmentType) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (input: AddCustomerBagsInput) => {
-      const result = await addCustomerBagsAction(customerId, input);
+    mutationFn: async (input: AdjustCustomerBagsInput) => {
+      const result = await adjustCustomerBagsAction(customerId, type, input);
       if (!result.success) throw new Error(result.message ?? "");
       return result;
     },

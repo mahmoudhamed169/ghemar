@@ -6,7 +6,7 @@ import { RateLimitError } from "../../utils/rate-limit-error";
 
 export const getOrders = cache(async function getOrders({
   page = 1,
-  limit = 7,
+  limit = 20,
   search = "",
   status,
   isExpressWash,

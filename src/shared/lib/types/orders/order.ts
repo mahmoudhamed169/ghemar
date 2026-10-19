@@ -167,8 +167,8 @@ export interface Order {
 }
 
 export interface OrdersPagination {
-  page: string;
-  limit: string;
+  page: number;
+  limit: number;
   total: number;
 }
 

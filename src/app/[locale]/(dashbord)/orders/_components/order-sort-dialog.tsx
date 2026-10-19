@@ -4,15 +4,15 @@ import { useState, useMemo, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import {
-  PIECE_TYPE_KEYS,
-  PieceTypeKey,
-} from "@/shared/lib/constants/piece-types";
+import { PIECE_TYPE_KEYS } from "@/shared/lib/constants/piece-types";
 import PieceTypeRow from "./piece-type-row";
 import { useSortOrder } from "@/shared/lib/hooks/orders/use-sort-order";
+import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
+import { SortItem } from "@/shared/lib/actions/orders/sort-order";
+import { SortedItem } from "@/shared/lib/types/orders/order";
 
 export interface PieceEntry {
-  type: PieceTypeKey;
+  type: string;
   quantity: number;
 }
 
@@ -21,6 +21,15 @@ interface OrderSortDialogProps {
   isSorted: boolean;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** shown in the title instead of the id when given */
+  orderNumber?: string;
+  /**
+   * Edit mode: the order's current pieces. The form starts filled with them
+   * and saving replaces the whole list (PUT). The dialog reads them once on
+   * mount, so the caller remounts it (key) each time it opens.
+   */
+  initialItems?: SortItem[];
+  onSaved?: (sortedItems: SortedItem[]) => void;
 }
 
 export default function OrderSortDialog({
@@ -28,12 +37,31 @@ export default function OrderSortDialog({
   isSorted,
   open,
   onOpenChange,
+  orderNumber,
+  initialItems,
+  onSaved,
 }: OrderSortDialogProps) {
-  const t = useTranslations("piece_types");
+  const pieceTypeLabel = usePieceTypeLabel();
   const tSort = useTranslations("orders.sort");
   const locale = useLocale();
-  const [selected, setSelected] = useState<PieceEntry[]>([]);
+  const isEdit = !!initialItems;
+  const [selected, setSelected] = useState<PieceEntry[]>(() =>
+    (initialItems ?? []).map((item) => ({
+      type: item.itemType,
+      quantity: item.count,
+    })),
+  );
   const { mutate: sort, isPending: isLoading } = useSortOrder();
+
+  // an order sorted before the piece-type list changed may hold keys that are
+  // no longer on it — keep them as rows so the edit doesn't drop them silently
+  const typeKeys = useMemo(() => {
+    const known = new Set<string>(PIECE_TYPE_KEYS);
+    const legacy = (initialItems ?? [])
+      .map((item) => item.itemType)
+      .filter((type) => !known.has(type));
+    return [...PIECE_TYPE_KEYS, ...legacy];
+  }, [initialItems]);
 
   // O(1) lookups — recomputed only when selected array changes
   const totalPieces = useMemo(
@@ -52,7 +80,7 @@ export default function OrderSortDialog({
   );
 
   // Stable refs — PieceTypeRow memo can skip re-renders for unchanged rows
-  const toggleType = useCallback((key: PieceTypeKey) => {
+  const toggleType = useCallback((key: string) => {
     setSelected((prev) =>
       prev.some((p) => p.type === key)
         ? prev.filter((p) => p.type !== key)
@@ -60,7 +88,7 @@ export default function OrderSortDialog({
     );
   }, []);
 
-  const updateQuantity = useCallback((key: PieceTypeKey, quantity: number) => {
+  const updateQuantity = useCallback((key: string, quantity: number) => {
     setSelected((prev) =>
       prev.map((p) => (p.type === key ? { ...p, quantity } : p)),
     );
@@ -72,17 +100,20 @@ export default function OrderSortDialog({
       count: p.quantity,
     }));
     sort(
-      { orderId, items },
+      { orderId, items, edit: isEdit },
       {
         onSuccess: (result) => {
           if (result.success) {
-            setSelected([]);
+            if (result.sortedItems) onSaved?.(result.sortedItems);
+            if (!isEdit) setSelected([]);
             onOpenChange(false);
           }
         },
       },
     );
   };
+
+  const blocked = isSorted && !isEdit;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -92,8 +123,12 @@ export default function OrderSortDialog({
       >
         <DialogHeader className="px-5 pt-5 pb-4 border-b">
           <h2 className="text-base font-bold text-[#000709] mt-5">
-            {tSort("dialog_title")} {orderId}
+            {tSort(isEdit ? "edit_dialog_title" : "dialog_title")}{" "}
+            {orderNumber ?? orderId}
           </h2>
+          {isEdit && (
+            <p className="text-xs text-gray-400">{tSort("edit_hint")}</p>
+          )}
         </DialogHeader>
 
         <div className="px-5 py-4 space-y-5">
@@ -113,11 +148,11 @@ export default function OrderSortDialog({
               {tSort("select_types")}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[55vh] overflow-y-auto pe-1">
-              {PIECE_TYPE_KEYS.map((key) => (
+              {typeKeys.map((key) => (
                 <PieceTypeRow
                   key={key}
                   typeKey={key}
-                  type={t(key)}
+                  type={pieceTypeLabel(key)}
                   checked={checkedSet.has(key)}
                   quantity={quantityMap.get(key) ?? 1}
                   onToggle={toggleType}
@@ -131,14 +166,14 @@ export default function OrderSortDialog({
         <div className="px-5 pb-5">
           <Button
             onClick={handleConfirm}
-            disabled={selected.length === 0 || isLoading || isSorted}
+            disabled={selected.length === 0 || isLoading || blocked}
             className="w-full bg-[#0C6175] hover:bg-[#0a5363] text-white rounded-xl h-11 disabled:opacity-50"
           >
-            {isSorted
+            {blocked
               ? tSort("already_sorted")
               : isLoading
                 ? tSort("saving")
-                : tSort("confirm")}
+                : tSort(isEdit ? "save_edit" : "confirm")}
           </Button>
         </div>
       </DialogContent>
