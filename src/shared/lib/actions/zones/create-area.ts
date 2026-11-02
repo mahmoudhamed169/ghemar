@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { CreateAreaInput } from "../../types/zones/city";
 
@@ -27,7 +28,7 @@ export async function createAreaAction(
   console.log("BODY:", JSON.stringify(apiBody, null, 2));
   console.log("════════════════════════════");
 
-  const res = await fetch(url, {
+  const res = await apiFetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

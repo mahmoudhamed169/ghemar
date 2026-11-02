@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { RedeemResponse } from "../../types/rewards/rewards";
 
 export interface RedeemHistoryParams {
@@ -19,7 +20,7 @@ export async function getRedeemHistory({
     limit: String(limit),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/rewards/redemptions?${params}`,
     {
       method: "GET",

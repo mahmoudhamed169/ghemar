@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { ChosenDeliverySlot, DeliveryState } from "@/shared/lib/types/orders/order";
 
@@ -47,7 +48,7 @@ export async function setDeliveryTimeAction(
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/delivery-time`,
     {
       method: "PUT",

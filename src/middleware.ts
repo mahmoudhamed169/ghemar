@@ -6,6 +6,8 @@ function isSuperAdmin(role?: string | null) {
   return role === "super_admin";
 }
 
+const LOCALES = ["ar", "en"];
+
 const PUBLIC_PAGES = ["/login"];
 
 const SUPER_ADMIN_ROUTES = [
@@ -18,13 +20,16 @@ const SUPER_ADMIN_ROUTES = [
 ];
 
 const intlMiddleware = createMiddleware({
-  locales: ["ar", "en"],
+  locales: LOCALES,
   defaultLocale: "ar",
   localePrefix: "always",
 });
 
 export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
+
+  const firstSegment = pathname.split("/")[1];
+  const locale = LOCALES.includes(firstSegment) ? firstSegment : "ar";
 
   const rawToken =
     req.cookies.get("next-auth.session-token")?.value ||
@@ -34,12 +39,28 @@ export default async function middleware(req: NextRequest) {
   const isPublicPage = PUBLIC_PAGES.some((page) => pathname.includes(page));
 
   if (!isLoggedIn && !isPublicPage) {
-    const locale = pathname.split("/")[1] ?? "ar";
     return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
   }
 
+  // the backend rejected the token (see api-fetch.ts); without clearing the
+  // cookie the check below would send the user straight back to the dashboard
+  if (isLoggedIn && isPublicPage && req.nextUrl.searchParams.has("expired")) {
+    const res = NextResponse.redirect(new URL(`/${locale}/login`, req.url));
+    req.cookies
+      .getAll()
+      .filter(({ name }) => name.includes("next-auth.session-token"))
+      .forEach(({ name }) =>
+        // browsers ignore a __Secure- cookie that isn't set with the secure flag
+        res.cookies.set(name, "", {
+          maxAge: 0,
+          path: "/",
+          secure: name.startsWith("__Secure-"),
+        }),
+      );
+    return res;
+  }
+
   if (isLoggedIn && isPublicPage) {
-    const locale = pathname.split("/")[1] ?? "ar";
     return NextResponse.redirect(new URL(`/${locale}`, req.url));
   }
 
@@ -52,7 +73,6 @@ export default async function middleware(req: NextRequest) {
   if (isLoggedIn && isSuperAdminRoute) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!isSuperAdmin(token?.role as string)) {
-      const locale = pathname.split("/")[1] ?? "ar";
       return NextResponse.redirect(new URL(`/${locale}/unauthorized`, req.url));
     }
   }

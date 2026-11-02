@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { RefreshCw, Users, Zap, Star } from "lucide-react";
 import { getRewardsStats } from "@/shared/lib/services/rewards/get-rewards-stats";
@@ -11,7 +12,8 @@ export default async function BunesStates() {
   let data: Awaited<ReturnType<typeof getRewardsStats>>["data"];
   try {
     ({ data } = await getRewardsStats());
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

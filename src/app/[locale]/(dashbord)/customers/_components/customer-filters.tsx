@@ -1,4 +1,5 @@
 "use client";
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -64,7 +65,7 @@ function CustomerFiltersInner() {
 
   useEffect(() => {
     if (!isSuperAdmin) return;
-    fetch("/api/branches")
+    clientFetch("/api/branches")
       .then((r) => r.json())
       .then((res) => setBranches(res.data ?? []))
       .catch(() => {});

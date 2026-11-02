@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { NotificationsResponse } from "../../types/notifications/notification";
 
 export interface NotificationsParams {
@@ -19,7 +20,7 @@ export async function getNotifications({
     limit: String(limit),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notifications?${params}`,
     {
       method: "GET",

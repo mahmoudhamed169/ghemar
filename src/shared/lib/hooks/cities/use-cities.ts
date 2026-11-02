@@ -1,8 +1,9 @@
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { CitiesResponse } from "../../types/cities/city";
 
 async function fetchCities(): Promise<CitiesResponse> {
-  const res = await fetch("/api/cities");
+  const res = await clientFetch("/api/cities");
   if (!res.ok) throw new Error("Failed to fetch cities");
   return res.json();
 }

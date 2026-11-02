@@ -1,10 +1,11 @@
 "use client";
 
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { InvoiceResponse } from "@/shared/lib/types/reports/invoice";
 
 async function fetchInvoice(id: string): Promise<InvoiceResponse> {
-  const res = await fetch(`/api/invoices/${id}`);
+  const res = await clientFetch(`/api/invoices/${id}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch invoice");

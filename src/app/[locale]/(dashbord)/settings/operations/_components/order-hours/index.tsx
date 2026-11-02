@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { unstable_rethrow } from "next/navigation";
 import { getOrderHours } from "@/shared/lib/services/settings/get-order-hours";
 import OrderHoursForm from "./order-hours-form";
 
@@ -7,7 +8,10 @@ export default async function OrderHoursSettings() {
     getTranslations("Settings.operations.orderHours"),
     getOrderHours()
       .then((res) => res.data)
-      .catch(() => null),
+      .catch((error) => {
+        unstable_rethrow(error);
+        return null;
+      }),
   ]);
 
   return (

@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextResponse } from "next/server";
 import { getAreaDrivers } from "@/shared/lib/services/zones/get-area-drivers";
 
@@ -9,7 +10,8 @@ export async function GET(
     const { areaCode } = await params;
     const data = await getAreaDrivers(areaCode);
     return NextResponse.json(data);
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch area drivers" },
       { status: 500 },

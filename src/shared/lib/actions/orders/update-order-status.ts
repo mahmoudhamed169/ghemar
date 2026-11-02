@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { OrderStatus } from "../../types/orders/order";
 
@@ -18,7 +19,7 @@ export async function updateOrderStatusAction(
     body.deliveredBagsCount = deliveredBagsCount;
   }
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders/${orderId}/status`,
     {
       method: "PUT",

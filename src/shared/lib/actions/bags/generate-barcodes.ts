@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 // ─── Package (activation codes) ───────────────────────────────────────────────
@@ -28,7 +29,7 @@ export async function generatePackageBarcodesAction(
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/activation/generate`,
     {
       method: "POST",
@@ -72,7 +73,7 @@ export async function generateSingleBagsAction(
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/bags/generate`,
     {
       method: "POST",

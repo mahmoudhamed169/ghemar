@@ -1,10 +1,11 @@
 "use client";
 
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { DriverDetailResponse } from "@/shared/lib/types/drivers/driver";
 
 async function fetchDriver(id: string): Promise<DriverDetailResponse> {
-  const res = await fetch(`/api/drivers/${id}`);
+  const res = await clientFetch(`/api/drivers/${id}`);
   if (!res.ok) throw new Error("Failed to fetch driver");
   return res.json();
 }

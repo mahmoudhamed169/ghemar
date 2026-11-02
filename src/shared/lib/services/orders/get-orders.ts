@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { OrdersParams, OrdersResponse } from "../../types/orders/order";
 import { RateLimitError } from "../../utils/rate-limit-error";
 
@@ -38,7 +39,7 @@ export const getOrders = cache(async function getOrders({
     ...(orderId && { orderId }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/orders?${params}`,
     {
       method: "GET",

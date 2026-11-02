@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { RateLimitError } from "./rate-limit-error";
 
 interface ServerFetchOptions extends RequestInit {
@@ -24,7 +25,7 @@ export async function serverFetch<T>(
     });
   }
 
-  const res = await fetch(url.toString(), {
+  const res = await apiFetch(url.toString(), {
     ...fetchOptions,
     headers: {
       "Content-Type": "application/json",

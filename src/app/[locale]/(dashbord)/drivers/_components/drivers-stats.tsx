@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Ban, CircleCheck, Truck, Wifi } from "lucide-react";
 import { getDrivers } from "@/shared/lib/services/drivers/get-drivers";
@@ -24,7 +25,8 @@ export default async function DriversStats({ search }: { search?: string }) {
       count({ status: "suspended" }),
       count({ activityStatus: "available" }),
     ]);
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

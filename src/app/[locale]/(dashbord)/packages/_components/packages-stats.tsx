@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getPackageStats } from "@/shared/lib/services/packages/get-package-stats";
 import { Package, PackageCheck, TrendingUp, PackageOpen } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -11,7 +12,8 @@ export default async function PackagesStats() {
   let data: Awaited<ReturnType<typeof getPackageStats>>["data"];
   try {
     ({ data } = await getPackageStats());
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

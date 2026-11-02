@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getCustomerById } from "@/shared/lib/services/customers/get-customer-by-id";
 
@@ -10,6 +11,7 @@ export async function GET(
     const data = await getCustomerById(id);
     return NextResponse.json(data);
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch customer" },

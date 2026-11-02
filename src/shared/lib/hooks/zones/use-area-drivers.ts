@@ -1,8 +1,9 @@
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { AreaDriversResponse } from "../../types/zones/city";
 
 async function fetchAreaDrivers(areaCode: string): Promise<AreaDriversResponse> {
-  const res = await fetch(`/api/areas/${areaCode}/drivers`);
+  const res = await clientFetch(`/api/areas/${areaCode}/drivers`);
   if (!res.ok) throw new Error("Failed to fetch area drivers");
   return res.json();
 }
