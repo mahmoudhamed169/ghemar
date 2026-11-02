@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getInvoiceById } from "@/shared/lib/services/reports/get-invoices";
 
@@ -11,6 +12,7 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
 
     return NextResponse.json(

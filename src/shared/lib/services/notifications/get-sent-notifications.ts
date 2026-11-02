@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import {
   SentNotificationsParams,
   SentNotificationsResponse,
@@ -27,7 +28,7 @@ export async function getSentNotifications({
     ...(orderId && { orderId }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/notifications/sent?${params}`,
     {
       method: "GET",

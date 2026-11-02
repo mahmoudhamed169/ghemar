@@ -1,5 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { unstable_rethrow } from "next/navigation";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 
 export interface SocialLinks {
   facebook: string;
@@ -17,7 +19,7 @@ export async function getSocialLinks(): Promise<SocialLinks | null> {
     const session = await getServerSession(authOptions);
     const token = session?.accessToken;
 
-    const res = await fetch(
+    const res = await apiFetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/settings/social-links`,
       {
         headers: {
@@ -31,7 +33,8 @@ export async function getSocialLinks(): Promise<SocialLinks | null> {
     if (!res.ok) return null;
     const json = await res.json();
     return json.data ?? null;
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return null;
   }
 }

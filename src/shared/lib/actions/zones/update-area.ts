@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { UpdateAreaInput } from "../../types/zones/city";
 
@@ -24,7 +25,7 @@ export async function updateAreaAction(
     ? { ...body, polygon: toGeoJSON(body.polygon) }
     : body;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/cities/${cityId}/areas/${areaCode}`,
     {
       method: "PUT",

@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { BranchesResponse } from "../../types/branches/branch";
 
 interface GetBranchesParams {
@@ -23,7 +24,7 @@ export async function getBranches(params?: GetBranchesParams): Promise<BranchesR
   if (params?.page)     url.searchParams.set("page", String(params.page));
   if (params?.limit)    url.searchParams.set("limit", String(params.limit));
 
-  const res = await fetch(url.toString(), {
+  const res = await apiFetch(url.toString(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

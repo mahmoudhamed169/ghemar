@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { RewardsPointsResponse } from "../../types/rewards/rewards";
 
 export interface RewardsPointsParams {
@@ -28,7 +29,7 @@ export async function getRewardsPoints({
     ...(maxPoints !== undefined && { maxPoints: String(maxPoints) }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/rewards/points?${params}`,
     {
       method: "GET",

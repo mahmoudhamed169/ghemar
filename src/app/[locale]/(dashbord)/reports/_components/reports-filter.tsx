@@ -1,5 +1,6 @@
 "use client";
 
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { Suspense, useCallback, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -60,7 +61,7 @@ async function fetchAllInvoices(searchParams: URLSearchParams): Promise<Invoice[
   if (from) params.set("from", from);
   if (to) params.set("to", to);
 
-  const res = await fetch(`/api/invoices/export?${params.toString()}`);
+  const res = await clientFetch(`/api/invoices/export?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch invoices");
   const json = await res.json();
   return (json.data ?? []) as Invoice[];

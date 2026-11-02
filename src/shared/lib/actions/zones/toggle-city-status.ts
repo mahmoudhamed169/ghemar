@@ -2,13 +2,14 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function toggleCityStatusAction(id: string): Promise<void> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/cities/${id}/status`,
     {
       method: "PUT",

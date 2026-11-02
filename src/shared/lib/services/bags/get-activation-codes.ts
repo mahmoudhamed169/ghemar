@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { RateLimitError } from "../../utils/rate-limit-error";
 import {
   ActivationCodesParams,
@@ -22,7 +23,7 @@ export async function getActivationCodes({
     ...(isUsed !== undefined && { isUsed: String(isUsed) }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/activation/codes?${params}`,
     {
       method: "GET",

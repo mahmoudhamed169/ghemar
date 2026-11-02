@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth"
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { CustomersParams, CustomersResponse } from "../../types/customers"
 
 export const CUSTOMERS_PAGE_SIZE = 20;
@@ -28,7 +29,7 @@ export async function getCustomers({
     ...(labelId && { labelId }),
   })
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users?${params}`,
     {
       method: "GET",

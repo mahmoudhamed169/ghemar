@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { AreaDriversResponse } from "../../types/zones/city";
 
 export async function getAreaDrivers(
@@ -8,7 +9,7 @@ export async function getAreaDrivers(
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/cities/areas/${areaCode}/drivers`,
     {
       method: "GET",

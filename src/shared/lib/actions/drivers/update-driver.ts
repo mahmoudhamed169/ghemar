@@ -1,6 +1,7 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { UpdateDriverPayload } from "../../types/drivers/driver";
 
@@ -17,7 +18,7 @@ export async function updateDriver(
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/drivers/${id}`,
     {
       method: "PUT",

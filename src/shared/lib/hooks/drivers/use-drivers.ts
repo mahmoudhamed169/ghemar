@@ -1,5 +1,6 @@
 "use client";
 
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import {
   DriversParams,
@@ -20,7 +21,7 @@ async function fetchDrivers(
     }),
   });
 
-  const res = await fetch(`/api/drivers?${query}`);
+  const res = await clientFetch(`/api/drivers?${query}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch drivers");

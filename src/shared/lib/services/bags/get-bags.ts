@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { BagsResponse, BagsParams } from "../../types/bags/bag";
 import { RateLimitError } from "../../utils/rate-limit-error";
 
@@ -29,7 +30,7 @@ export async function getBags({
     ...(packageId && { packageId }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/bags?${params}`,
     {
       method: "GET",
