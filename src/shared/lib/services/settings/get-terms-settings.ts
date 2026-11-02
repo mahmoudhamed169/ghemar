@@ -1,12 +1,13 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { TermsSettingsResponse } from "../../types/settings/terms-settings";
 
 export async function getTermsSettings(): Promise<TermsSettingsResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/settings/terms`,
     {
       method: "GET",

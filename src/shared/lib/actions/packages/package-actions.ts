@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import {
   CreatePackageBody,
@@ -19,7 +20,7 @@ export async function createPackageAction(
 ): Promise<PackageMutationResponse> {
   const token = await getToken();
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/packages`,
     {
       method: "POST",
@@ -45,7 +46,7 @@ export async function updatePackageAction(
 ): Promise<PackageMutationResponse> {
   const token = await getToken();
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/packages/${id}`,
     {
       method: "PUT",
@@ -70,7 +71,7 @@ export async function deletePackageAction(
 ): Promise<DeletePackageResponse> {
   const token = await getToken();
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/packages/${id}`,
     {
       method: "DELETE",

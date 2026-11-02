@@ -1,12 +1,13 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { PromoCodeStatsResponse } from "../../types/promocode/promo-code-stats";
 
 export async function getPromoCodeStats(): Promise<PromoCodeStatsResponse> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/promo-codes/stats`,
     {
       method: "GET",

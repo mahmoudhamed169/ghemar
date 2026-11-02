@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { DriversParams, DriversResponse } from "../../types/drivers/driver";
 
 export async function getDrivers({
@@ -22,7 +23,7 @@ export async function getDrivers({
     ...(activityStatus && { activityStatus }),
   });
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/drivers?${params}`,
     {
       method: "GET",

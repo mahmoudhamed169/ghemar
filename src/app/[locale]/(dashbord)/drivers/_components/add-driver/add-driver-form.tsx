@@ -1,4 +1,5 @@
 "use client";
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
@@ -54,12 +55,12 @@ export default function AddDriverForm({ onSuccess }: AddDriverFormProps) {
   });
 
   useEffect(() => {
-    fetch("/api/cities")
+    clientFetch("/api/cities")
       .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((res) => { setCities(res.data ?? []); setLoadingCities(false); })
       .catch(() => { setCityError(true); setLoadingCities(false); });
 
-    fetch("/api/branches")
+    clientFetch("/api/branches")
       .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((res) => { setBranches(res.data ?? []); setLoadingBranches(false); })
       .catch(() => { setBranchError(true); setLoadingBranches(false); });

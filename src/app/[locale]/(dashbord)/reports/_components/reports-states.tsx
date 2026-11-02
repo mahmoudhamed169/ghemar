@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { CheckCircle, DollarSign, FileText, XCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getInvoiceStats } from "@/shared/lib/services/reports/get-invoice-stats";
@@ -12,7 +13,8 @@ export default async function ReportsStats() {
   let data: Awaited<ReturnType<typeof getInvoiceStats>>["data"];
   try {
     ({ data } = await getInvoiceStats());
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

@@ -1,6 +1,7 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { UpdateAdminPayload } from "../../types/admins/admin";
 
@@ -13,7 +14,7 @@ export async function updateAdmin(id: string, payload: UpdateAdminPayload): Prom
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admins/${id}`,
     {
       method: "PUT",

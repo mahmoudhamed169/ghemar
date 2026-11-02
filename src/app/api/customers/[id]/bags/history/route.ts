@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { unstable_rethrow } from "next/navigation";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 
 export async function GET(
   req: NextRequest,
@@ -16,7 +18,7 @@ export async function GET(
       limit: req.nextUrl.searchParams.get("limit") ?? "20",
     });
 
-    const res = await fetch(
+    const res = await apiFetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/users/${id}/bags/history?${params}`,
       {
         headers: {
@@ -31,6 +33,7 @@ export async function GET(
     const json = await res.json().catch(() => ({ success: false }));
     return NextResponse.json(json, { status: res.status });
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch bags history" },

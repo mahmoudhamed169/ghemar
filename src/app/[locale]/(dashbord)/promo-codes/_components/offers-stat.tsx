@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getPromoCodeStats } from "@/shared/lib/services/promocode/get-promo-code-stats";
 import { TicketPercent, BadgePercent, Users2, Ban } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -11,7 +12,8 @@ export default async function OffersStat() {
   let data: Awaited<ReturnType<typeof getPromoCodeStats>>["data"];
   try {
     ({ data } = await getPromoCodeStats());
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

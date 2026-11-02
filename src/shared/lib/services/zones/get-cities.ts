@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { CitiesResponse } from "../../types/zones/city";
 
 interface GetCitiesParams {
@@ -15,7 +16,7 @@ export async function getCities(params?: GetCitiesParams): Promise<CitiesRespons
   if (params?.search) url.searchParams.set("search", params.search);
   if (params?.isActive !== undefined) url.searchParams.set("isActive", String(params.isActive));
 
-  const res = await fetch(url.toString(), {
+  const res = await apiFetch(url.toString(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Activity, AlertTriangle, CheckCircle2, ShoppingBag } from "lucide-react";
 import {
@@ -15,7 +16,8 @@ export default async function OrdersStats(filters: OrdersStatsFilters) {
   let stats: OrdersStatsData;
   try {
     stats = await getOrdersStats(filters);
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

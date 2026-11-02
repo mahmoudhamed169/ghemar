@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getDrivers } from "@/shared/lib/services/drivers/get-drivers";
 
@@ -13,6 +14,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
 
     return NextResponse.json(

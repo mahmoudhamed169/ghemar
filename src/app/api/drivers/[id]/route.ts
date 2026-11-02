@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getDriverById } from "@/shared/lib/services/drivers/get-driver-by-id";
 
@@ -10,6 +11,7 @@ export async function GET(
     const data = await getDriverById(id);
     return NextResponse.json(data);
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch driver" },

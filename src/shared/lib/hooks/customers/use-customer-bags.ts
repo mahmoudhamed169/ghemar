@@ -1,3 +1,4 @@
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AdjustCustomerBagsInput,
@@ -12,7 +13,7 @@ async function fetchBagsHistory(
   page: number,
   limit: number,
 ): Promise<CustomerBagsHistoryResponse> {
-  const res = await fetch(`/api/customers/${id}/bags/history?page=${page}&limit=${limit}`);
+  const res = await clientFetch(`/api/customers/${id}/bags/history?page=${page}&limit=${limit}`);
   const json = await res.json().catch(() => null);
   if (!res.ok || !json?.success) throw new Error(json?.message ?? "");
   return json;

@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getInvoices } from "@/shared/lib/services/reports/get-invoices";
 
@@ -12,6 +13,7 @@ export async function GET(req: NextRequest) {
     const data = await getInvoices({ page: 1, limit: 9999, search, status, fromDate, toDate });
     return NextResponse.json(data);
   } catch (error) {
+    unstable_rethrow(error);
     console.error(error);
     return NextResponse.json({ success: false, message: "Failed to fetch invoices" }, { status: 500 });
   }

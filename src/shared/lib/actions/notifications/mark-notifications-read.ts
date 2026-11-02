@@ -2,13 +2,14 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { isStoredNotificationId } from "../../utils/notification-id";
 
 async function putRead(path: string): Promise<void> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
+  const res = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

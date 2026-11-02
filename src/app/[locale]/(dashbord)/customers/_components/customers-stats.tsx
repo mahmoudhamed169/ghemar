@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Users } from "lucide-react";
 import { getCustomers } from "@/shared/lib/services/customers/get-customers";
@@ -22,7 +23,8 @@ export default async function CustomersStats({ filter }: Props) {
   try {
     const { pagination } = await getCustomers({ page: 1, limit: 1, ...filter });
     total = pagination.total;
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return <StatsError />;
   }
 

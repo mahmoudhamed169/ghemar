@@ -1,8 +1,9 @@
+import { clientFetch } from "@/shared/lib/utils/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { CustomerDetailResponse } from "../../types/customers";
 
 async function fetchCustomer(id: string): Promise<CustomerDetailResponse> {
-  const res = await fetch(`/api/customers/${id}`);
+  const res = await clientFetch(`/api/customers/${id}`);
   if (!res.ok) throw new Error("Failed to fetch customer");
   return res.json();
 }

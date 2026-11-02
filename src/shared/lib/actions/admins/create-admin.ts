@@ -1,6 +1,7 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { apiFetch } from "@/shared/lib/utils/api-fetch";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { CreateAdminPayload } from "../../types/admins/admin";
 
@@ -15,7 +16,7 @@ export async function createAdmin(payload: CreateAdminPayload): Promise<AdminAct
 
   console.log("📤 create-admin payload:", JSON.stringify(payload));
 
-  const res = await fetch(
+  const res = await apiFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/admins`,
     {
       method: "POST",
