@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import OrderDetailsSheet from "./order-details-sheet";
 import AssignDriverDialog from "./assign-driver-dialog";
+import CancelOrderDialog from "./cancel-order-dialog";
 import { Order } from "@/shared/lib/types/orders/order";
 import { useRowDetails } from "@/shared/components/details-row";
 
@@ -26,6 +27,7 @@ export default function OrderActions({ order }: OrderActionsProps) {
   const detailsOpen = row ? row.open : localOpen;
   const setDetailsOpen = row ? row.setOpen : setLocalOpen;
   const [assignOpen, setAssignOpen] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   const hasDriver = !!order.driver;
   // the driver can be changed (e.g. after automatic assignment) until the order is over
@@ -57,6 +59,15 @@ export default function OrderActions({ order }: OrderActionsProps) {
           >
             {t(hasDriver ? "change_driver" : "assign_driver")}
           </DropdownMenuItem>
+          {/* the backend allows cancelling from any status */}
+          {order.status !== "cancelled" && (
+            <DropdownMenuItem
+              className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-red-600 focus:text-red-600 focus:bg-red-50"
+              onSelect={() => setCancelOpen(true)}
+            >
+              {t("cancel_order")}
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -70,6 +81,11 @@ export default function OrderActions({ order }: OrderActionsProps) {
         orderId={order._id}
         open={assignOpen}
         onOpenChange={setAssignOpen}
+      />
+      <CancelOrderDialog
+        orderId={order._id}
+        open={cancelOpen}
+        onOpenChange={setCancelOpen}
       />
     </>
   );
