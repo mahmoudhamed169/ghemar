@@ -10,7 +10,7 @@ export async function updateOrderStatusAction(
   orderId: string,
   status: OrderStatus,
   deliveredBagsCount?: number,
-): Promise<{ success: boolean; message?: string }> {
+): Promise<{ success: boolean; message?: string; refundedBags?: number }> {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
 
@@ -35,8 +35,11 @@ export async function updateOrderStatusAction(
     return { success: false, message: "فشل تغيير حالة الطلب" };
   }
 
+  const json = await res.json().catch(() => null);
+
   revalidateTag("orders", {});
   revalidatePath("/[locale]/orders", "page");
 
-  return { success: true };
+  // cancelling gives the client's bags back; the backend says how many
+  return { success: true, refundedBags: json?.data?.refundedBags ?? 0 };
 }

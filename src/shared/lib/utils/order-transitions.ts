@@ -1,9 +1,11 @@
 import { OrderStatus, OrderType } from "../types/orders/order";
 
+// cancelling isn't listed here: it's allowed from any status and needs a
+// confirmation, so it has its own item in the order actions menu
 const STATIC_TRANSITIONS: Partial<Record<OrderStatus, OrderStatus[]>> = {
-  pending:                         ["confirmed", "cancelled"],
-  confirmed:                       ["driver_assigned", "awaiting_payment", "cancelled"],
-  awaiting_payment:                ["confirmed", "cancelled"],
+  pending:                         ["confirmed"],
+  confirmed:                       ["driver_assigned", "awaiting_payment"],
+  awaiting_payment:                ["confirmed"],
 
   // Laundry pickup flow
   driver_on_way_to_pickup:         ["driver_arrived_at_pickup"],

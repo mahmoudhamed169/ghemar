@@ -376,7 +376,8 @@
     "actions": {
       "view_details": "View Details",
       "assign_driver": "Assign Driver",
-      "change_driver": "Change driver"
+      "change_driver": "Change driver",
+      "cancel_order": "Cancel order"
     },
     "receipt": {
       "company_name": "Ghaymar Laundry",
@@ -469,6 +470,12 @@
         "not_found": "Order not found",
         "unknown": "Could not save the delivery time, try again"
       }
+    },
+    "cancelConfirm": {
+      "title": "Cancel this order?",
+      "description": "The order will be cancelled, its bags returned to the client's balance, and the client and driver notified. This can't be undone.",
+      "confirm": "Cancel order",
+      "cancel": "Back"
     }
   },
   "drivers": {
