@@ -5,6 +5,7 @@ import {
   formatRiyadhDate,
   formatRiyadhTime,
   formatRiyadhTimeRange,
+  formatRiyadhSlot,
 } from "./riyadh-time.ts";
 
 // Arabic-Indic digits → Latin, and strip bidi marks, so expectations stay readable
@@ -43,4 +44,12 @@ test("missing or invalid input returns null", () => {
   assert.equal(formatRiyadhTime(""), null);
   assert.equal(formatRiyadhTime("not a date"), null);
   assert.equal(formatRiyadhTimeRange("2026-10-04T14:00:00.000Z", null), null);
+});
+
+test("booked pickup slot: weekday, date and the 2-hour window in Riyadh", () => {
+  const start = "2026-11-17T11:00:00.000Z"; // 14:00 Riyadh
+  const end = "2026-11-17T13:00:00.000Z"; // 16:00 Riyadh
+  assert.equal(normalize(formatRiyadhSlot(start, end, "ar")), "الثلاثاء، 17 نوفمبر · 2:00 م – 4:00 م");
+  assert.equal(formatRiyadhSlot(start, end, "en"), "Tuesday 17 November · 2:00 pm – 4:00 pm");
+  assert.equal(formatRiyadhSlot(start, undefined, "ar"), null);
 });

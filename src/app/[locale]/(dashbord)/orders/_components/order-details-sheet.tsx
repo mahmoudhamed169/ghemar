@@ -18,12 +18,14 @@ import {
   DoorOpen,
   Handshake,
   Check,
+  CalendarClock,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePieceTypeLabel } from "@/shared/lib/hooks/orders/use-piece-type-label";
-import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
+import { formatRiyadhDate, formatRiyadhSlot, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
 import { DeliveryStateBadge, SetDeliveryTimeButton } from "./order-delivery-state";
 import OrderSortEdit from "./order-sort-edit";
+import { SetPickupTimeButton } from "./set-pickup-time-dialog";
 
 interface OrderDetailsSheetProps {
   order: Order;
@@ -64,6 +66,7 @@ function buildReceiptHTML(
   statusLabel: string,
 ): string {
   const pickupAddress = buildAddress(order.pickup.address);
+  const pickupSlot = formatRiyadhSlot(order.pickup.slotStart, order.pickup.slotEnd, "ar");
   const createdDate = formatDate(order.createdAt);
   const createdTime = formatRiyadhTime(order.createdAt, "ar-SA");
   const hr = `<hr/>`;
@@ -115,7 +118,7 @@ function buildReceiptHTML(
   ${row(r("address"), pickupAddress ?? undefined)}
   ${row(r("notes"), order.pickup.address?.notes)}
   ${hr}
-  ${order.pickup.scheduledDate ? row(r("pickup"), `${formatDate(order.pickup.scheduledDate)} — ${order.pickup.scheduledTime ?? ""}`) : ""}
+  ${pickupSlot ? row(r("pickup"), pickupSlot) : order.pickup.scheduledDate ? row(r("pickup"), `${formatDate(order.pickup.scheduledDate)} — ${order.pickup.scheduledTime ?? ""}`) : ""}
   ${order.delivery.scheduledDate ? row(r("delivery_label"), `${formatDate(order.delivery.scheduledDate)} — ${order.delivery.scheduledTime ?? ""}`) : ""}
   ${hr}
   ${row(r("order_type"), order.orderType === "laundry_pickup" ? r("order_type_laundry") : r("order_type_delivery"))}
@@ -267,7 +270,9 @@ export default function OrderDetailsSheet({
   const r = useTranslations("orders.receipt");
   const ts = useTranslations("orders.status");
   const td = useTranslations("orders.delivery_time");
+  const tp = useTranslations("orders.pickup_time");
   const pieceTypeLabel = usePieceTypeLabel();
+  const locale = useLocale();
 
   const [activeTab, setActiveTab] = useState<"details" | "activity">("details");
   // pieces returned by an edit show right away; once the refreshed order
@@ -280,6 +285,10 @@ export default function OrderDetailsSheet({
   const pickupCoords = order.pickup.address?.coordinates;
   const pickupAddress = buildAddress(order.pickup.address);
   const deliveryAddress = buildAddress(order.delivery.address);
+  // a booked 2-hour pickup window replaces the plain date + time
+  const pickupSlot = order.pickup.slotStart
+    ? formatRiyadhSlot(order.pickup.slotStart, order.pickup.slotEnd, locale)
+    : null;
   const hasBags = (order.bags?.length ?? 0) > 0;
 
   const handlePrint = () => {
@@ -401,18 +410,40 @@ export default function OrderDetailsSheet({
             />
           </div>
 
-          <SectionTitle>{t("pickup")}</SectionTitle>
+          <div className="flex items-center justify-between gap-2">
+            <SectionTitle>{t("pickup")}</SectionTitle>
+            <SetPickupTimeButton order={order} className="pt-2" />
+          </div>
           <div className="grid grid-cols-2 gap-3">
-            <DetailCard
-              icon={Calendar}
-              label={t("date")}
-              value={formatDate(order.pickup.scheduledDate) ?? undefined}
-            />
-            <DetailCard
-              icon={Clock}
-              label={t("time")}
-              value={order.pickup.scheduledTime ?? undefined}
-            />
+            {pickupSlot ? (
+              <div className="col-span-2">
+                <div className="rounded-xl border border-[#0C6175]/20 bg-teal-50/60 p-3 flex items-start gap-2.5">
+                  <CalendarClock className="mt-0.5 w-4 h-4 shrink-0 text-[#0C6175]" />
+                  <div className="flex flex-col gap-0.5 min-w-0">
+                    <span className="text-xs text-gray-500">
+                      {t("pickup_slot")} ·{" "}
+                      {tp(order.pickup.slotChosenBy === "admin" ? "chosen_by_admin" : "chosen_by_client")}
+                    </span>
+                    <span className="text-sm font-semibold text-[#000709] break-words">
+                      {pickupSlot}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <DetailCard
+                  icon={Calendar}
+                  label={t("date")}
+                  value={formatDate(order.pickup.scheduledDate) ?? undefined}
+                />
+                <DetailCard
+                  icon={Clock}
+                  label={t("time")}
+                  value={order.pickup.scheduledTime ?? undefined}
+                />
+              </>
+            )}
             {order.estimatedPickupTime && (
               <div className="col-span-2">
                 <DetailCard

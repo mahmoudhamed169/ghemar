@@ -331,7 +331,8 @@
       "priority_express": "Express",
       "priority_normal": "Normal",
       "no_value": "—",
-      "slot_not_set": "Not set"
+      "slot_not_set": "Not set",
+      "pickup_slot_booked": "Booked pickup window"
     },
     "details": {
       "order_number_label": "Order Number",
@@ -371,7 +372,8 @@
       "delivery_reminders_sent": "Reminders Sent",
       "needs_bags_delivery": "Needs Empty Bags",
       "delivery_time_chosen": "Customer Chose Slot",
-      "delivery_time_not_chosen": "Slot Not Chosen"
+      "delivery_time_not_chosen": "Slot Not Chosen",
+      "pickup_slot": "Booked pickup window"
     },
     "actions": {
       "view_details": "View Details",
@@ -469,13 +471,38 @@
         "other_branch": "This order belongs to another branch",
         "not_found": "Order not found",
         "unknown": "Could not save the delivery time, try again"
-      }
+      },
+      "change": "Change delivery time"
     },
     "cancelConfirm": {
       "title": "Cancel this order?",
       "description": "The order will be cancelled, its bags returned to the client's balance, and the client and driver notified. This can't be undone.",
       "confirm": "Cancel order",
       "cancel": "Back"
+    },
+    "pickup_time": {
+      "change": "Change pickup time",
+      "chosen_by_client": "Client's choice",
+      "chosen_by_admin": "Changed by an admin",
+      "current": "Current window",
+      "date": "Pickup date",
+      "window": "Pickup window",
+      "current_start_kept": "Current start {time} — pick a window to change it",
+      "custom_end": "Custom end time",
+      "optional": "(optional)",
+      "add_custom_end": "+ Custom end time",
+      "remove_custom_end": "Remove",
+      "hint": "Times are in Saudi time. The window is two hours unless you set a custom end. Closed hours and the 7-day limit don't apply to admins.",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "success": "Pickup time changed; the client and driver were notified",
+      "errors": {
+        "window_required": "Choose the date and a pickup window",
+        "end_before_start": "The end time must be after the start time",
+        "must_be_future": "The window must end in the future",
+        "unknown": "Could not save the pickup time, try again"
+      }
     }
   },
   "drivers": {
@@ -845,7 +872,10 @@
       "expressWash": "express wash / month",
       "inactive": "Inactive",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "mostPopular": "Most requested",
+      "savingsPercent": "Save {value}%",
+      "savingsAmount": "Save {value} SAR"
     },
     "stats": {
       "totalPackages": "Total Packages",
@@ -864,7 +894,21 @@
       "expressWashCount": "Express wash / month",
       "save": "Save",
       "saving": "Saving...",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "optional": "(optional)",
+      "descriptionAr": "Description (Arabic)",
+      "descriptionEn": "Description (English)",
+      "descriptionArPlaceholder": "استلام أسبوعي لكل العائلة",
+      "mostPopular": "Most requested",
+      "mostPopularHint": "Turning this on removes the badge from the other package.",
+      "savings": "Savings",
+      "savingsType": "Savings type",
+      "savingsAmount": "SAR",
+      "savingsHint": "Leave empty to hide the savings badge.",
+      "savingsOverHundred": "Percentage savings can't be more than 100%",
+      "savingsInvalid": "Enter a number of 0 or more",
+      "freeGiftAr": "Free gift (Arabic)",
+      "freeGiftEn": "Free gift (English)"
     },
     "deleteModal": {
       "title": "Delete Package",
@@ -880,6 +924,14 @@
       "deleteMessage": "Package has been deleted successfully",
       "addTitle": "Added Successfully",
       "addMessage": "Package has been added successfully"
+    },
+    "toast": {
+      "addSuccess": "Package added successfully",
+      "addError": "Something went wrong while adding the package",
+      "editSuccess": "Package updated successfully",
+      "editError": "Something went wrong while updating the package",
+      "deleteSuccess": "Package deleted successfully",
+      "deleteError": "Something went wrong while deleting the package"
     }
   },
   "Reports": {
@@ -1122,7 +1174,7 @@
       },
       "orderHours": {
         "title": "Order Pause Hours",
-        "description": "Orders are not accepted during these hours, and the customer sees a message with the reopening time.",
+        "description": "Customers can't order an immediate pickup during these hours and see a message with the reopening time. They can still order during them by booking a later pickup slot.",
         "timezoneNote": "All times are in Riyadh time ({timezone})",
         "closedNow": "Service is paused now until {reopensAt}",
         "closedNowNoTime": "Service is paused now",
@@ -1142,7 +1194,72 @@
         "saveError": "Something went wrong while saving the pause hours, please try again",
         "loadError": "Couldn't load the order pause hours",
         "errorRequired": "Enter a start and end time for every window",
-        "errorSame": "Start time must be different from end time"
+        "errorSame": "Start time must be different from end time",
+        "slotsNote": "Pickup slots that overlap an active pause window are hidden from the app."
+      },
+      "appUpdate": {
+        "title": "Customer App Update",
+        "description": "Set the minimum allowed version (forced update) and the latest version (optional update) for each platform.",
+        "loadError": "Couldn't load the app update settings",
+        "platforms": {
+          "android": "Android",
+          "ios": "iOS"
+        },
+        "trackedClients": "{count} tracked clients",
+        "publishedIos": "Published on the App Store",
+        "publishedAndroid": "Highest version used by clients",
+        "refresh": "Refresh",
+        "releasedAt": "Released {date}",
+        "androidHint": "Google Play doesn't publish the version number, so this is the highest version clients are running. A new release shows here once the first client installs it.",
+        "minVersion": "Minimum allowed version (forced update)",
+        "latestVersion": "Latest version (optional update)",
+        "usePublished": "Use published version",
+        "emptyTurnsOff": "Leave a field empty to turn that check off.",
+        "storeUrl": "Store link",
+        "storeUrlHint": "Must start with https://. Leave empty to use the default store link.",
+        "impact": "{count} clients are on an older version and will be asked to update.",
+        "versionsTitle": "Versions in use",
+        "noVersions": "No version data yet",
+        "table": {
+          "version": "Version",
+          "clients": "Clients",
+          "lastSeen": "Last seen",
+          "belowMin": "Below minimum"
+        },
+        "errors": {
+          "invalidVersion": "Invalid version format, e.g. 1.2.3",
+          "minAboveLatest": "The minimum version can't be higher than the latest version",
+          "invalidUrl": "The link must start with https://"
+        },
+        "messages": {
+          "title": "Update messages",
+          "description": "The text clients see in the update prompt.",
+          "force": "Forced update",
+          "optional": "Optional update",
+          "title_ar": "Title (Arabic)",
+          "title_en": "Title (English)",
+          "message_ar": "Message (Arabic)",
+          "message_en": "Message (English)"
+        },
+        "howTo": {
+          "title": "How to release an update",
+          "step1": "Publish the new version on the store.",
+          "step2": "Wait until it is live: on iOS, the App Store version above changes; on Android, clients start appearing on the new version.",
+          "step3": "Raise the minimum version."
+        },
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "saveSuccess": "App update settings saved",
+        "saveError": "Something went wrong while saving, please try again",
+        "refreshSuccess": "App Store version refreshed",
+        "refreshError": "Couldn't refresh the App Store version",
+        "confirm": {
+          "title": "Confirm raising the minimum version",
+          "warning": "Clients below this version will be blocked and may not find the update in the store yet.",
+          "confirm": "Yes, save",
+          "cancel": "Cancel"
+        }
       }
     },
     "general": {
