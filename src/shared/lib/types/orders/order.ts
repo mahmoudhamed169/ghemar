@@ -50,9 +50,16 @@ interface Address {
 
 interface Pickup {
   address?: Address;
+  /** equals slotStart when the client booked a pickup slot */
   scheduledDate?: string;
+  /** the slot's start time ("14:00") when the client booked a pickup slot */
   scheduledTime?: string;
   method?: PickupMethod;
+  /** the booked 2-hour pickup window (ISO). Missing on orders without a booked slot */
+  slotStart?: string;
+  slotEnd?: string;
+  /** who set the pickup window. Missing on older orders — treat as "client" */
+  slotChosenBy?: "client" | "admin";
 }
 
 interface Delivery {
@@ -152,8 +159,10 @@ export interface Order {
   chosenDeliverySlot?: ChosenDeliverySlot;
   /** computed by the API at response time — recompute on screen as time passes */
   deliveryState?: DeliveryState;
-  /** the admin may set / change the delivery time */
+  /** the admin may set / change the delivery time, whoever chose it */
   canSetDeliveryTime?: boolean;
+  /** the admin may change the pickup window (laundry orders, until the bags are collected) */
+  canSetPickupTime: boolean;
   deliveryRemindersSent?: number;
   bags: LinkedBag[];
   sortedItems: SortedItem[];

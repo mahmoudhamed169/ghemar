@@ -22,8 +22,10 @@ import {
 
 interface SetDeliveryTimeDialogProps {
   orderId: string;
-  /** the slot an admin set earlier, when editing */
+  /** the current slot (chosen by the client or an admin), preselected */
   currentSlot?: ChosenDeliverySlot;
+  /** the dialog title, matching the button that opened it */
+  title?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -31,6 +33,7 @@ interface SetDeliveryTimeDialogProps {
 export default function SetDeliveryTimeDialog({
   orderId,
   currentSlot,
+  title,
   open,
   onOpenChange,
 }: SetDeliveryTimeDialogProps) {
@@ -41,7 +44,7 @@ export default function SetDeliveryTimeDialog({
       <DialogContent className="max-w-md p-0 gap-0 overflow-hidden">
         <DialogHeader className="px-5 pt-5 pb-4 border-b">
           <DialogTitle className="text-lg font-bold text-[#000709] mt-4 text-center">
-            {currentSlot ? t("edit") : t("set")}
+            {title ?? (currentSlot ? t("edit") : t("set"))}
           </DialogTitle>
         </DialogHeader>
         {/* mounted on every open, so it always starts from the current slot (or empty) */}

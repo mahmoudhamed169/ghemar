@@ -12,6 +12,7 @@ import {
 import OrderDetailsSheet from "./order-details-sheet";
 import AssignDriverDialog from "./assign-driver-dialog";
 import CancelOrderDialog from "./cancel-order-dialog";
+import SetPickupTimeDialog from "./set-pickup-time-dialog";
 import { Order } from "@/shared/lib/types/orders/order";
 import { useRowDetails } from "@/shared/components/details-row";
 
@@ -21,6 +22,7 @@ interface OrderActionsProps {
 
 export default function OrderActions({ order }: OrderActionsProps) {
   const t = useTranslations("orders.actions");
+  const tp = useTranslations("orders.pickup_time");
   // clicking the row opens the same details as the menu item
   const row = useRowDetails();
   const [localOpen, setLocalOpen] = useState(false);
@@ -28,6 +30,7 @@ export default function OrderActions({ order }: OrderActionsProps) {
   const setDetailsOpen = row ? row.setOpen : setLocalOpen;
   const [assignOpen, setAssignOpen] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [pickupOpen, setPickupOpen] = useState(false);
 
   const hasDriver = !!order.driver;
   // the driver can be changed (e.g. after automatic assignment) until the order is over
@@ -45,7 +48,7 @@ export default function OrderActions({ order }: OrderActionsProps) {
             <Eye className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-40 p-1">
+        <DropdownMenuContent align="end" className="w-44 p-1">
           <DropdownMenuItem
             className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-[#0C6175] focus:text-[#0C6175] focus:bg-teal-50"
             onSelect={() => setDetailsOpen(true)}
@@ -59,6 +62,14 @@ export default function OrderActions({ order }: OrderActionsProps) {
           >
             {t(hasDriver ? "change_driver" : "assign_driver")}
           </DropdownMenuItem>
+          {order.canSetPickupTime && (
+            <DropdownMenuItem
+              className="cursor-pointer rounded-lg py-2.5 px-3 text-sm font-medium text-gray-700 focus:bg-gray-50"
+              onSelect={() => setPickupOpen(true)}
+            >
+              {tp("change")}
+            </DropdownMenuItem>
+          )}
           {/* the backend allows cancelling from any status */}
           {order.status !== "cancelled" && (
             <DropdownMenuItem
@@ -82,6 +93,14 @@ export default function OrderActions({ order }: OrderActionsProps) {
         open={assignOpen}
         onOpenChange={setAssignOpen}
       />
+      {order.canSetPickupTime && (
+        <SetPickupTimeDialog
+          orderId={order._id}
+          current={order.pickup}
+          open={pickupOpen}
+          onOpenChange={setPickupOpen}
+        />
+      )}
       <CancelOrderDialog
         orderId={order._id}
         open={cancelOpen}

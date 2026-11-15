@@ -120,6 +120,7 @@ export default function OrderHoursForm({ initialData }: OrderHoursFormProps) {
         <span className="text-xs text-gray-400">
           {t("timezoneNote", { timezone: saved.timezone })}
         </span>
+        <p className="basis-full text-xs text-gray-500">{t("slotsNote")}</p>
       </div>
 
       {/* Windows */}

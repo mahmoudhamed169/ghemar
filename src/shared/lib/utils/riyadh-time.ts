@@ -92,3 +92,14 @@ export function riyadhInputToDate(date: string, time: string) {
   const result = new Date(`${date}T${time}:00+03:00`);
   return isNaN(result.getTime()) ? null : result;
 }
+
+/**
+ * A booked pickup window such as "الثلاثاء، ١٧ نوفمبر · ٢:٠٠ م – ٤:٠٠ م"
+ * (en: "Tuesday 17 November · 2:00 pm – 4:00 pm"). The day is the start's day
+ * in Riyadh. null if either end is invalid.
+ */
+export function formatRiyadhSlot(start: DateInput, end: DateInput, locale = "ar") {
+  const day = formatRiyadhDate(start, locale, { weekday: "long", day: "numeric", month: "long" });
+  const range = formatRiyadhTimeRange(start, end, locale);
+  return day && range ? `${day} · ${range}` : null;
+}

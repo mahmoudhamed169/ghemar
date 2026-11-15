@@ -121,7 +121,7 @@ export function DeliverySlotText({
   );
 }
 
-/** "set" / "edit delivery time" — renders nothing unless the admin is allowed to */
+/** "set" / "edit" / "change delivery time" — renders nothing unless the admin is allowed to */
 export function SetDeliveryTimeButton({
   order,
   className,
@@ -134,9 +134,9 @@ export function SetDeliveryTimeButton({
 
   if (!order.canSetDeliveryTime) return null;
 
-  // only a slot an admin set can be edited; a client's choice is never offered
-  const adminSlot =
-    order.chosenDeliverySlot?.chosenBy === "admin" ? order.chosenDeliverySlot : undefined;
+  // the admin may change any slot, including one the client chose
+  const slot = order.chosenDeliverySlot;
+  const label = !slot ? t("set") : slot.chosenBy === "admin" ? t("edit") : t("change");
 
   return (
     <>
@@ -149,11 +149,12 @@ export function SetDeliveryTimeButton({
         )}
       >
         <CalendarClock className="w-3.5 h-3.5" />
-        {adminSlot ? t("edit") : t("set")}
+        {label}
       </button>
       <SetDeliveryTimeDialog
         orderId={order._id}
-        currentSlot={adminSlot}
+        currentSlot={slot}
+        title={label}
         open={open}
         onOpenChange={setOpen}
       />

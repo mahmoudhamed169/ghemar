@@ -1,51 +1,79 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { createPackageAction, deletePackageAction, updatePackageAction } from "../../actions/packages/package-actions";
-import { CreatePackageBody, UpdatePackageBody } from "../../types/packages/package-mutation";
+import {
+  CreatePackageBody,
+  PackageMutationResponse,
+  UpdatePackageBody,
+} from "../../types/packages/package-mutation";
 
+/** the actions return API failures (they can't throw a readable message) */
+function unwrap(res: PackageMutationResponse) {
+  if (!res.success) throw new Error(res.message);
+  return res;
+}
+
+/**
+ * Saving one package can change the others (turning "most requested" on turns
+ * it off everywhere else), so refetch the whole list: the React Query cache and
+ * the server-rendered cards.
+ */
+function useRefreshPackages() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  return () => {
+    queryClient.invalidateQueries({ queryKey: ["packages"] });
+    router.refresh();
+  };
+}
 
 export function useCreatePackage() {
-  const queryClient = useQueryClient();
+  const t = useTranslations("Packages.toast");
+  const refresh = useRefreshPackages();
 
   return useMutation({
-    mutationFn: (body: CreatePackageBody) => createPackageAction(body),
+    mutationFn: async (body: CreatePackageBody) => unwrap(await createPackageAction(body)),
     onSuccess: () => {
-      toast.success("تم إضافة الباقة بنجاح");
-      queryClient.invalidateQueries({ queryKey: ["packages"] });
+      toast.success(t("addSuccess"));
+      refresh();
     },
-    onError: () => {
-      toast.error("حدث خطأ أثناء إضافة الباقة");
+    onError: (error) => {
+      toast.error(error.message || t("addError"));
     },
   });
 }
 
 export function useUpdatePackage() {
-  const queryClient = useQueryClient();
+  const t = useTranslations("Packages.toast");
+  const refresh = useRefreshPackages();
 
   return useMutation({
-    mutationFn: ({ id, body }: { id: string; body: UpdatePackageBody }) =>
-      updatePackageAction(id, body),
+    mutationFn: async ({ id, body }: { id: string; body: UpdatePackageBody }) =>
+      unwrap(await updatePackageAction(id, body)),
     onSuccess: () => {
-      toast.success("تم تعديل الباقة بنجاح");
-      queryClient.invalidateQueries({ queryKey: ["packages"] });
+      toast.success(t("editSuccess"));
+      refresh();
     },
-    onError: () => {
-      toast.error("حدث خطأ أثناء تعديل الباقة");
+    onError: (error) => {
+      toast.error(error.message || t("editError"));
     },
   });
 }
 
 export function useDeletePackage() {
-  const queryClient = useQueryClient();
+  const t = useTranslations("Packages.toast");
+  const refresh = useRefreshPackages();
 
   return useMutation({
     mutationFn: (id: string) => deletePackageAction(id),
     onSuccess: () => {
-      toast.success("تم حذف الباقة بنجاح");
-      queryClient.invalidateQueries({ queryKey: ["packages"] });
+      toast.success(t("deleteSuccess"));
+      refresh();
     },
     onError: () => {
-      toast.error("حدث خطأ أثناء حذف الباقة");
+      toast.error(t("deleteError"));
     },
   });
 }
