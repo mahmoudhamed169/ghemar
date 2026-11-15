@@ -10,6 +10,16 @@ import {
   PackageMutationResponse,
   UpdatePackageBody,
 } from "../../types/packages/package-mutation";
+// a thrown error's message doesn't reach the client in production, so a
+// rejected create/update returns the API's message instead (e.g. savings > 100%)
+async function toFailure(res: Response): Promise<PackageMutationResponse> {
+  const body = await res.json().catch(() => null);
+  return {
+    success: false,
+    message: typeof body?.message === "string" ? body.message : "",
+  };
+}
+
 async function getToken(): Promise<string | undefined> {
   const session = await getServerSession(authOptions);
   return session?.accessToken;
@@ -32,7 +42,7 @@ export async function createPackageAction(
     },
   );
 
-  if (!res.ok) throw new Error(`Failed to create package: ${res.status}`);
+  if (!res.ok) return toFailure(res);
 
   revalidateTag("packages", {});
   revalidateTag("packages-stats", {});
@@ -58,7 +68,7 @@ export async function updatePackageAction(
     },
   );
 
-  if (!res.ok) throw new Error(`Failed to update package: ${res.status}`);
+  if (!res.ok) return toFailure(res);
 
   revalidateTag("packages", {});
   revalidateTag("packages-stats", {});

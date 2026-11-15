@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -17,6 +15,13 @@ import {
   useCreatePackage,
   useUpdatePackage,
 } from "@/shared/lib/hooks/packages/use-package-mutations";
+import PackageForm, {
+  EMPTY_PACKAGE_FORM,
+  PackageFormState,
+  formToExtrasBody,
+  getSavingsError,
+  packageToFormState,
+} from "./package-form";
 
 interface PackageModalProps {
   open: boolean;
@@ -26,20 +31,6 @@ interface PackageModalProps {
   pkg?: Package;
 }
 
-interface FormState {
-  name: string;
-  nameAr: string;
-  price: string;
-  bagCount: string;
-}
-
-const INITIAL: FormState = {
-  name: "",
-  nameAr: "",
-  price: "",
-  bagCount: "",
-};
-
 export default function PackageModal({
   open,
   onClose,
@@ -48,42 +39,33 @@ export default function PackageModal({
   pkg,
 }: PackageModalProps) {
   const t = useTranslations("Packages.modal");
-  const [form, setForm] = useState<FormState>(INITIAL);
+  const initialForm = () =>
+    mode === "edit" && pkg ? packageToFormState(pkg) : EMPTY_PACKAGE_FORM;
+  const [form, setForm] = useState<PackageFormState>(initialForm);
+
+  // refill the form each time the modal opens or the package changes
+  const [source, setSource] = useState({ open, mode, pkg });
+  if (source.open !== open || source.mode !== mode || source.pkg !== pkg) {
+    setSource({ open, mode, pkg });
+    setForm(initialForm());
+  }
 
   const { mutate: createPackage, isPending: isCreating } = useCreatePackage();
   const { mutate: updatePackage, isPending: isUpdating } = useUpdatePackage();
   const isPending = isCreating || isUpdating;
 
-  useEffect(() => {
-    if (mode === "edit" && pkg) {
-      setForm({
-        name:     pkg.name,
-        nameAr:   pkg.nameAr,
-        price:    String(pkg.price),
-        bagCount: String(pkg.bagCount),
-      });
-    } else {
-      setForm(INITIAL);
-    }
-  }, [mode, pkg, open]);
+  const handleChange = (patch: Partial<PackageFormState>) =>
+    setForm((prev) => ({ ...prev, ...patch }));
 
-  const handleChange = (field: keyof FormState, val: string) =>
-    setForm((prev) => ({ ...prev, [field]: val }));
+  const hasBaseFields = !!(form.name.trim() && form.nameAr.trim() && form.price);
+  const hasValidExtras = getSavingsError(form) === null;
 
-  const isAddValid = !!(
-    form.name.trim() &&
-    form.nameAr.trim() &&
-    form.price &&
-    form.bagCount
-  );
-
-  const isEditValid = !!(form.name.trim() && form.nameAr.trim() && form.price);
+  const isAddValid = hasBaseFields && !!form.bagCount && hasValidExtras;
+  const isEditValid = hasBaseFields && hasValidExtras;
 
   const isDirty =
     mode === "edit" && pkg
-      ? form.name !== pkg.name ||
-        form.nameAr !== pkg.nameAr ||
-        Number(form.price) !== pkg.price
+      ? JSON.stringify(form) !== JSON.stringify(packageToFormState(pkg))
       : true;
 
   const isValid = mode === "add" ? isAddValid : isEditValid && isDirty;
@@ -98,6 +80,7 @@ export default function PackageModal({
           bagCount:         Number(form.bagCount),
           expressWashCount: 0,
           currency:         "SAR",
+          ...formToExtrasBody(form),
         },
         { onSuccess },
       );
@@ -109,6 +92,7 @@ export default function PackageModal({
             name:   form.name.trim(),
             nameAr: form.nameAr.trim(),
             price:  Number(form.price),
+            ...formToExtrasBody(form),
           },
         },
         { onSuccess },
@@ -118,7 +102,7 @@ export default function PackageModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[480px] rounded-2xl p-8">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto rounded-2xl p-6 sm:p-8">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-2xl font-bold text-[#000709] mt-2">
             {mode === "add" ? t("addTitle") : t("editTitle")}
@@ -129,66 +113,7 @@ export default function PackageModal({
         </DialogHeader>
 
         <div className="flex flex-col gap-5">
-          {/* Name AR + EN */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-sm font-medium text-[#000709]">
-                {t("nameAr")}
-              </Label>
-              <Input
-                placeholder="تنظيف أساسي"
-                value={form.nameAr}
-                onChange={(e) => handleChange("nameAr", e.target.value)}
-                className="h-11 bg-[#F5F5F5] border-none"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-sm font-medium text-[#000709]">
-                {t("nameEn")}
-              </Label>
-              <Input
-                placeholder="Basic Clean"
-                value={form.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                className="h-11 bg-[#F5F5F5] border-none"
-                dir="ltr"
-              />
-            </div>
-          </div>
-
-          {/* Price */}
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-medium text-[#000709]">
-              {t("price")} (SAR)
-            </Label>
-            <Input
-              type="number"
-              placeholder="99.99"
-              value={form.price}
-              min={0}
-              onChange={(e) => handleChange("price", e.target.value)}
-              className="h-11 bg-[#F5F5F5] border-none"
-              dir="ltr"
-            />
-          </div>
-
-          {/* Add only fields */}
-          {mode === "add" && (
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-sm font-medium text-[#000709]">
-                {t("bagCount")}
-              </Label>
-              <Input
-                type="number"
-                placeholder="5"
-                value={form.bagCount}
-                min={1}
-                onChange={(e) => handleChange("bagCount", e.target.value)}
-                className="h-11 bg-[#F5F5F5] border-none"
-                dir="ltr"
-              />
-            </div>
-          )}
+          <PackageForm mode={mode} form={form} onChange={handleChange} />
 
           {/* Actions */}
           <div className="flex gap-3 mt-1">

@@ -1,7 +1,11 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getTranslations, getLocale } from "next-intl/server";
-import { ShoppingBag } from "lucide-react";
-import { formatRiyadhDate, formatRiyadhTime } from "@/shared/lib/utils/riyadh-time";
+import { CalendarClock, ShoppingBag } from "lucide-react";
+import {
+  formatRiyadhDate,
+  formatRiyadhTime,
+  formatRiyadhTimeRange,
+} from "@/shared/lib/utils/riyadh-time";
 
 function formatDate(dateStr: string, locale: string) {
   return formatRiyadhDate(dateStr, locale, { day: "numeric", month: "short" }) ?? dateStr;
@@ -34,6 +38,7 @@ interface Props {
 
 export default async function OrdersTableBody({ orders, offset }: Props) {
   const t = await getTranslations("orders.table");
+  const tp = await getTranslations("orders.pickup_time");
   const locale = await getLocale();
 
   if (!orders.length) {
@@ -90,12 +95,24 @@ export default async function OrdersTableBody({ orders, offset }: Props) {
             </div>
           </TableCell>
 
-          {/* Pickup: actualPickupTime → done; estimatedPickupTime → pending */}
+          {/* Pickup: actualPickupTime → done; booked slot / estimatedPickupTime → pending */}
           <TableCell className="text-center">
             {order.actualPickupTime ? (
               <div className="flex flex-col items-center leading-tight gap-0.5">
                 <span className="text-lg font-semibold text-emerald-700">{formatDate(order.actualPickupTime, locale)}</span>
                 <span className="text-emerald-500 text-base font-medium">{formatTime(order.actualPickupTime, locale)}</span>
+              </div>
+            ) : order.pickup?.slotStart ? (
+              <div className="flex flex-col items-center leading-tight gap-0.5">
+                <span className="text-lg font-semibold text-gray-600">{formatDate(order.pickup.slotStart, locale)}</span>
+                <span className="inline-flex items-center gap-1 text-[#0C6175] text-sm font-medium whitespace-nowrap" title={t("pickup_slot_booked")}>
+                  <CalendarClock className="w-3.5 h-3.5 shrink-0" />
+                  {formatRiyadhTimeRange(order.pickup.slotStart, order.pickup.slotEnd, locale) ??
+                    formatTime(order.pickup.slotStart, locale)}
+                </span>
+                <span className="text-[11px] text-gray-400 whitespace-nowrap">
+                  {tp(order.pickup.slotChosenBy === "admin" ? "chosen_by_admin" : "chosen_by_client")}
+                </span>
               </div>
             ) : order.estimatedPickupTime ? (
               <div className="flex flex-col items-center leading-tight gap-0.5">
