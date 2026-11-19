@@ -1,87 +1,129 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { PromoCode } from "@/shared/lib/types/promocode/promo-codes";
+import { useLocale, useTranslations } from "next-intl";
+import { City } from "@/shared/lib/types/cities/city";
+import { PromoCode, refId } from "@/shared/lib/types/promocode/promo-codes";
+import { UpdatePromoCodeBody } from "@/shared/lib/types/promocode/update-promo-code";
 import { useUpdatePromoCode } from "@/shared/lib/hooks/promocode/use-update-promo-code";
-
+import { useCities } from "@/shared/lib/hooks/cities/use-cities";
+import AddCodeFields from "../add-discount-code/add-code-fields";
 
 interface EditCodeFormProps {
   promoCode: PromoCode;
   onClose: () => void;
 }
 
-export default function EditCodeForm({
-  promoCode,
-  onClose,
-}: EditCodeFormProps) {
-  const t = useTranslations("PromoCodes.editForm");
+interface FormState {
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: string;
+  /** "" = unlimited */
+  usageLimit: string;
+  expiryDate: string;
+  applicableCities: string[];
+}
 
-  const [discountValue, setDiscountValue] = useState(
-    String(promoCode.discountValue),
-  );
-  const [expiryDate, setExpiryDate] = useState(
-    promoCode.expiryDate.split("T")[0],
-  );
+function toFormState(promoCode: PromoCode): FormState {
+  return {
+    code: promoCode.code,
+    discountType: promoCode.discountType,
+    discountValue: String(promoCode.discountValue),
+    usageLimit: promoCode.maxUsage ? String(promoCode.maxUsage) : "",
+    expiryDate: promoCode.expiryDate ? promoCode.expiryDate.split("T")[0] : "",
+    applicableCities: (promoCode.applicableCities ?? []).map(refId),
+  };
+}
+
+const sameIds = (a: string[], b: string[]) =>
+  a.length === b.length && [...a].sort().join() === [...b].sort().join();
+
+/** only what changed */
+function buildBody(initial: FormState, form: FormState): UpdatePromoCodeBody {
+  const body: UpdatePromoCodeBody = {};
+  const code = form.code.trim().toUpperCase();
+  if (code !== initial.code) body.code = code;
+  if (form.discountType !== initial.discountType) body.discountType = form.discountType;
+  if (form.discountValue !== initial.discountValue) body.discountValue = Number(form.discountValue);
+  if (form.usageLimit !== initial.usageLimit) {
+    // emptied = back to unlimited
+    body.usageLimit = form.usageLimit ? Number(form.usageLimit) : null;
+  }
+  if (form.expiryDate !== initial.expiryDate) {
+    body.expiryDate = new Date(form.expiryDate).toISOString();
+  }
+  if (!sameIds(form.applicableCities, initial.applicableCities)) {
+    body.applicableCities = form.applicableCities;
+  }
+  return body;
+}
+
+export default function EditCodeForm({ promoCode, onClose }: EditCodeFormProps) {
+  const t = useTranslations("PromoCodes.editForm");
+  const locale = useLocale();
+
+  const [initial] = useState(() => toFormState(promoCode));
+  const [form, setForm] = useState<FormState>(initial);
+
+  const { data: citiesData, isLoading: citiesLoading, isError: citiesError } = useCities();
+  const cities = citiesData?.data ?? [];
+  const getCityName = (city: City) => (locale === "ar" ? city.nameAr : city.name);
 
   const { mutate: updatePromoCode, isPending } = useUpdatePromoCode();
 
-  const isValid = !!(discountValue && expiryDate);
+  const handleChange = (field: string, val: string) =>
+    setForm((prev) => ({ ...prev, [field]: val }));
 
-  const isDirty =
-    Number(discountValue) !== promoCode.discountValue ||
-    expiryDate !== promoCode.expiryDate.split("T")[0];
+  const handleToggleCity = (cityId: string) =>
+    setForm((prev) => ({
+      ...prev,
+      applicableCities: prev.applicableCities.includes(cityId)
+        ? prev.applicableCities.filter((id) => id !== cityId)
+        : [...prev.applicableCities, cityId],
+    }));
+
+  const value = Number(form.discountValue);
+  const isValid =
+    !!form.code.trim() &&
+    !!form.discountValue &&
+    value > 0 &&
+    (form.discountType !== "percentage" || value <= 100) &&
+    (!form.usageLimit || Number(form.usageLimit) >= 1) &&
+    !!form.expiryDate;
+
+  const body = buildBody(initial, form);
+  const isDirty = Object.keys(body).length > 0;
 
   const handleSave = () => {
     if (!isValid || !isDirty) return;
-
-    updatePromoCode(
-      {
-        id: promoCode._id,
-        body: {
-          discountValue: Number(discountValue),
-          expiryDate: new Date(expiryDate).toISOString(),
-        },
-      },
-      { onSuccess: () => onClose() },
-    );
+    updatePromoCode({ id: promoCode._id, body }, { onSuccess: () => onClose() });
   };
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-1.5">
-        <Label className="text-sm font-medium text-[#000709]">
-          {t("discountValue")}{" "}
-          <span className="text-gray-400 font-normal">
-            ({promoCode.discountType === "percentage" ? "%" : t("currency")})
-          </span>
-        </Label>
-        <Input
-          type="number"
-          value={discountValue}
-          min={1}
-          max={promoCode.discountType === "percentage" ? 100 : undefined}
-          onChange={(e) => setDiscountValue(e.target.value)}
-          className="h-11 bg-[#F5F5F5] border-none"
-        />
-      </div>
+      <AddCodeFields
+        code={form.code}
+        discountType={form.discountType}
+        discountValue={form.discountValue}
+        usageLimit={form.usageLimit}
+        expiryDate={form.expiryDate}
+        applicableCities={form.applicableCities}
+        cities={cities}
+        citiesLoading={citiesLoading}
+        citiesError={citiesError}
+        getCityName={getCityName}
+        onChange={handleChange}
+        onToggleCity={handleToggleCity}
+      />
 
-      <div className="flex flex-col gap-1.5">
-        <Label className="text-sm font-medium text-[#000709]">
-          {t("expiryDate")}
-        </Label>
-        <Input
-          type="date"
-          value={expiryDate}
-          min={new Date().toISOString().split("T")[0]}
-          onChange={(e) => setExpiryDate(e.target.value)}
-          className="h-11 bg-[#F5F5F5] border-none"
-        />
-      </div>
+      {form.code.trim().toUpperCase() !== initial.code && (
+        <p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2">
+          {t("renameHint", { code: initial.code })}
+        </p>
+      )}
+      <p className="text-xs text-gray-400 -mt-2">{t("usageLimitHint")}</p>
 
       <div className="flex gap-3 mt-1">
         <Button

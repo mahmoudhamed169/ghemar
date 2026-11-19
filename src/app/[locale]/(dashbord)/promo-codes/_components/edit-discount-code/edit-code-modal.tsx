@@ -23,7 +23,7 @@ export default function EditCodeModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[420px] rounded-2xl p-8">
+      <DialogContent className="sm:max-w-[560px] max-h-[90vh] overflow-y-auto rounded-2xl p-6 sm:p-8">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-2xl font-bold text-[#000709] mt-4">
             {t("title")}
