@@ -675,7 +675,8 @@
         "usage": "Usage",
         "expiryDate": "Expiry Date",
         "status": "Status"
-      }
+      },
+      "unlimited": "Unlimited"
     },
     "form": {
       "title": "Add Promo Code",
@@ -707,7 +708,22 @@
       "currency": "SAR",
       "save": "Save Changes",
       "saving": "Saving...",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "codeTaken": "Another promo code already has this name",
+      "success": "Promo code updated",
+      "error": "Something went wrong while updating the code, please try again",
+      "renameHint": "After saving, the old code {code} stops working. Past orders keep the old name.",
+      "usageLimitHint": "Leave the usage limit empty for unlimited use."
+    },
+    "deleteModal": {
+      "title": "Delete promo code",
+      "message": "Are you sure you want to delete the code",
+      "note": "This is permanent and can't be undone. Past orders that used it aren't affected.",
+      "confirm": "Yes, delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel",
+      "success": "Promo code deleted",
+      "error": "Something went wrong while deleting the code, please try again"
     }
   },
   "Bounes": {

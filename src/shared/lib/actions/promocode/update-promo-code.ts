@@ -28,7 +28,15 @@ export async function updatePromoCodeAction(
     },
   );
 
-  if (!res.ok) throw new Error(`Failed to update promo code: ${res.status}`);
+  // a thrown message doesn't reach the client in production — return it instead
+  if (!res.ok) {
+    const json = await res.json().catch(() => null);
+    return {
+      success: false,
+      status: res.status,
+      message: typeof json?.message === "string" ? json.message : "",
+    };
+  }
 
   revalidateTag("promo-codes", {});
   revalidatePath("/[locale]/promo-codes", "page");

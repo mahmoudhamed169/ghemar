@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import CodeStatusBadge from "./code-status-badge";
 import ActiveToggle from "./active-toggle";
 import EditCodeButton from "./edit-discount-code/edit-code-button";
+import DeleteCodeButton from "./delete-discount-code/delete-code-button";
 import { getPromoCodes } from "@/shared/lib/services/promocode/get-promo-codes";
 import { formatRiyadhDate } from "@/shared/lib/utils/riyadh-time";
 
@@ -59,7 +60,8 @@ export default async function CodesTableBody() {
             {formatDiscountValue(code.discountType, code.discountValue)}
           </TableCell>
           <TableCell className="text-center text-gray-600">
-            {code.maxUsagePerUser} {t("usageUnit")}
+            {/* the code's total use limit; none = unlimited */}
+            {code.maxUsage ? `${code.maxUsage} ${t("usageUnit")}` : t("unlimited")}
           </TableCell>
           <TableCell className="text-center text-gray-600">
             {code.currentUsage}
@@ -74,6 +76,7 @@ export default async function CodesTableBody() {
             <div className="flex items-center justify-center gap-2">
               <EditCodeButton promoCode={code} />
               <ActiveToggle id={code._id} isActive={code.isActive} />
+              <DeleteCodeButton promoCode={code} />
             </div>
           </TableCell>
         </TableRow>
